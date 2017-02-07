@@ -21,7 +21,7 @@ public class AllTravel extends HttpServlet {
 	private TravelService travelService=new TravelService();
 	private Map<String, String> mp;
     public AllTravel() {
-        super();
+        super();  
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<TravelVO> result;
