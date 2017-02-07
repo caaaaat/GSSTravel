@@ -6,5 +6,8 @@ public interface IEmployeeDAO {
 	public void updateEmp_Sub(boolean emp_Sub,String emp_No);//更新補助金使用(確定使用)
 	public EmployeeVO select(int emp_NO);
 	public void updateEmp_SubTra(String tra_No,String emp_No);
+//	public EmployeeVO selectstart(Integer empno);//select
+//	public void insert(EmployeeVO empVo);
+	public void update(EmployeeVO empVoUpdate);
 	
 }

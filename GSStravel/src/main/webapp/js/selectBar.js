@@ -4,7 +4,7 @@ window.onload=function(){
 }
 
 function call(){
-	xhinlogin.open("GET",result+"/LogOut.do?role=1")
+	xhinlogin.open("GET",resultjs+"/LogOut.do?role=1")
 	xhinlogin.send();
 }
 
@@ -63,7 +63,7 @@ function search_signup(){
 }
 
 function datainsert(){
-	window.location.href=resultjs+"/datainsert.jsp";
+	window.location.href=resultjs+"/register";
 }
 
 function travel_maintain(){
