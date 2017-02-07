@@ -167,4 +167,40 @@ public class DetailService {
 		detailDAO=new DetailDAO();
 		detailDAO.updateDet_CanDate(emp_No, tra_No);
 	}
+	//羅集
+	public List<DetailBean> select(DetailBean bean){
+		List<DetailBean> result = new ArrayList<>();
+		detailDAO=new DetailDAO();
+		if(bean!=null && bean.getTra_NO()!=null) {
+			result = detailDAO.select(bean.getTra_NO());
+		} else {
+//			result = detailDAO.select(""); 
+		}
+		return result;
+	}
+	
+	public String SELECT_Name(int Emp_No, String Name) {
+		String result = detailDAO.select_emp_Name(Emp_No, Name);
+		if(result == null) {
+			result = detailDAO.select_fam_Name(Emp_No, Name);	
+		}
+		return result;
+	}
+	
+	public DetailVO insert(DetailVO bean) {
+		DetailVO result = null;
+		if(bean!=null) {
+			result = detailDAO.insert(bean);
+		}
+		return result;
+	}
+	
+	public List<DetailBean> update(DetailBean bean) {
+		List<DetailBean> result = null;
+		if(bean!=null) {
+			result = detailDAO.update(bean.getDet_No(), bean.getTra_NO());
+		}
+		return result;
+	}
+	
 }

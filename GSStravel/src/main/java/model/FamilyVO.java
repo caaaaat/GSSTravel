@@ -13,14 +13,14 @@ public class FamilyVO {
 	private String fam_Note;
 	private String fam_Ben;
 	private String fam_BenRel;
-	private int fam_Car;
+	private boolean fam_Car;
 	private String fam_Emg;
 	private String fam_EmgPhone;
 	private String fam_EmgRel;
-	private int fam_Bady;
-	private int fam_kid;
-	private int fam_Dis;
-	private int fam_Mom;
+	private boolean fam_Bady;
+	private boolean fam_kid;
+	private boolean fam_Dis;
+	private boolean fam_Mom;
 	
 	public int getEmp_No() {
 		return emp_No;
@@ -94,12 +94,7 @@ public class FamilyVO {
 	public void setFam_BenRel(String fam_BenRel) {
 		this.fam_BenRel = fam_BenRel;
 	}
-	public int getFam_Car() {
-		return fam_Car;
-	}
-	public void setFam_Car(int fam_Car) {
-		this.fam_Car = fam_Car;
-	}
+
 	public String getFam_Emg() {
 		return fam_Emg;
 	}
@@ -118,29 +113,36 @@ public class FamilyVO {
 	public void setFam_EmgRel(String fam_EmgRel) {
 		this.fam_EmgRel = fam_EmgRel;
 	}
-	public int getFam_Bady() {
+	public boolean isFam_Car() {
+		return fam_Car;
+	}
+	public void setFam_Car(boolean fam_Car) {
+		this.fam_Car = fam_Car;
+	}
+	public boolean isFam_Bady() {
 		return fam_Bady;
 	}
-	public void setFam_Bady(int fam_Bady) {
+	public void setFam_Bady(boolean fam_Bady) {
 		this.fam_Bady = fam_Bady;
 	}
-	public int getFam_kid() {
+	public boolean isFam_kid() {
 		return fam_kid;
 	}
-	public void setFam_kid(int fam_kid) {
+	public void setFam_kid(boolean fam_kid) {
 		this.fam_kid = fam_kid;
 	}
-	public int getFam_Dis() {
+	public boolean isFam_Dis() {
 		return fam_Dis;
 	}
-	public void setFam_Dis(int fam_Dis) {
+	public void setFam_Dis(boolean fam_Dis) {
 		this.fam_Dis = fam_Dis;
 	}
-	public int getFam_Mom() {
+	public boolean isFam_Mom() {
 		return fam_Mom;
 	}
-	public void setFam_Mom(int fam_Mom) {
+	public void setFam_Mom(boolean fam_Mom) {
 		this.fam_Mom = fam_Mom;
 	}
+
 	
 }

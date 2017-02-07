@@ -28,6 +28,7 @@ public class EmployeeDAO implements IEmployeeDAO {
 	private static final String updateEmp_Sub ="update Employee set emp_Sub=? where emp_No=?";	
 	private static final String SELECT_BY_emp_NO = "select * from employee where emp_NO=?";
 	private static final String updateEmp_SubTra="update Employee set emp_SubTra = ? where emp_No=?";
+	private static final String update = "update Employee set emp_Name=?,emp_Phone=?, emp_ID=?, emp_Sex=?, emp_Bdate=?, emp_Eat=?, emp_Emg=?, emp_EmgPhone=?, emp_EmgRel=?, emp_HireDate=?, emp_Sub=?, emp_PW=?, emp_Ben=?, emp_BenRel=?, dept_NO=?, emp_Note=?, emp_Mail=?, emp_Role=? where emp_NO=?";
 	
 	@Override
 	public String selectEmp_Name(String emp_No) {
@@ -143,4 +144,38 @@ public class EmployeeDAO implements IEmployeeDAO {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void update(EmployeeVO empvoupdate) {
+		try (
+				Connection connection = ds.getConnection();
+				PreparedStatement state = connection.prepareStatement(update);) {
+			state.setString(1, empvoupdate.getEmp_Name());
+			state.setString(2, empvoupdate.getEmp_Phone());
+			state.setString(3, empvoupdate.getEmp_ID());
+			state.setString(4, empvoupdate.getEmp_Sex());
+			Long empbdate = empvoupdate.getEmp_Bdate().getTime();
+			state.setDate(5, new java.sql.Date(empbdate));
+			state.setString(6, empvoupdate.getEmp_Eat());
+			state.setString(7, empvoupdate.getEmp_Emg());
+			state.setString(8, empvoupdate.getEmp_EmgPhone());
+			state.setString(9, empvoupdate.getEmp_EmgRel());
+			Long emphiredate = empvoupdate.getEmp_HireDate().getTime();
+			state.setDate(10,  new java.sql.Date(emphiredate));
+			state.setBoolean(11, empvoupdate.isEmp_Sub());
+			state.setBytes(12, empvoupdate.getEmp_PW());
+			state.setString(13, empvoupdate.getEmp_Ben());
+			state.setString(14, empvoupdate.getEmp_BenRel());
+			state.setString(15, empvoupdate.getDept_NO());
+			state.setString(16, empvoupdate.getEmp_Note());
+			state.setString(17, empvoupdate.getEmp_Mail());
+			state.setBoolean(18, empvoupdate.isEmp_Role());
+			state.setInt(19, empvoupdate.getEmp_No());
+			state.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+
 }
