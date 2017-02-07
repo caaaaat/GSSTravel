@@ -14,7 +14,7 @@
 </head>
 
 <body>
-<script type="text/javascript" src="/GSStravel/js/selectBar.js"></script>
+
 <script type="text/javascript" src="/GSStravel/js/LogOut.js"></script>
 <div id='bar'></div><input type="button" value="登出" onclick="logOut()">
 	<table class="t">
@@ -64,5 +64,5 @@
 	</table>
 	<h2 style="color: red">說明:當取消報名時，將該員工的所有名額一起取消，再重新報名，以避免排名不公</h2>
 </body>
-
+<script type="text/javascript" src="/GSStravel/js/selectBar.js"></script>
 </html>

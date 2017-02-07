@@ -1,7 +1,5 @@
 var xhinlogin=new XMLHttpRequest();
-window.onload=function(){
-	call();
-}
+(function (){ call(); })();
 
 function call(){
 	xhinlogin.open("GET",result+"/LogOut.do?role=1")
