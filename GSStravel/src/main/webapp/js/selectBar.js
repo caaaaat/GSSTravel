@@ -77,12 +77,8 @@ function fine(){
 }
 	
 function detail_money(){
-<<<<<<< HEAD
 	window.location.href=resultjs+"/search1.jsp";
 }
-=======
-	window.location.href=resultjs+"/Detail_Money.jsp";
-}
 
->>>>>>> branch 'master' of https://github.com/freelife1018/GSSTravel.git
+
 (function (){ call(); })();
