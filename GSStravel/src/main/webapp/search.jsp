@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+
 <script>
 	window.onload = function() {
 		var id = document.getElementById('id');
@@ -40,8 +41,8 @@
 			if (Edate.value != undefined && Edate.value != '') {
 				url = url + "endDay=" + Edate.value + "&";
 			}
-			if (selected.length>0) {
-			url = url + "loc=" + JSON.stringify(selected);
+			if (selected.length > 0) {
+				url = url + "loc=" + JSON.stringify(selected);
 			}
 			xh.addEventListener("readystatechange", ajaxReturn)
 			xh.open("GET", url);
@@ -58,11 +59,17 @@
 				while (myBody.hasChildNodes()) {
 					myBody.removeChild(myBody.lastChild);
 				}
-				var tr, td;
+				var tr, td, a;
+				var pathName = document.location.pathname;
+				var index = pathName.substr(1).indexOf("/");
+				var result = pathName.substr(0, index + 1);
 				for (var i = 0; i < travel.length; i++) {
 					tr = document.createElement('tr');
 					td = document.createElement('td');
-					td.appendChild(document.createTextNode(travel[i].id));
+					a = document.createElement('a');
+					a.setAttribute("href",result+"/detail?tra_no="+travel[i].id);
+					a.appendChild(document.createTextNode(travel[i].id));
+					td.appendChild(a);
 					tr.appendChild(td);
 
 					td = document.createElement('td');
@@ -100,18 +107,18 @@
 	}
 </script>
 </head>
+<script type="text/javascript" src="/GSStravel/js/selectBar.js"></script>
 <body>
+<div id='bar'></div>
 	<form>
-		活動代碼:<input type='text' id='id' value='' /><br> 
-		活動名稱:<input type='text' id='tra_name' value='' /><br> 
-		開始日期:<input type='date' id='Sdate' name='startDay' value='' /> ~ <input type='date' id='Edate' name='endDay' value='' /> 
-		活動地點:
-		<input type="checkbox" name="loc" value="東" />東
-		<input type="checkbox" name="loc" value="西" />西 
-		<input type="checkbox" name="loc" value="南" />南
-		<input type="checkbox" name="loc" value="北" />北 
-		<br> 
-		<input type="button" value="查詢" onclick="search()" /> <input type="reset">
+		活動代碼:<input type='text' id='id' value='' /><br> 活動名稱:<input
+			type='text' id='tra_name' value='' /><br> 開始日期:<input
+			type='date' id='Sdate' name='startDay' value='' /> ~ <input
+			type='date' id='Edate' name='endDay' value='' /> 活動地點: <input
+			type="checkbox" name="loc" value="東" />東 <input type="checkbox"
+			name="loc" value="西" />西 <input type="checkbox" name="loc" value="南" />南
+		<input type="checkbox" name="loc" value="北" />北 <br> <input
+			type="button" value="查詢" onclick="search()" /> <input type="reset">
 	</form>
 	<table class='table'>
 		<thead>

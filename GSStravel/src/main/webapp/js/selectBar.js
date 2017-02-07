@@ -67,11 +67,11 @@ function datainsert(){
 }
 
 function travel_maintain(){
-	window.location.href=resultjs+"/Travel_No.jsp";
+	window.location.href=resultjs+"/search.jsp";
 }
 
 function people_maintain(){
-	window.location.href=resultjs+"/";
+	window.location.href=resultjs+"/search.jsp";
 }
 
 function fine(){
