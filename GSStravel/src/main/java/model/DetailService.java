@@ -202,5 +202,23 @@ public class DetailService {
 		}
 		return result;
 	}
+	//雅婷
+	public List<TotalAmountFormBean> select(String tra_No) {
+		detailDAO=new DetailDAO();
+		List<TotalAmountFormBean> list = detailDAO.selectBean(tra_No);
+		return list;
+	}
+	public boolean update_empNo(String det_note , float det_noteMoney , String tra_No , int emp_No){
+		detailDAO=new DetailDAO();
+		boolean b = true;
+		b=detailDAO.update_empNo(det_note, det_noteMoney, tra_No, emp_No);
+		return b;
+	}
+	public boolean update_famNo(String det_note , float det_noteMoney , String tra_No , int fam_No){
+		detailDAO=new DetailDAO();
+		boolean b=true;
+		b=detailDAO.update_famNo(det_note, det_noteMoney, tra_No, fam_No);
+		return b;
+	}
 	
 }

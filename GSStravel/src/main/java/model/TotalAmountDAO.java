@@ -21,8 +21,7 @@ public class TotalAmountDAO implements ITotalAmountDAO {
 			e.printStackTrace();
 		}
 	}
-	private static final String UPDATE_FOR_EMP_NO = "update TotalAmount set TA_money=? where emp_No=? and tra_No=?";
-	private static final String insertTotalAmount ="insert into TotalAmount (tra_No,emp_No,TA_money) values(?,?,?)";	
+	private static final String UPDATE_TOTALAMOUNT_FOR_EMP_NO = "update TotalAmount set TA_money=? where emp_No=? and tra_No=?";private static final String insertTotalAmount ="insert into TotalAmount (tra_No,emp_No,TA_money) values(?,?,?)";	
 	private static final String deleteTotalAmount="Delete from TotalAmount where emp_No=? and tra_No=?";
 	private static final String selectTa_money="select  TOP(1)Ta_money,tra_No from TotalAmount where emp_No=? order by TA_money DESC";
 	private static final String selectAll="select * from TotalAmount where emp_No=?";
@@ -62,21 +61,20 @@ public class TotalAmountDAO implements ITotalAmountDAO {
 	}
 	
 	@Override
-	public boolean update(double TA_money, String tra_No, int emp_No) {
-		try {
-			Connection conn = dataSource.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(UPDATE_FOR_EMP_NO);
-			stmt.setDouble(1, TA_money);
+	public boolean update(float TA_money, String tra_No, int emp_No) {
+		try(Connection conn = dataSource.getConnection() ) {
+			PreparedStatement stmt = conn.prepareStatement(UPDATE_TOTALAMOUNT_FOR_EMP_NO);
+			stmt.setFloat(1, TA_money);
 			stmt.setInt(2, emp_No);
 			stmt.setString(3, tra_No);
 			stmt.executeUpdate();
-			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
 		return true;
 	}
+
 	
 	public boolean delete(String tra_No, int emp_No) {
 		return false;
