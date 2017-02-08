@@ -20,15 +20,23 @@
 <span>員工編號</span>${empno}<br>
 <span>姓名</span>${empname}<br>
 <tr><span>手機</span><input type="text" name ="empphone" id="empphone"  value="${empphone}">  <div id=empphoneerror>${error.empphone}</div><br>
-<span>保險受益人</span><input type="text" name ="empben" id="empben" value = "${empben}"><div id=empbenerror>${error.empben}</div><br>
+<span>保險受益人</span><input type="text" name ="empben" id="empben" value ="${empben}"><div id=empbenerror>${error.empben}</div><br>
 <span>與受益人關係</span><input type="text" name ="empbenrel" id="empbenrel" value = "${empbenrel}"><div id=empbenrelerror>${error.empbenrel}</div><br>
 <span>緊急聯絡人</span><input type="text" name ="empemg" id="empemg" value = "${empemg}" ><div id=empemgerror>${error.empemg}</div><br>
 <tr><span>緊急聯絡人電話</span><input type="text" name ="empemgphone" id="empemgphone" value="${empemgphone}"><div id=empemgphoneerror>${error.empemgphone}</div><br>
 
-<span>用餐</span><select name ="empeat" value="${empeat}">
-<option  value="0">葷</option>
-<option  value="1">素</option>
-</select><span>(如有特別要求請填寫於備註)</span><br>
+<span>用餐</span>
+<select name ="empeat">
+<c:if test="${empeat=='葷'}">
+<option  value="葷" selected>葷</option>
+<option  value="素">素</option>
+</c:if>
+
+<c:if test="${empeat=='素'}">
+<option  value="葷" >葷</option>
+<option  value="素" selected>素</option>
+</c:if></select><br>
+<span>(如有特別要求請填寫於備註)</span><br>
 <span>備註</span><input type="text" name ="empnote" id="empnote" value="${empnote}" ><div id=empnoteerror></div><br>
 </table>
 
@@ -47,6 +55,7 @@
 	<th>*性別</th>
 	<th>*身份證字號</th>
 	<th>*生日</th>
+	<th>*手機</th>
 	<th>用餐/車位</th>
 	<th>幼童(0~3歲)</th>
 	<th>兒童(4~11歲)</th>
@@ -56,12 +65,13 @@
 	<th>*保險受益人關係</th>
 	<th>*緊急聯絡人</th>
 	<th>*緊急聯絡人電話</th>
+	<th>*緊急聯絡人關係</th>
 	<th>備註</th>
 </tr>
 			<!-- option裡面有空白??????? --><!--沒有抓到錯誤訊息-->		
 	<c:if test="${famstartsize>0}">
-	<c:forEach var="start" items="${famstart}"  >
-	  <tr >
+	<c:forEach var="start" items="${famstart}" >
+	  <tr>
 		<td><input type="button" name ="delete" id="delete" value="刪除"></td>
 		<td>
 			<select name ="famrel" >	
@@ -89,8 +99,8 @@
 		
 		<td><input type="text" name ="famid" id="famid" value="${start.fam_Id}"><div id="famiderror">${error.famid}</div></td><!-- getfamid()會抓到value值 -->
 		<td><input type="text" id="fambdate" name="fambdate" value="${start.fam_Bdate}"><div id="fambdateerror">${error.fambdate}${error.fambdatedate}</div></td> 
-		
-		<td><select name ="fameat" value="${start.fam_Eat}">
+		<td><input type="text" name ="famphone" id="famphone"  value="${start.fam_Phone}"><div id=famphoneerror>${error.famphone}</div></td>
+		<td><select name ="fameat" >
 			<c:if test="${start.fam_Eat=='葷'}">
 				<option value="葷" selected>葷</option>
 				<option value="素">素</option>
@@ -102,11 +112,12 @@
 			</select>
 			
 			<c:if test="${start.fam_Car=='true'}">
-			<input type="checkbox" id="famcar" name="famcar" checked>不占車位</td>
+			<input type="checkbox" id="famcar" name="famcar" value="1" checked>不占車位
 			</c:if>
 			<c:if test="${start.fam_Car=='false'}">
-			<input type="checkbox" id="famcar" name="famcar" >不占車位</td>
+			<input type="checkbox" id="famcar" name="famcar" value="1" >不占車位
 			</c:if>
+			</td>
 			
 		<c:if test="${start.fam_Bady=='true'}">	
 		<td><input type="checkbox" id ="fambaby" name= "fambaby" checked>是</td>
@@ -133,14 +144,15 @@
 		<td><input type="checkbox" id ="fammom" name= "fammom" checked>是</td>
 		</c:if>
 		<c:if test="${start.fam_Mom=='false'}">
-		<<td><input type="checkbox" id ="fammom" name= "fammom" >是</td>
+		<td><input type="checkbox" id ="fammom" name= "fammom" >是</td>
 		</c:if>
 		
 		
 		<td><input type="text" name ="famben" id="famben" value="${start.fam_Ben}"><div id="fambenerror">${error.famben}</div></td>
 		<td><input type="text" name ="fambenrel" id="fambenrel" value="${start.fam_BenRel}" ><div id="fambenrelerror">${error.fambenrel}</div></td>
-		<td><input type="text" name ="famemg" id="famemg" value="${start.fam_Emg}"><div id="famemgerror">${error.famemg}</div ></td>
+		<td><input type="text" name ="famemg" id="famemg" value="${start.fam_Emg}"><div id="famemgerror">${error.famemg}</div></td>
 		<td><input type="text" name ="famemgphpone" id="famemgphone" value="${start.fam_EmgPhone}"><div id="famemgphoneerror">${error.famemgphone}</div></td>
+		<td><input type="text" name ="famemgrel" id="famemgrel" value="${start.fam_EmgRel}"><div id="famemgrelerror">${error.famemgrel}</div ></td>
 		<td><input type="text" name ="famnote" id="famnote" value="${start.fam_Note}"><div id="famnoteerror"></div></td>
 	</tr> 
 	
@@ -154,10 +166,8 @@
 <input type="button" value="insert" id="insert" name ="button"><br>
 <input type="submit" value ="save" id="save" name="button"><br>
 
-<%-- <tr><td>${error.errormsg}</td></tr> --%>
 
 </form>
-
 
 	<table>
 	<!-- 空白欄位 -->
@@ -174,9 +184,10 @@
 			<option value="女" >女</option>
 			<option value="男" >男<option>
 		</select></td>
-		<td><input type="text" name ="famid" id="famid" ><div id="famiderror">${error.famid}</div></td><!-- getfamid()會抓到value值 -->
+		<td><input type="text" name ="famid" id="famid" ><div id="famiderror">${error.famid}</div></td>
 		<td><input type="text" id="fambdate" name="fambdate" ><div id="fambdateerror">${error.fambdate}${error.fambdatedate}</div></td> 
-		<td><select name ="fameat" value="${start.fam_Eat}">
+		<td><input type="text" name ="famphone" id="famphone"  >  <div id=famphoneerror>${error.famphone}</div><br></td> 
+		<td><select name ="fameat">
 				<option value="葷" >葷</option>
 				<option value="素" >素</option>
 			</select>
@@ -184,12 +195,13 @@
 		<td><input type="checkbox" id ="fambaby" name= "fambaby" >是</td>
 		<td><input type="checkbox" id ="famkid" name= "famkid" >是</td>
 		<td><input type="checkbox" id ="famdis" name= "famdis" >是</td>
-		<<td><input type="checkbox" id ="fammom" name= "fammom" >是</td>
+		<td><input type="checkbox" id ="fammom" name= "fammom" >是</td>
 		
 		<td><input type="text" name ="famben" id="famben" ><div id="fambenerror">${error.famben}</div></td>
 		<td><input type="text" name ="fambenrel" id="fambenrel"><div id="fambenrelerror">${error.fambenrel}</div></td>
 		<td><input type="text" name ="famemg" id="famemg"><div id="famemgerror">${error.famemg}</div ></td>
 		<td><input type="text" name ="famemgphpone" id="famemgphone"><div id="famemgphoneerror">${error.famemgphone}</div></td>
+		<td><input type="text" name ="famemgrel" id="famemgrel"><div id="famemgrelerror">${error.famemgrel}</div ></td>
 		<td><input type="text" name ="famnote" id="famnote"><div id="famnoteerror"></div></td>
 	</tr>
 	</table>
@@ -313,6 +325,17 @@ $(function(){
 		}
 	});
 	
+	var famphone=/^09\d{2}-?\d{3}-?\d{3}$/;
+	$("input[name*='famphone']").on("blur",function(){
+		if(famphone.test($(this).val())){
+			$(this).css("border-color","green")
+			$("#fambdateerror").text("");
+		}else{
+// 			$("#fambdateerror").text("需要為年-月-日的規格");
+			$(this).css("border-color","red");
+		}
+	});
+	
 	var famben=/^[^\s].*\s*[^\s]/;
 	$("input[name*='famben']").on("blur",function(){
 		if(famben.test($(this).val())){
@@ -353,6 +376,17 @@ $(function(){
 			$("#famemgphoneerror").text("");
 		}else{
 // 			$("#famemgphoneerror").text("不符合手機規則");
+			$(this).css("border-color","red");
+		}
+	});
+	
+	var famemgrel=/^[^\s].*\s*[^\s]/;
+	$("input[name*='famemgrel']").on("blur",function(){
+		if(famemgrel.test($(this).val())){
+			$(this).css("border-color","green")
+			$("#famemgrel").text("");
+		}else{
+// 			$("#famemgrel").text("不符合手機規則");
 			$(this).css("border-color","red");
 		}
 	});
