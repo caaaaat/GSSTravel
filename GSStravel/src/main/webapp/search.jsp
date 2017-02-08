@@ -88,7 +88,13 @@
 					tr.appendChild(td);
 
 					td = document.createElement('td');
+					td.setAttribute("align","center");
 					td.appendChild(document.createTextNode(travel[i].people));
+					tr.appendChild(td);
+					
+					td = document.createElement('td');
+					td.setAttribute("align","center");
+					td.appendChild(document.createTextNode(travel[i].peopleNow));
 					tr.appendChild(td);
 
 					td = document.createElement('td');
@@ -129,7 +135,7 @@
 		<br> <input
 			type="button" value="查詢" onclick="search()" /> <input type="reset">
 	</form>
-	<table class='table'>
+	<table class='table'  cellpadding="10">
 		<thead>
 			<tr>
 				<th>活動代碼</th>
@@ -139,6 +145,7 @@
 				<th>登記開始</th>
 				<th>登記結束</th>
 				<th>人數上限</th>
+				<th>已報名人數</th>
 				<th>活動地點</th>
 			</tr>
 		</thead>

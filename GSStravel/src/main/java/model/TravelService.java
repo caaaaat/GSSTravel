@@ -68,10 +68,11 @@ public class TravelService {
 			obj.put("name", v.getTra_Name());
 			obj.put("onDate", simple.format((v.getTra_On())));
 			obj.put("offDate", simple.format((v.getTra_Off())));
-			obj.put("bDate", simple.format((v.getTra_Beg())));
-			obj.put("eDate", simple.format((v.getTra_End())));
+			obj.put("bDate", new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format((v.getTra_Beg())));
+			obj.put("eDate", new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format((v.getTra_End())));
 			obj.put("people",v.getTra_Max());
 			obj.put("location",v.getTra_Loc());
+			obj.put("peopleNow",detailDAO.tra_count((Long.valueOf(v.getTra_NO()))));
 			array.add(obj);
 		}
 		return array;
