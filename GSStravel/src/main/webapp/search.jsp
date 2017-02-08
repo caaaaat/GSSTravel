@@ -13,21 +13,16 @@
 		var tra_name = document.getElementById('tra_name');
 		var Sdate = document.getElementById('Sdate');
 		var Edate = document.getElementById('Edate');
-		search();
+		$(".multiselect").kendoMultiSelect({autoClose: false});
+ 		search();
 	};
 	var xh = new XMLHttpRequest();
 	function search() {
 		if (xh != null) {
-			var selected = [];
-			var loca = document.getElementsByName("loc");
+			var selectedValues = $('select[name="loca"]').val() ;
 			var pathName = document.location.pathname;
 			var index = pathName.substr(1).indexOf("/");
 			var result = pathName.substr(0, index + 1);
-			for (var i = 0; i < loca.length; i++) {
-				if (loca[i].checked) {
-					selected.push(loca[i].value);
-				}
-			}
 			var url = result + "/controller/search.do?";
 			if (id.value != undefined && id.value != '') {
 				url = url + "tra_No=" + id.value + "&";
@@ -41,8 +36,8 @@
 			if (Edate.value != undefined && Edate.value != '') {
 				url = url + "endDay=" + Edate.value + "&";
 			}
-			if (selected.length > 0) {
-				url = url + "loc=" + JSON.stringify(selected);
+			if (selectedValues!= undefined) {
+				url = url + "loc=" + JSON.stringify(selectedValues);
 			}
 			xh.addEventListener("readystatechange", ajaxReturn)
 			xh.open("GET", url);
@@ -109,15 +104,28 @@
 </head>
 
 <body>
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.material.mobile.min.css" />
+ <script src="js/jquery-1.12.3.min.js"></script>
+ <script src="https://kendo.cdn.telerik.com/2017.1.118/js/kendo.all.min.js"></script>
 <div id='bar'></div>
 	<form>
 		活動代碼:<input type='text' id='id' value='' /><br> 活動名稱:<input
 			type='text' id='tra_name' value='' /><br> 開始日期:<input
 			type='date' id='Sdate' name='startDay' value='' /> ~ <input
-			type='date' id='Edate' name='endDay' value='' /> 活動地點: <input
-			type="checkbox" name="loc" value="東" />東 <input type="checkbox"
-			name="loc" value="西" />西 <input type="checkbox" name="loc" value="南" />南
-		<input type="checkbox" name="loc" value="北" />北 <br> <input
+			type='date' id='Edate' name='endDay' value='' /> <br>活動地點:
+<!-- 			 <input -->
+<!-- 			type="checkbox" name="loc" value="東" />東 <input type="checkbox" -->
+<!-- 			name="loc" value="西" />西 <input type="checkbox" name="loc" value="南" />南 -->
+<!-- 		<input type="checkbox" name="loc" value="北" />北  -->
+        <select class="multiselect" name ="loca" id='jj' multiple="multiple" data-placeholder="請選擇" style="width: 350px;">
+        <option>東</option>
+        <option>西</option>
+        <option>南</option>
+        <option>北</option>
+        </select>
+		<br> <input
 			type="button" value="查詢" onclick="search()" /> <input type="reset">
 	</form>
 	<table class='table'>

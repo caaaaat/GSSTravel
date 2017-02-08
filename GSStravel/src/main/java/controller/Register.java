@@ -24,7 +24,8 @@ public class Register extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {    	
     	HttpSession session = req.getSession();
 		Integer emp_No = (Integer) session.getAttribute("emp_No");
-
+		
+		
 		EmployeeVO empstart = employeeservice.select(emp_No.toString());
 		req.setAttribute("empno", emp_No);
 		req.setAttribute("empname", empstart.getEmp_Name());
