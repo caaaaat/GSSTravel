@@ -31,7 +31,7 @@ public class DetailDAO implements IDetailDAO {
 
 	private static final String tra_Count = "SELECT COUNT(*) AS count FROM Detail where tra_No =? and det_CanDate IS  NULL";
 	private static final String insertDetail = "insert into Detail (emp_No,fam_No,tra_No,det_Date,det_CanDate,det_money) values(?,?,?,?,null,?)";
-	private static final String detail_Count = "select count(f.fam_Name) as count from Detail d join Family f ON f.fam_No=d.fam_No where d.emp_No=? and d.tra_No=?";
+	private static final String detail_Count = "select count(f.fam_Name) as count from Detail d join Family f ON f.fam_No=d.fam_No where d.emp_No=? and d.tra_No=? and d.det_CanDate is null";
 	private static final String detail_Emp_No = "select distinct emp_No,det_Date from Detail where tra_No=? and det_CanDate is null order by det_Date";
 	private static final String detail_Enter = "select det_Date from Detail where emp_No=? and tra_No=? and det_CanDate is null order by det_Date";	                                            
 	private static final String updateDet_CanDate = "update Detail set det_CanDate=? where emp_No=? and tra_No=?";

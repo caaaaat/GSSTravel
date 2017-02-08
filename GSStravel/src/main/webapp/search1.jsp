@@ -110,6 +110,7 @@
  <script src="js/jquery-1.12.3.min.js"></script>
  <script src="https://kendo.cdn.telerik.com/2017.1.118/js/kendo.all.min.js"></script>
 <div id='bar'></div>
+<h2>旅費統計</h2>
 	<form>
 		活動代碼:<input type='text' id='id' value='' /><br> 活動名稱:<input
 			type='text' id='tra_name' value='' /><br> 開始日期:<input
