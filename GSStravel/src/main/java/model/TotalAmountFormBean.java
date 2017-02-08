@@ -16,7 +16,7 @@ public class TotalAmountFormBean {
 	private String det_note;
 	private float det_noteMoney;
 	private boolean emp_sub;
-	
+	private float years_money;
 	public String getDept_No() {
 		return dept_No;
 	}
@@ -94,5 +94,11 @@ public class TotalAmountFormBean {
 	}
 	public void setEmp_sub(boolean emp_sub) {
 		this.emp_sub = emp_sub;
+	}
+	public float getYears_money() {
+		return years_money;
+	}
+	public void setYears_money(float years_money) {
+		this.years_money = years_money;
 	}
 }

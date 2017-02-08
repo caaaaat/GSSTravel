@@ -14,6 +14,8 @@ import model.DetailService;
 
 @WebServlet(urlPatterns = { ("/detail") })
 public class DetailServlet extends HttpServlet {
+	
+	private static final long serialVersionUID = 1L;
 	private DetailService detailService = new DetailService();
 	String test;
 

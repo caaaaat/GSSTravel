@@ -72,11 +72,11 @@ td {
 						</c:if>
 					</td>
 					<c:if test="${list.fam_Name==NULL}">
-						<td><input type="text" class="years_money years" value=""></td>
+						<td><input type="text" class="years_money years" value="${list.years_money}"></td>
 						<td><input type="text" class="person_money" value=""></td>
 					</c:if>
 					<c:if test="${list.fam_Name!=NULL}">
-						<td><input type="text" class="years_money" value="0"></td>
+						<td><input type="text" class="years_money" value="${list.years_money}"></td>
 						<td><input type="text" class="person_money" value=""></td>
 					</c:if>
 					<td><input type="text" name="money" class="money" value="${list.det_money}"></td>
@@ -114,17 +114,15 @@ td {
  	var a=0;
  	var $empfam = $(".emp_fam");
  	var $years=$(".years");
- 	$.each($empfam,function(val,empfam){
- 		var overage;
- 		if(){
-	 		if($years[a].value >= $money[val].value){
-		 		overage=$money[val].value;
-			 }else{
-			 	overage=$years[a].value;
-			 }
-		 	$personmoney[val].value=overage;
- 		}
- 	});
+//  	$.each($empfam,function(val,empfam){
+//  		var overage;
+// 	 		if($years[a].value >= $money[val].value){
+// 		 		overage=$money[val].value;
+// 			 }else{
+// 			 	overage=$years[a].value;
+// 			 }
+// 		 	$personmoney[val].value=overage;
+//  	});
 	$.each($emp,function(keys,emp){
 		var sum = Number($money[keys].value)-Number($noteMoney[a].value);
  		a=a+1;
@@ -141,10 +139,10 @@ td {
 		}
  		$TAmoney[keys].value = sum;
 	});
-	a=0;
-	$.each($years,function(key,value){
-		var a=${years_money};
-		$years[key].value=a[key];	
-	})
+// 	a=0;
+// 	$.each($years,function(key,value){
+// 		var a=${years_money};
+// 		$years[key].value=a[key];	
+// 	})
 </script>
 </html>
