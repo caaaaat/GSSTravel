@@ -119,6 +119,7 @@ public class DetailService {
 				subMoney=4500;
 			}else{				
 				long x = today.getTime()/(24*60*60*1000)-hireDate.getTime()/(24*60*60*1000);//相差天數
+				
 				hireMonths=x/31;
 				subMoney=4500/12*hireMonths;			
 			}			
