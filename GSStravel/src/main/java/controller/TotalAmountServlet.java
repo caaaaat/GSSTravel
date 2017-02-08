@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.DetailService;
 import model.TotalAmountService;
@@ -27,16 +28,15 @@ public class TotalAmountServlet extends HttpServlet {
 		// 接收資料
 		String[] temp1 = request.getParameterValues("emp_No");
 		String tra_No = request.getParameter("tra_No");
-//		System.out.println(tra_No);
 		String[] temp2 = request.getParameterValues("TA_money");
 		String[] det_note = request.getParameterValues("det_note");
 		String[] temp3 = request.getParameterValues("det_noteMoney");
 		String[] temp4 = request.getParameterValues("empfam");
 
 		// 轉換資料
-		Map<String, String> errors = new HashMap<String, String>();
-		request.setAttribute("errors", errors);
-
+		HttpSession session = request.getSession();
+		session.removeAttribute("Msg");
+		
 		int[] emp_No = new int[temp1.length];
 		float[] TA_money = new float[temp2.length];
 		float[] det_noteMoney = new float[temp3.length];
@@ -54,7 +54,11 @@ public class TotalAmountServlet extends HttpServlet {
 			}
 			a = 0;
 			for (String j : temp3) {
-				det_noteMoney[a] = Float.parseFloat(j);
+				if(j!="" && j.trim().length()!=0){
+					det_noteMoney[a] = Float.parseFloat(j);
+				}else{
+					det_noteMoney[a] = 0;
+				}
 				a++;
 			}
 			a = 0;
@@ -79,8 +83,7 @@ public class TotalAmountServlet extends HttpServlet {
 				if (b) {
 					b = totalamountService.update(totalAmountVO);
 				} else {
-					System.out.println("update totalamount error");
-					// errors.put("totalamount", "update totalamount error");
+					session.setAttribute("Msg", "新增TOTAMOUNT失敗");
 					request.getRequestDispatcher("TravelDetail").forward(request, response);
 				}
 			}
@@ -93,8 +96,7 @@ public class TotalAmountServlet extends HttpServlet {
 						b = detailService.update_famNo(det_note[i], det_noteMoney[i], tra_No, empfam[i][1]);
 					}
 					if (b == false) {
-						System.out.println("update error");
-						// errors.put("DetailErrors", "update error");
+						session.setAttribute("Msg", "更新DETAIL失敗");
 						request.getRequestDispatcher("TravelDetail").forward(request, response);
 					}
 				} else if ((det_note[i] == null || det_note[i].trim().length() == 0) && det_noteMoney[i] == 0.0) {
@@ -105,25 +107,23 @@ public class TotalAmountServlet extends HttpServlet {
 						b = detailService.update_famNo(det_note[i], det_noteMoney[i], tra_No, empfam[i][1]);
 					}
 					if (b == false) {
-						System.out.println("update error");
-						// errors.put("DetailErrors", "update error");
+						session.setAttribute("Msg", "更新DETAIL失敗");
 						request.getRequestDispatcher("TravelDetail").forward(request, response);
 					}
 
 				} else {
-					System.out.println("沒寫明細說明不可扣減免費用");
-					// errors.put("note", "沒寫明細說明不可扣減免費用");
+					session.setAttribute("Msg", "沒寫明細說明不可扣減免費用");
 				}
+			}if(session.getAttribute("Msg")==null){
+				session.setAttribute("Msg", "更新成功");	
 			}
 		} catch (NumberFormatException e) {
-			System.out.println("其他增減費用總額/應補團費  輸入非數字之字");
-			// errors.put("input", "其他增減費用總額/應補團費 輸入非數字之字");
+			session.setAttribute("Msg","其他增減費用總額/應補團費  輸入非數字之字");
 		}
-//		request.setAttribute("tra_no", tra_No);
+		request.setAttribute("session", session.getAttribute("Msg"));
 		request.getRequestDispatcher("TravelDetail?tra_no="+tra_No).forward(request, response);
 
 	}
-
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		doGet(req, resp);
