@@ -26,6 +26,8 @@ public class LogOut_AND_RoleControll extends HttpServlet {
 			session.removeAttribute("emp_No");
 			session.removeAttribute("emp_Role");
 			session.removeAttribute("emp_Name");
+			String path=request.getContextPath();
+			response.sendRedirect(path+"/login.jsp");
 			return;
 		} else {
 			PrintWriter pt = response.getWriter();

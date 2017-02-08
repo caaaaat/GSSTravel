@@ -116,7 +116,8 @@
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.material.mobile.min.css" />
  <script src="js/jquery-1.12.3.min.js"></script>
  <script src="https://kendo.cdn.telerik.com/2017.1.118/js/kendo.all.min.js"></script>
-<div id='bar'></div>
+<!-- <div id='bar'></div> -->
+<%@include file="SelectBar.jsp" %>
 <h2>旅費統計</h2>
 	<form>
 		活動代碼:<input type='text' id='id' value='' /><br> 活動名稱:<input
@@ -154,7 +155,7 @@
 		</tbody>
 	</table>
 </body>
-<script type="text/javascript" src="/GSStravel/js/selectBar.js"></script>
+<!-- <script type="text/javascript" src="/GSStravel/js/selectBar.js"></script> -->
 <script>
 //console.log(${nopeople});
 if('${nopeople}'=='無人報名'){

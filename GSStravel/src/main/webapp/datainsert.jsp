@@ -13,8 +13,8 @@
 
 
 
-<div id="bar"></div><!-- 記得改 -->
-
+<!-- <div id="bar"></div>記得改 -->
+<%@include file="SelectBar.jsp" %>
 <form  action=<c:url value="/Servlet"/>  method="post">
 <table>
 <span>員工編號</span>${empno}<br>
@@ -409,5 +409,5 @@ $(function(){
 
 
 </body>
-<script type="text/javascript" src="/GSStravel/js/selectBar.js"></script>
+<!-- <script type="text/javascript" src="/GSStravel/js/selectBar.js"></script> -->
 </html>
