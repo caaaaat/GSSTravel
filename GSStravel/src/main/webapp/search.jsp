@@ -119,7 +119,7 @@
 <!-- 			type="checkbox" name="loc" value="東" />東 <input type="checkbox" -->
 <!-- 			name="loc" value="西" />西 <input type="checkbox" name="loc" value="南" />南 -->
 <!-- 		<input type="checkbox" name="loc" value="北" />北  -->
-        <select class="multiselect" name ="loca" id='jj' multiple="multiple" data-placeholder="請選擇" style="width: 200px;">
+        <select class="multiselect" name ="loca" id='jj' multiple="multiple" data-placeholder="請選擇" style="width: 350px;">
         <option>東</option>
         <option>西</option>
         <option>南</option>
