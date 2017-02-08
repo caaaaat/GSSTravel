@@ -23,7 +23,7 @@ public class DetailServlet extends HttpServlet {
 		String prodaction = req.getParameter("prodaction");
 		String tra_no = req.getParameter("tra_no");
 		DetailBean bean = new DetailBean();
-		// 測試用
+		
 		if ("insert".equals(prodaction)) {
 			req.setAttribute("tra_no", tra_no);
 			req.getRequestDispatcher("/Detail_Insert.jsp").forward(req, resp);
@@ -40,14 +40,10 @@ public class DetailServlet extends HttpServlet {
 			return;
 		}
 
-		// if("SELECT".equals(prodaction)){
-		// tra_no = req.getParameter("tra_no");
 		bean.setTra_NO(tra_no);
 		List<DetailBean> result = detailService.select(bean);
 		req.setAttribute("select", result);
 		req.getRequestDispatcher("/Detail.jsp").forward(req, resp);
-
-		// }
 
 	}
 

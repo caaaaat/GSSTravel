@@ -119,6 +119,7 @@ public class DetailService {
 				subMoney=4500;
 			}else{				
 				long x = today.getTime()/(24*60*60*1000)-hireDate.getTime()/(24*60*60*1000);//相差天數
+				
 				hireMonths=x/31;
 				subMoney=4500/12*hireMonths;			
 			}			
@@ -180,6 +181,7 @@ public class DetailService {
 	}
 	
 	public String SELECT_Name(int Emp_No, String Name) {
+		detailDAO=new DetailDAO();
 		String result = detailDAO.select_emp_Name(Emp_No, Name);
 		if(result == null) {
 			result = detailDAO.select_fam_Name(Emp_No, Name);	
@@ -195,6 +197,14 @@ public class DetailService {
 		return result;
 	}
 	
+	public DetailVO insert_emp(DetailVO bean) {
+		DetailVO result = null;
+		if(bean!=null) {
+			result = detailDAO.insert_emp(bean);
+		}
+		return result;
+	}
+	
 	public List<DetailBean> update(DetailBean bean) {
 		List<DetailBean> result = null;
 		if(bean!=null) {
@@ -202,6 +212,7 @@ public class DetailService {
 		}
 		return result;
 	}
+	
 	//雅婷
 	public List<TotalAmountFormBean> select(String tra_No) {
 		detailDAO=new DetailDAO();
