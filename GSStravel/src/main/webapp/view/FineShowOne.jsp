@@ -17,10 +17,13 @@ td, input,table {
 	color:black;
 }
 </style>
-
+<script src="/GSStravel/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="js/LogOut.js"></script>
+<script type="text/javascript" src="js/selectBar.js"></script>
 </head>
 <body>
-<h1>行程內容</h1>
+	<div id="bar"></div>
+	<h2>罰則內容</h2>
 	<button><a href="<c:url value="/FeeTravel?tra_No=${traveResult.tra_NO}"/>" class="a">行程</a></button><button><a href="<c:url value="/FineShowOneServlet?tra_No=${traveResult.tra_NO}"/>" class="a">罰則</a></button>
 	<form action="<c:url value="/FineShowOneServlet" />" method="GET">
 		<c:if test="${countI+1 ne 0 && countJ+1 ne 0}">

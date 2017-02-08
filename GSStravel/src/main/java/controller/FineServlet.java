@@ -221,7 +221,7 @@ public class FineServlet extends HttpServlet {
 //				}
 			}
 		}
-		if ("罰則設定".equals(set)) {
+		if ("設定罰則".equals(set)) {
 			power = false;
 			List<FineVO> result = fineService.select(fineBean);
 			request.setAttribute("select", result);

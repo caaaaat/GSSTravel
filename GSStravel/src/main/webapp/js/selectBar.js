@@ -73,7 +73,7 @@ function people_maintain(){
 }
 
 function fine(){
-	window.location.href=resultjs+"/FineServlet?FineSetting=罰則設定";
+	window.location.href=resultjs+"/FineServlet?FineSetting=設定罰則";
 }
 	
 function detail_money(){

@@ -23,7 +23,7 @@ tr, td {
 <script>
 	$(document).ready(function() {
 		$("#add").click(function() {
-      		$("#fineTable").append("<tr><td><input type='button' class='remove' value='－' /></td><td><input name='day' type='text' value='${row.fine_Dates}' autocomplete='off' /></td><td><input name='percent' type='text' value='${row.fine_Per}' autocomplete='off' /></td></tr>");
+      		$("#fineTable").append("<tr><td><input type='button' class='remove' value='－' /></td><td><input type='text' id='day' name='day' value='${row.fine_Dates}' autocomplete='off' required='required' /></td><td><input type='text' id='percent' name='percent' value='${row.fine_Per}' autocomplete='off' required='required' /></td></tr>");
     	});
 		
 		$(document).on('click', '.remove', function(){
@@ -37,13 +37,41 @@ tr, td {
 		});
 	});
 </script>
+<script>
+	window.onload = function() {
+		document.getElementById("day").onblur = chkDay;
+		document.getElementById("percent").onblur = chkPercent;
+	}
+
+	function chkDay() {
+		var day = document.getElementById("day").value;
+		if (day == "") {
+			alert("請輸入取消日！");
+		} else if (day < 1) {
+			alert("取消日必須為正整數！");
+		} else {
+			alert("取消日必須為正整數！");
+		}
+	}
+
+	function chkPercent() {
+		var percent = document.getElementById("percent").value;
+		if (percent == "") {
+			alert("請輸入取消日！");
+		} else if (percent < 1 || percent > 100) {
+			alert("扣款比例必須為小於100的正數！");
+		} else {
+			alert("扣款比例必須為小於100的正數！");
+		}
+	}
+</script>
 </head>
 
 <body>
-	<div id='bar'></div>
+	<div id="bar"></div>
 	<h2>罰則設定</h2>
 	<form action="<c:url value="/FineServlet" />" method="GET">
-		<input type="submit" name="FineSetting" value="罰則設定" />
+		<input type="submit" name="FineSetting" value="設定罰則" />
 		<input type="submit" name="FineShow" value="查看罰則" /><br>
 		<em style="color: red">*</em>為必填欄位 
 		<table id="fineTable">
@@ -55,8 +83,8 @@ tr, td {
 			<c:forEach var="row" items="${select}">
 				<tr>
 					<td><input type="button" class="remove" value="－" /></td>
-					<td><input name="day" type="text" value="${row.fine_Dates}" autocomplete="off" readonly /></td>
-					<td><input name="percent" type="text" value="${row.fine_Per}" autocomplete="off" /></td>
+					<td><input type="text" id="day" name="day" value="${row.fine_Dates}" autocomplete="off" required="required" /></td>
+					<td><input type="text" id="percent" name="percent" value="${row.fine_Per}" autocomplete="off" required="required" /></td>
 				</tr>
 			</c:forEach>
 		</table>

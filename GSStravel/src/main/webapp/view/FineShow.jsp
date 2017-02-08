@@ -12,18 +12,19 @@ tr, td {
 	border: 1px solid black;
 	text-align: center;
 }
-h2 {
+.error {
 	color: blue;
 }
 </style>
-<script src="/gss/js/jquery-3.1.1.min.js"></script>
+<script src="/GSStravel/js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript" src="js/LogOut.js"></script>
 <script type="text/javascript" src="js/selectBar.js"></script>
 </head>
 <body>
-	<div id='bar'></div><br>
+	<div id="bar"></div>
+	<h2>罰則明細</h2>
 	<form action="<c:url value="/FineServlet" />" method="GET">
-		<input type="submit" name="FineSetting" value="罰則設定" />
+		<input type="submit" name="FineSetting" value="設定罰則" />
 		<input type="submit" name="FineShow" value="查看罰則" /><br>
 		<c:if test="${power==true}">
 			<c:if test="${countI+1 ne 0 && countJ+1 ne 0}">
@@ -59,13 +60,13 @@ h2 {
 		</c:if>
 		<c:choose>
 			<c:when test="${countI+1 eq 0 && countJ+1 eq 0}">
-				<h2>目前尚無罰則＆行程資訊！</h2>
+				<h2 class="error">目前尚無罰則＆行程資訊！</h2>
 			</c:when>
 			<c:when test="${countI+1 eq 0}">
-				<h2>目前尚無罰則資訊！</h2>
+				<h2 class="error">目前尚無罰則資訊！</h2>
 			</c:when>
 			<c:when test="${countJ+1 eq 0}">
-				<h2>目前尚無行程資訊！</h2>
+				<h2 class="error">目前尚無行程資訊！</h2>
 			</c:when>
 		</c:choose>
 	</form>
