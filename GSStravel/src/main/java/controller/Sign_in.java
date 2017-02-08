@@ -45,7 +45,7 @@ public class Sign_in extends HttpServlet {
 			if(!bl){						
 				drtail=detailService.drtail(emp_No, tra_No, fams,room);
 				TA_money=drtail.get(1)*drtail.get(2);
-				if(detailService.decide(emp_No, TA_money)){	
+				if(detailService.decide(emp_No, TA_money)){						
 					if(totalAmountService.counts(emp_No)>0){
 						bl1 =true;
 						decide=new ArrayList<>();

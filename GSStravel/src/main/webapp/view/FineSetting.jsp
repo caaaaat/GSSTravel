@@ -40,7 +40,8 @@ tr, td {
 </head>
 
 <body>
-	<div id='bar'></div><br>
+	<div id='bar'></div>
+	<h2>罰則設定</h2>
 	<form action="<c:url value="/FineServlet" />" method="GET">
 		<input type="submit" name="FineSetting" value="罰則設定" />
 		<input type="submit" name="FineShow" value="查看罰則" /><br>
