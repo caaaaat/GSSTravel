@@ -12,7 +12,7 @@
 <body>
 
 
-<script type="text/javascript" src="/GSStravel/js/selectBar.js"></script>
+
 <div id="bar"></div><!-- 記得改 -->
 
 <form  action=<c:url value="/Servlet"/>  method="post">
@@ -409,4 +409,5 @@ $(function(){
 
 
 </body>
+<script type="text/javascript" src="/GSStravel/js/selectBar.js"></script>
 </html>

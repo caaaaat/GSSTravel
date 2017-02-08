@@ -1,5 +1,5 @@
 var xhinlogin=new XMLHttpRequest();
-(function (){ call(); })();
+
 
 function call(){
 	xhinlogin.open("GET",resultjs+"/LogOut.do?role=1")
@@ -77,5 +77,8 @@ function fine(){
 }
 	
 function detail_money(){
-	window.location.href=resultjs+"/Detail_Money.jsp";
+	window.location.href=resultjs+"/search1.jsp";
 }
+
+
+(function (){ call(); })();

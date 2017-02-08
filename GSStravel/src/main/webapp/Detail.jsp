@@ -9,7 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>報名明細</title>
 </head>
-<script type="text/javascript" src="/GSStravel/js/selectBar.js"></script>
+
 <body>
 <div id='bar'></div>
 <h2>－報名明細－</h2>
@@ -165,5 +165,6 @@ $(function(){
 
 </script>
 </body>
+<script type="text/javascript" src="/GSStravel/js/selectBar.js"></script>
 </html>
 

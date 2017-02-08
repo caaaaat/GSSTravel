@@ -8,7 +8,7 @@ public class DetailBean {
 	
 	private int det_No;
 	private String tra_NO;
-	private int emp_No;
+	private Integer emp_No;
 	private String Rel;
 	private String Name;
 	private String Sex;
@@ -41,10 +41,10 @@ public class DetailBean {
 	public void setTra_NO(String tra_NO) {
 		this.tra_NO = tra_NO;
 	}
-	public int getEmp_No() {
+	public Integer getEmp_No() {
 		return emp_No;
 	}
-	public void setEmp_No(int emp_No) {
+	public void setEmp_No(Integer emp_No) {
 		this.emp_No = emp_No;
 	}
 	public String getRel() {

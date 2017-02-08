@@ -8,7 +8,21 @@ public class DetailVO {
 	private java.sql.Time det_Date;
 	private java.sql.Time det_CanDate;
 	private float det_money;
+	private String det_note;
+	private float det_noteMoney;
 	
+	public String getDet_note() {
+		return det_note;
+	}
+	public void setDet_note(String det_note) {
+		this.det_note = det_note;
+	}
+	public float getDet_noteMoney() {
+		return det_noteMoney;
+	}
+	public void setDet_noteMoney(float det_noteMoney) {
+		this.det_noteMoney = det_noteMoney;
+	}
 	public int getDet_No() {
 		return det_No;
 	}

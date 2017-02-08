@@ -62,7 +62,7 @@
 					tr = document.createElement('tr');
 					td = document.createElement('td');
 					a = document.createElement('a');
-					a.setAttribute("href",result+"/detail?tra_no="+travel[i].id);
+					a.setAttribute("href",result+"/TravelDetail?tra_no="+travel[i].id);
 					a.appendChild(document.createTextNode(travel[i].id));
 					td.appendChild(a);
 					tr.appendChild(td);
@@ -146,4 +146,10 @@
 	</table>
 </body>
 <script type="text/javascript" src="/GSStravel/js/selectBar.js"></script>
+<script>
+//console.log(${nopeople});
+if('${nopeople}'=='無人報名'){
+	alert('${nopeople}');	
+}
+</script>
 </html>
