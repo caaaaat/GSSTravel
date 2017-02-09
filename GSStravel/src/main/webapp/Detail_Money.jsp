@@ -33,8 +33,6 @@ td {
 </style>
 
 <body>
-	<!-- 	<script type="text/javascript" src='js/LogOut.js'></script> -->
-	<!--  	<input type="button" value='logout' onclick='logOut()'> -->
 	<form action="<c:url value='/TotalAmountServlet' />" method="GET">
 		<div>
 			<textarea name="tra_Name" readonly>${tra_Name}</textarea>
