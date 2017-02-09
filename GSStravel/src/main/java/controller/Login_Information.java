@@ -37,7 +37,7 @@ public class Login_Information extends HttpServlet {
 		String myName = employeeService.getName(emp_No.toString());//登入者姓名
 		List<String> names = detailService.detailName(tra_No);//已經報明姓名
 		Map<String, Integer> mp = detailService.detail(tra_No);//(姓名,人數)
-		List<FamilyVO> familyVO = familyService.selectFam(emp_No.toString());//親朋好友
+		List<FamilyVO> familyVO = familyService.selectFam(emp_No.toString(),tra_No);//親朋好友
 		int familySize = familyVO.size();//親朋好友數量
 		TravelVO tra_Vo = travelService.select(tra_No);
 		List<ItemVO> itemVo = itemService.getRoomMoney(tra_No);

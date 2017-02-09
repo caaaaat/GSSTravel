@@ -45,7 +45,7 @@
 				<c:forEach var="row" items="${familyVO}">
 					<tr class="t">
 						<td class="t"><input type=checkbox value="${row.fam_Name}"
-							name="fam"></td>
+							onclick="return false" ${row.checked} name="fam"></td>
 						<td class="t">${row.fam_Rel}</td>
 						<td class="t">${row.fam_Name}</td>
 					</tr>
@@ -62,8 +62,8 @@
 						<th class="t">費用</th>
 					</tr>
 					<tr>
-						<td class="t"><input type=checkbox value="${room.item_Money}"
-							name="room"></td>
+						<td class="t"><input type=checkbox value="${room.item_Money} "
+							onclick="return false"  name="room"></td>
 						<td class="t" width='150px' >${room.item_Name}</td>
 						<td class="t" width='70px'>${room.item_Money}</td>
 					</tr>
@@ -71,7 +71,8 @@
 			</c:forEach>
 			<br> <br> 
 		</c:if>
-		
+		<h3>團費試算 :年度可使用補助金額:${detail[0]};個人團費:${detail[1]};個人補助金:${detail[0]};補團費:${detail[2]}</h3>
+		<h3 style="color: red">PS:團費試算僅供參考，需繳納費用以福委會通知為主</h3>
 		<button><a href="<c:url value="/AllTravel"></c:url>" class="a">回上一頁</a></button><input type="submit" value="取消報名"> 
 	</form>
 

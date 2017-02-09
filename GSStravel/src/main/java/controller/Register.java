@@ -24,7 +24,7 @@ public class Register extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {    	
     	HttpSession session = req.getSession();
 		Integer emp_No = (Integer) session.getAttribute("emp_No");
-		
+		long tra_No = 0;
 		
 		EmployeeVO empstart = employeeservice.select(emp_No.toString());
 		req.setAttribute("empno", emp_No);
@@ -38,7 +38,7 @@ public class Register extends HttpServlet {
 		req.setAttribute("empnote",empstart.getEmp_Note());
 		
 
-		List<FamilyVO> famstart=familyservice.selectFam(emp_No.toString());
+		List<FamilyVO> famstart=familyservice.selectFam(emp_No.toString(),tra_No);
 		req.setAttribute("famstartsize", famstart.size());
 		req.setAttribute("famstart", famstart);
 		

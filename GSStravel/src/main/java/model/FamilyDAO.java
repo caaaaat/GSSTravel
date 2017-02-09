@@ -35,6 +35,7 @@ public class FamilyDAO implements IFamilyDAO {
 	private static final String update = "update Family set fam_Name=?,fam_Rel=?,fam_Bdate=?,fam_Sex=?,fam_Eat=?,fam_Id=?,fam_Phone=?,fam_Note=?,fam_Ben=?,fam_BenRel=?,fam_Car=?,fam_Emg=?,fam_EmgPhone=?,fam_EmgRel=?,fam_Bady=?,fam_kid=?,fam_Dis=?,fam_Mom=? where fam_No=?";
 	private static final String delete = "delete from Family where fam_No=?";
 	
+	
 	public String selectfam_Rel(String emp_No,String fam_Name){	
 		String fam_Rel = null;
 		try( Connection conn=ds.getConnection();
@@ -53,8 +54,9 @@ public class FamilyDAO implements IFamilyDAO {
 	}
 	
 	@Override
-	public List<FamilyVO> selectFam(String emp_No){	
+	public List<FamilyVO> selectFam(String emp_No,long tra_No){	
 		List<FamilyVO> familyVOs=new ArrayList<>();
+		IDetailDAO detailDAO=new DetailDAO();
 		try( Connection conn=ds.getConnection();
 			 PreparedStatement stem=conn.prepareStatement(selectFam);
 			 	){
@@ -81,6 +83,12 @@ public class FamilyDAO implements IFamilyDAO {
 				familyVO.setFam_kid(rset.getBoolean("fam_kid"));
 				familyVO.setFam_Dis(rset.getBoolean("fam_Dis"));
 				familyVO.setFam_Mom(rset.getBoolean("fam_Mom"));
+				if(tra_No==0){					
+				}else if(detailDAO.selectFam_No(rset.getInt("fam_No"), tra_No)){
+					familyVO.setChecked("checked");
+				}else{
+					familyVO.setChecked("");
+				}			
 				familyVOs.add(familyVO);
 			}
 		}catch(SQLException e){
