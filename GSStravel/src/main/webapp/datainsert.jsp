@@ -13,8 +13,8 @@
 
 
 
-<div id="bar"></div><!-- 記得改 -->
-
+<!-- <div id="bar"></div>記得改 -->
+<%@include file="SelectBar.jsp" %>
 <form  action=<c:url value="/Servlet"/>  method="post">
 <table>
 <span>員工編號</span>${empno}<br>
@@ -98,7 +98,8 @@
 		</select></td>
 		
 		<td><input type="text" name ="famid" id="famid" value="${start.fam_Id}"><div id="famiderror">${error.famid}</div></td><!-- getfamid()會抓到value值 -->
-		<td><input type="text" id="fambdate" name="fambdate" value="${start.fam_Bdate}"><div id="fambdateerror">${error.fambdate}${error.fambdatedate}</div></td> 
+		<td><input type="date" id="fambdate" name="fambdate" value="${start.fam_Bdate}" /><div id="fambdateerror">${error.fambdate}${error.fambdatedate}</div></td>
+<%-- 		<td><input type="text" id="fambdate" name="fambdate" value="${start.fam_Bdate}"><div id="fambdateerror">${error.fambdate}${error.fambdatedate}</div></td>  --%>
 		<td><input type="text" name ="famphone" id="famphone"  value="${start.fam_Phone}"><div id=famphoneerror>${error.famphone}</div></td>
 		<td><select name ="fameat" >
 			<c:if test="${start.fam_Eat=='葷'}">
@@ -110,13 +111,15 @@
 				<option value="素" selected>素</option>
 			</c:if>
 			</select>
-			
+<!-- 			看要不要改成占車位 跟不占車位兩種   name取不同的   看要不要改成下拉選單  vo會改 下拉選單記得看羅技跟益儒 的寫法(記得相同UI) -->
 			<c:if test="${start.fam_Car=='true'}">
-			<input type="checkbox" id="famcar" name="famcar" value="1" checked>不占車位
+			<input type="checkbox" id="famcar" name="famcar" value="on"  checked="checked">不占車位
 			</c:if>
+			
 			<c:if test="${start.fam_Car=='false'}">
-			<input type="checkbox" id="famcar" name="famcar" value="1" >不占車位
+			<input type="checkbox" id="famcar" name="famcar" value="on" >不占車位
 			</c:if>
+			
 			</td>
 			
 		<c:if test="${start.fam_Bady=='true'}">	
@@ -185,7 +188,8 @@
 			<option value="男" >男<option>
 		</select></td>
 		<td><input type="text" name ="famid" id="famid" ><div id="famiderror">${error.famid}</div></td>
-		<td><input type="text" id="fambdate" name="fambdate" ><div id="fambdateerror">${error.fambdate}${error.fambdatedate}</div></td> 
+		<td><input type="date" id="fambdate" name="fambdate"  /><div id="fambdateerror">${error.fambdate}${error.fambdatedate}</div></td>
+<%-- 		<td><input type="text" id="fambdate" name="fambdate" ><div id="fambdateerror">${error.fambdate}${error.fambdatedate}</div></td>  --%>
 		<td><input type="text" name ="famphone" id="famphone"  >  <div id=famphoneerror>${error.famphone}</div><br></td> 
 		<td><select name ="fameat">
 				<option value="葷" >葷</option>
@@ -278,16 +282,16 @@ $(function(){
 		}
 	});
 	
-	var empnote=/.*\s/;
-	$("#empnote").blur(function(){
-		if(empnote.test($(this).val())){
-			$(this).css("border-color","green")
-			$("#empnoteerror").text("");
-		}else{
-			$("#empnoteerror").text("需要為中文");
-			$(this).css("border-color","red");
-		}
-	});
+// 	var empnote=/^[\u4e00-\u9fa5]/;
+// 	$("#empnote").blur(function(){
+// 		if(empnote.test($(this).val())){
+// 			$(this).css("border-color","green")
+// 			$("#empnoteerror").text("");
+// 		}else{
+// 			$("#empnoteerror").text("需要為中文");
+// 			$(this).css("border-color","red");
+// 		}
+// 	});
 	
 	var famname=/^[^\s].*\s*[^\s]/;
 	var x= function (){
@@ -391,16 +395,16 @@ $(function(){
 		}
 	});
 	
-	var famnote=/.*\s/;
-	$("input[name*='famnote']").on("blur",function(){
-		if(famnote.test($(this).val())){
-			$(this).css("border-color","green")
-			$("#famnoteerror").text("");
-		}else{
-// 			$("#famnoteerror").text("需要為中文");
-			$(this).css("border-color","red");
-		}
-	});
+// 	var famnote=/.*\s/;
+// 	$("input[name*='famnote']").on("blur",function(){
+// 		if(famnote.test($(this).val())){
+// 			$(this).css("border-color","green")
+// 			$("#famnoteerror").text("");
+// 		}else{
+// // 			$("#famnoteerror").text("需要為中文");
+// 			$(this).css("border-color","red");
+// 		}
+// 	});
 	
 });
 
@@ -409,5 +413,5 @@ $(function(){
 
 
 </body>
-<script type="text/javascript" src="/GSStravel/js/selectBar.js"></script>
+<!-- <script type="text/javascript" src="/GSStravel/js/selectBar.js"></script> -->
 </html>

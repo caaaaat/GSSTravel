@@ -88,7 +88,13 @@
 					tr.appendChild(td);
 
 					td = document.createElement('td');
+					td.setAttribute("align","center");
 					td.appendChild(document.createTextNode(travel[i].people));
+					tr.appendChild(td);
+					
+					td = document.createElement('td');
+					td.setAttribute("align","center");
+					td.appendChild(document.createTextNode(travel[i].peopleNow));
 					tr.appendChild(td);
 
 					td = document.createElement('td');
@@ -109,7 +115,8 @@
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.material.mobile.min.css" />
  <script src="js/jquery-1.12.3.min.js"></script>
  <script src="https://kendo.cdn.telerik.com/2017.1.118/js/kendo.all.min.js"></script>
-<div id='bar'></div>
+<!-- <div id='bar'></div> -->
+<%@include file="SelectBar.jsp" %>
 <h2>報名維護</h2>
 	<form>
 		活動代碼:<input type='text' id='id' value='' /><br> 活動名稱:<input
@@ -129,7 +136,7 @@
 		<br> <input
 			type="button" value="查詢" onclick="search()" /> <input type="reset">
 	</form>
-	<table class='table'>
+	<table class='table'  cellpadding="10">
 		<thead>
 			<tr>
 				<th>活動代碼</th>
@@ -139,6 +146,7 @@
 				<th>登記開始</th>
 				<th>登記結束</th>
 				<th>人數上限</th>
+				<th>已報名人數</th>
 				<th>活動地點</th>
 			</tr>
 		</thead>
@@ -146,5 +154,5 @@
 		</tbody>
 	</table>
 </body>
-<script type="text/javascript" src="/GSStravel/js/selectBar.js"></script>
+<!-- <script type="text/javascript" src="/GSStravel/js/selectBar.js"></script> -->
 </html>

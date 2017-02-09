@@ -9,9 +9,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>報名明細</title>
 </head>
-<script type="text/javascript" src="/GSStravel/js/selectBar.js"></script>
+<!-- <script type="text/javascript" src="/GSStravel/js/selectBar.js"></script> -->
 <body>
-<div id='bar'></div>
+<!-- <div id='bar'></div> -->
+<%@include file="SelectBar.jsp" %>
 <h2>－報名明細－</h2>
 <form action=<c:url value="/detail"/> method="post">
 <p >活動代碼：${param.tra_no}</p>
