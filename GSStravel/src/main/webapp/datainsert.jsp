@@ -10,6 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+
 	<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.common-material.min.css" />
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.material.min.css" />
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.material.mobile.min.css" />
@@ -17,6 +18,7 @@
     <script src="https://kendo.cdn.telerik.com/2017.1.118/js/kendo.all.min.js"></script>
 
 <!-- <div id="bar"></div>記得改 -->
+
 <%@include file="SelectBar.jsp" %>
 <form  action=<c:url value="/Servlet"/>  method="post">
 
@@ -487,5 +489,4 @@ $(function(){
 
 
 </body>
-<!-- <script type="text/javascript" src="/GSStravel/js/selectBar.js"></script> -->
 </html>
