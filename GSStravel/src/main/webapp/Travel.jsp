@@ -27,7 +27,8 @@
 				<th class="t">登記開始</th>
 				<th class="t">登記結束</th>
 				<th class="t">登記活動人數限制</th>
-				<th class="t">活動人數</th>
+				<th class="t">目前已報名人數</th>
+				<th class="t">員工可報名總人數</th>
 				<th class="t">報名</th>
 			</tr>
 		</thead>
@@ -42,6 +43,7 @@
 					<td class="t">${row.tra_Beg}</td>
 					<td class="t">${row.tra_End}</td>
 					<td class="t">${row.tra_Total}</td>
+					<td class="t">${row.sign_InTotal}</td>
 					<td class="t">${row.tra_Max}</td>
 					<c:set var="tra_no" value="${row.tra_NO}" />
 					<c:if test="${mp[tra_no]==0}">
@@ -56,7 +58,7 @@
 					</c:if>
 					<c:if test="${mp[tra_no]==3}">
 						<td><a
-							href="<c:url value="/Cancel?tra_No=${row.tra_NO}&emp_No=${emp_No}"></c:url>"><button >取消報名</button></a></td>
+							href="<c:url value="/CancelServlet?tra_No=${row.tra_NO}&emp_No=${emp_No}"></c:url>"><button >取消報名</button></a></td>
 					</c:if>					
 				</tr>
 			</c:forEach>

@@ -16,7 +16,7 @@ h2 {
 	color: blue;
 }
 </style>
-<script src="/gss/js/jquery-3.1.1.min.js"></script>
+<script src="/GSStravel/js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript" src="js/LogOut.js"></script>
 <script type="text/javascript" src="js/selectBar.js"></script>
 </head>

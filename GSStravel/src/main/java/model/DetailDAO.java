@@ -38,7 +38,6 @@ public class DetailDAO implements IDetailDAO {
 	private static final String SELECT_BY_TRA_NO = "select d.tra_No , tra_Name , dept_No , e.emp_No , f.fam_No , emp_Name , emp_sub , fam_Name , det_money , det_note ,det_noteMoney from Detail d join Employee e on d.emp_No=e.emp_No left join Family f on d.fam_No = f.fam_No left join Travel t on t.tra_No=d.tra_No where d.tra_No=? and det_CanDate is null" ;
 	private static final String UPDATE_DETAIL_FOR_EMP_NO = "update Detail set det_note=? , det_noteMoney=? where emp_No=? and fam_No is null and tra_No=?";
 	private static final String UPDATE_DETAIL_FOR_FAM_NO = "update Detail set det_note=? , det_noteMoney=? where fam_No=? and tra_No=?";
-	
 	@Override
 	public int detail_Enter(String emp_No, String tra_No) {
 		int a=0 ;
