@@ -42,7 +42,7 @@ public class loginCheck implements Filter {
 		}
 
 		if (session.getAttribute("emp_No") == null || "".equals(session.getAttribute("emp_No"))) {
-			servletResponse.sendRedirect(pro+"/login.jsp");
+			servletResponse.sendRedirect(pro+"/notlogin.jsp");
 		} else {
 			chain.doFilter(request, response);
 			return;

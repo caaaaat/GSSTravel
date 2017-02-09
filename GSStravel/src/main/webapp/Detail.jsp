@@ -9,9 +9,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>報名明細</title>
 </head>
-
+<!-- <script type="text/javascript" src="/GSStravel/js/selectBar.js"></script> -->
 <body>
-<div id='bar'></div>
+<!-- <div id='bar'></div> -->
+<%@include file="SelectBar.jsp" %>
 <h2>－報名明細－</h2>
 <form action=<c:url value="/detail"/> method="post">
 <p >活動代碼：${param.tra_no}</p>
@@ -38,15 +39,20 @@
 		<tr>
 		<c:if test="${not empty select}">
 		<c:forEach var="row" items="${select}">
-		    <td><button name="cancel" type="submit" value="${row.det_No}">取消</button></td>
-		    <td><input type="text" name="emp_Num" value="${row.emp_No}"></td>
+			
+		    <td><c:if test="${empty row.det_CanDate}"><button name="cancel" type="submit" value="${row.det_No}">取消</button></c:if></td>
+		    <td>${row.emp_No}</td>
 		     <td><input type="text" name="trel" value="${row.rel}" style="display:none">
+		     <c:if test="${row.rel == '員工'}">
+		     ${row.rel}
+		     </c:if>
+		     <c:if test="${row.rel != '員工'}">
 		     <select name="fam_Rel">
 					<option>請選擇</option>
-					<option>員工</option>
 			 		<option>眷屬</option>
 			        <option>親友</option>
-			     </select></td>
+			     </select>
+			 </c:if></td>
 		     <td><input type="text" id="name" name="name" value="${row.name}"></td>
 		     <td><input type="text" name="tsex" value="${row.sex}" style="display:none">
 		     <select name="sex" >
@@ -112,9 +118,6 @@
 		<input type="button" name="prodaction" value="關閉">
 		<input type="button" value="匯出Excel">
 	
-	<br /><br /><br />
-	<input type="text" name="test" value="">
-	<input type="submit" id="btn_select" value="SELECT" name="prodaction">
 	</form>
 
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.common-material.min.css" />
@@ -141,12 +144,10 @@ $(function(){
 	 
 	//身分選取
 	 for(var i=0; i<document.getElementsByName("trel").length; i++){
-			if(document.getElementsByName("trel")[i].value =="員工"){
+			if(document.getElementsByName("trel")[i].value =="眷屬"){
 				document.getElementsByName("fam_Rel")[i].selectedIndex = 1; 
-			}else if(document.getElementsByName("trel")[i].value =="眷屬"){
-				document.getElementsByName("fam_Rel")[i].selectedIndex = 2; 
 			}else{
-				document.getElementsByName("fam_Rel")[i].selectedIndex = 3;
+				document.getElementsByName("fam_Rel")[i].selectedIndex = 2;
 			}
 		 }
 	 
@@ -165,6 +166,5 @@ $(function(){
 
 </script>
 </body>
-<script type="text/javascript" src="/GSStravel/js/selectBar.js"></script>
 </html>
 

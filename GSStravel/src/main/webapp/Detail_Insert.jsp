@@ -16,7 +16,7 @@
 <table border="1">
 		<tr>
 			<th>員工編號</th>
-			<th>姓名</th>
+			<th>報名人姓名</th>
 			<th>報名總金額</th>
 		</tr>
 		<tr>
@@ -25,8 +25,10 @@
 			<td><input type="text" name="det_money"></td>
 		</tr>
 </table>
+<p style="color:red ">${DetInError.InError}</p>
 <br />
 <input type="submit" name="prodaction" value="儲存">
+<input type="submit" name="prodaction" value="回前頁">
 </form>
 </body>
 </html>
