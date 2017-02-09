@@ -40,7 +40,7 @@ public class TravelDAO implements ITravelDAO {
 				Connection conn = ds.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(GET_ALL_STMT);
 				ResultSet rset = stmt.executeQuery();) {
-			
+			IDetailDAO detailDAO=new DetailDAO();
 			result = new ArrayList<TravelVO>();
 			while(rset.next()) {
 				TravelVO vo = new TravelVO();
@@ -57,6 +57,7 @@ public class TravelDAO implements ITravelDAO {
 				vo.setTra_Atter(rset.getString("tra_Atter"));
 				vo.setTra_File(rset.getString("tra_File"));
 				vo.setTra_Loc(rset.getString("tra_Loc"));
+				vo.setSign_InTotal(detailDAO.tra_count(Long.parseLong(rset.getString("tra_NO"))));
 				result.add(vo);
 			}
 		} catch (SQLException e) {

@@ -29,8 +29,7 @@ public class AllTravel extends HttpServlet {
 			HttpSession session = request.getSession();
 			Integer emp_No = (Integer) session.getAttribute("emp_No");
 			mp = travelService.selectTra_No(emp_No.toString());//代員工編號
-			result = travelService.select();
-			
+			result = travelService.select();			
 			request.setAttribute("select", result);
 			request.setAttribute("mp", mp);
 			request.getRequestDispatcher("/Travel.jsp").forward(request, response);
