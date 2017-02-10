@@ -20,7 +20,7 @@
 <!-- <div id="bar"></div>記得改 -->
 
 <%@include file="SelectBar.jsp" %>
-<form  action=<c:url value="/Servlet"/>  method="post">
+<form  action=<c:url value="/FamilyServlet"/>  method="post">
 
 <table>
 <span>員工編號</span>${empno}<br>
@@ -103,7 +103,7 @@
 		<td><input type="text" name ="famid" id="famid" value="${start.fam_Id}"><div id="famiderror">${error.famid}</div></td><!-- getfamid()會抓到value值 -->
 		<td><input type="date" id="fambdate" name="fambdate" value="${start.fam_Bdate}" /><div id="fambdateerror">${error.fambdate}${error.fambdatedate}</div></td>
 		<td><input type="text" name ="famphone" id="famphone"  value="${start.fam_Phone}"><div id=famphoneerror>${error.famphone}</div></td>
-		<td><select name ="fameat" >
+		<td><select name ="fameat" >  <!-- 今天的日期 減去 他的生日 < 三歲  (剩幾天?) (看年底還是年初)  看年?  -->
 			<c:if test="${start.fam_Eat=='葷'}">
 				<option value="葷" selected>葷食</option>
 				<option value="素">素食</option>
@@ -128,31 +128,35 @@
 			</td>
 		
 		<td><select class="multiselect" name ="famspa"  multiple="multiple" data-placeholder="請選擇" style="width: 200px;">
-		
-<%-- 		     <c:if test="${start.fam_Bady=='false'}"> --%>
-		     <option>幼童(0~3歲)</option>
-<%-- 			 </c:if> --%>
-<%-- 			 <c:if test="${start.fam_Bady}"> --%>
-<!-- 			 <option Selected>幼童(0~3歲)</option> -->
-<%-- 			 </c:if> --%>
-<%-- 			 <c:if test="${start.fam_kid=='false'}"> --%>
-		     <option>兒童(4~11歲)</option>
-<%-- 			 </c:if> --%>
-<%-- 			 <c:if test="${start.fam_kid}"> --%>
-<!-- 			 <option Selected>兒童(4~11歲)</option> -->
-<%-- 			 </c:if> --%>
-<%-- 		      <c:if test="${start.fam_Dis=='false'}"> --%>
-		     <option>持身心障礙手冊</option>
-<%-- 		     </c:if> --%>
-<%-- 		      <c:if test="${start.fam_Dis}"> --%>
-<!-- 		     <option Selected>持身心障礙手冊</option> -->
-<%-- 		     </c:if> --%>
-<%-- 		     <c:if test="${start.fam_Mom=='false'}"> --%>
-		     <option>孕婦(媽媽手冊)</option>
-<%-- 		      </c:if> --%>
-<%-- 		      <c:if test="${start.fam_Mom}"> --%>
-<!-- 		     <option Selected>孕婦(媽媽手冊)</option> -->
-<%-- 		      </c:if> --%>
+			 <c:if test="${start.fam_Bady=='false'} ${start.fam_kid=='false'} ${start.fam_Dis=='false'} ${start.fam_Mom=='false'}" >
+			 <option value="no" Selected>請選擇</option>
+			 </c:if>
+			 
+		     <c:if test="${start.fam_Bady=='false'}">
+		     <option value="baby">幼童(0~3歲)</option>
+			 </c:if>
+			 <c:if test="${start.fam_Bady}">
+			 <option value="baby" Selected>幼童(0~3歲)</option>
+			 </c:if>
+			 
+			 <c:if test="${start.fam_kid=='false'}">
+		     <option value="kid">兒童(4~11歲)</option>
+			 </c:if>
+			 <c:if test="${start.fam_kid}">
+			 <option value="kid" Selected>兒童(4~11歲)</option>
+			 </c:if>
+		      <c:if test="${start.fam_Dis=='false'}">
+		     <option value="dis">持身心障礙手冊</option>
+		     </c:if>
+		      <c:if test="${start.fam_Dis}">
+		     <option value="dis" Selected>持身心障礙手冊</option>
+		     </c:if>
+		     <c:if test="${start.fam_Mom=='false'}">
+		     <option value="mom">孕婦(媽媽手冊)</option>
+		      </c:if>
+		      <c:if test="${start.fam_Mom}">
+		     <option value="mom" Selected>孕婦(媽媽手冊)</option>
+		      </c:if>
 		     </select>
 		</td>
 		
@@ -237,14 +241,34 @@ $(function(){
 // 			$("#multiselect").removeAttr("id");
 // 			$("select:last").removeAttr("id");
 			}
-		
 	);	
 	$("#familytable").on("click","input[name*='delete']",function(){
 		$("input[name*='delete']").parents("tr:last").remove();
 		
 	});
 	
+	function search() {
+		if (xh != null) {
 	
+		var selectedValues = $('select[name="loca"]').val() ;
+		if (selectedValues!= undefined) {
+			url = url + "loc=" + JSON.stringify(selectedValues);
+		}
+		
+		xh.addEventListener("readystatechange", ajaxReturn)
+		xh.open("GET", url);
+		xh.send();
+		}else {
+			alert("Your browser doesn't support JSON!");
+		}
+	}
+	function ajaxReturn() {
+		if (xh.readyState == 4){
+			if (xh.status == 200) {
+					
+			}
+		}
+	}
 	
 	var empphone=/^09\d{2}-?\d{3}-?\d{3}$/;
 	$("#empphone").blur(function(){

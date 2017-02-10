@@ -41,8 +41,13 @@ public class Register extends HttpServlet {
 		List<FamilyVO> famstart=familyservice.selectFam(emp_No.toString(),tra_No);
 		req.setAttribute("famstartsize", famstart.size());
 		req.setAttribute("famstart", famstart);
+		 String[] fambdate= req.getParameterValues("fam_Bdate");
+//		 if(String bdate:fambdate){
+//			 
+//		 }
 		
-		req.getRequestDispatcher("datainsert.jsp").forward(req, res);
+		
+		req.getRequestDispatcher("Datainsert.jsp").forward(req, res);
     }
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		this.doPost(req, resp);
