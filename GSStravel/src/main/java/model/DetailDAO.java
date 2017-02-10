@@ -35,7 +35,7 @@ public class DetailDAO implements IDetailDAO {
 	private static final String detail_Emp_No = "select distinct emp_No,det_Date from Detail where tra_No=? and det_CanDate is null order by det_Date";
 	private static final String detail_Enter = "select det_Date from Detail where emp_No=? and tra_No=? and det_CanDate is null order by det_Date";	                                            
 	private static final String updateDet_CanDate = "update Detail set det_CanDate=? where emp_No=? and tra_No=?";
-	private static final String SELECT_BY_TRA_NO = "select d.tra_No , tra_Name , dept_No , e.emp_No , f.fam_No , emp_Name , emp_sub , fam_Name , det_money , det_note ,det_noteMoney from Detail d join Employee e on d.emp_No=e.emp_No left join Family f on d.fam_No = f.fam_No left join Travel t on t.tra_No=d.tra_No where d.tra_No=? and det_CanDate is null" ;
+	private static final String SELECT_BY_TRA_NO = "select d.tra_No , tra_Name ,t.tra_No, dept_No , e.emp_No , f.fam_No , emp_Name , emp_sub , fam_Name , det_money ,emp_subTra, det_note ,det_noteMoney from Detail d join Employee e on d.emp_No=e.emp_No left join Family f on d.fam_No = f.fam_No left join Travel t on t.tra_No=d.tra_No where d.tra_No=? and det_CanDate is null" ;
 	private static final String UPDATE_DETAIL_FOR_EMP_NO = "update Detail set det_note=? , det_noteMoney=? where emp_No=? and fam_No is null and tra_No=?";
 	private static final String UPDATE_DETAIL_FOR_FAM_NO = "update Detail set det_note=? , det_noteMoney=? where fam_No=? and tra_No=?";
 	private static final String selectFam_No ="select fam_No  from Detail where fam_No=? and tra_No=? and det_CanDate is null ";
@@ -332,6 +332,7 @@ public class DetailDAO implements IDetailDAO {
 			while (rset.next()) {
 				TotalAmountFormBean bean = new TotalAmountFormBean();
 				bean.setTra_Name(rset.getString("tra_Name"));
+				bean.setTra_No(rset.getString("tra_No"));
 				bean.setDept_No(rset.getString("dept_No"));
 				bean.setEmp_No(rset.getInt("emp_No"));
 				bean.setFam_No(rset.getInt("fam_No"));
@@ -341,6 +342,7 @@ public class DetailDAO implements IDetailDAO {
 				bean.setDet_note(rset.getString("det_note"));
 				bean.setDet_noteMoney(rset.getFloat("det_noteMoney"));
 				bean.setEmp_sub(rset.getBoolean("emp_sub"));
+				bean.setEmp_subTra(rset.getString("emp_subTra"));
 				result.add(bean);
 				
 			}

@@ -56,7 +56,7 @@ tr, td {
 			<c:forEach var="row" items="${select}">
 				<tr>
 					<td><input type="button" class="remove" value="－" /></td>
-					<td><input name="day" type="text" value="${row.fine_Dates}" autocomplete="off" readonly /></td>
+					<td><input name="day" type="text" value="${row.fine_Dates}" autocomplete="off" /></td>
 					<td><input name="percent" type="text" value="${row.fine_Per}" autocomplete="off" /></td>
 				</tr>
 			</c:forEach>

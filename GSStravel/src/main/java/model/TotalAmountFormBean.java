@@ -8,6 +8,7 @@ public class TotalAmountFormBean {
 	private int emp_No;
 	private int fam_No;
 	private String tra_Name;
+	private String tra_No;
 	private Date det_Date;
 	private Date det_CanDate;
 	private float det_money;
@@ -17,6 +18,9 @@ public class TotalAmountFormBean {
 	private float det_noteMoney;
 	private boolean emp_sub;
 	private float years_money;
+	private boolean fam_sub;
+	private String emp_subTra;
+	
 	public String getDept_No() {
 		return dept_No;
 	}
@@ -100,5 +104,23 @@ public class TotalAmountFormBean {
 	}
 	public void setYears_money(float years_money) {
 		this.years_money = years_money;
+	}
+	public boolean getFam_sub() {
+		return fam_sub;
+	}
+	public void setFam_sub(boolean fam_sub) {
+		this.fam_sub = fam_sub;
+	}
+	public String getEmp_subTra() {
+		return emp_subTra;
+	}
+	public void setEmp_subTra(String emp_subTra) {
+		this.emp_subTra = emp_subTra;
+	}
+	public String getTra_No() {
+		return tra_No;
+	}
+	public void setTra_No(String tra_No) {
+		this.tra_No = tra_No;
 	}
 }
