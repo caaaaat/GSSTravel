@@ -61,16 +61,16 @@ td {
 				<tr>
 					<td><input type="text" name="dept_No" value="${list.dept_No}" readonly></td>
 					<td><c:if test="${list.fam_No==0}">
-							<input type="text" name="emp_No" class="emp emp_fam" value="${list.emp_No}" readonly>
+							<input type="text" name="emp_No" class="emp" value="${list.emp_No}" readonly>
 							<input type="hidden" name="empfam" value="${list.emp_No}">
 						</c:if><c:if test="${list.fam_No!=0}">
-							<input type="text" name="empfam" class="fam emp_fam" value="${list.emp_No}/${list.fam_No}" readonly>
+							<input type="text" name="empfam" class="fam" value="${list.emp_No}/${list.fam_No}" readonly>
 						</c:if>
 					</td>
 					<td><c:if test="${list.fam_Name==NULL}"><input type="text" value="${list.emp_Name}" readonly></c:if>
 						<c:if test="${list.fam_Name!=NULL}"><input type="text" value="${list.fam_Name}/${list.emp_Name}" readonly></c:if></td>
 					<c:if test="${list.fam_Name==NULL}">
-						<td><input type="text" class="years_money years" value="${list.years_money}" readonly ></td>
+						<td><input type="text" class="years_money" value="${list.years_money}" readonly ></td>
 						<td>
 							<input type="text" class="person_money" value="" readonly >
 							<input type="hidden" class="person" value="${list.emp_No}">
@@ -117,8 +117,6 @@ td {
  	var $TAmoney = $(".TA_money");				//應補團費
  	var $noteMoney= $(".det_noteMoney");		//減免費用
   	var $yearsmoney = $(".years_money");
-  	var $empfam = $(".emp_fam");
- 	var $years=$(".years");
  	var $personemp=$(".person");
  	var $personmoney = $(".person_money");		//會員個人可補助金額	
 	var a=0;
