@@ -31,4 +31,7 @@
 <input type="submit" name="prodaction" value="回前頁">
 </form>
 </body>
+<script type="text/javascript">
+
+</script>
 </html>

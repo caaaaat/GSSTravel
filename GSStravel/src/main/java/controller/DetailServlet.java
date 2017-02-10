@@ -11,12 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.DetailBean;
 import model.DetailService;
+import model.ItemService;
+import model.ItemVO;
 
 @WebServlet(urlPatterns = { ("/detail") })
 public class DetailServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	private DetailService detailService = new DetailService();
+	private ItemService itemService = new ItemService();
 	String test;
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -28,12 +31,17 @@ public class DetailServlet extends HttpServlet {
 		String can_detNo = req.getParameter("can_detNo");
 		
 		DetailBean bean = new DetailBean();
-
+		
+		ItemVO itemVO=new ItemVO();
 		if ("insert".equals(prodaction)) {
-			req.setAttribute("tra_no", tra_no);
+			
 			req.getRequestDispatcher("/Detail_Insert.jsp").forward(req, resp);
 			return;
 		}
+		
+		
+		
+		
 		// 點選取消按鈕，更新取消日期
 		if ("送出".equals(prodaction)&&can_detNo != null) {
 			String det_canNote = req.getParameter("det_CanNote");
