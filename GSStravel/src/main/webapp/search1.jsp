@@ -100,7 +100,13 @@
 
 			}
 	}
+	
+	var errMsg = '<%= session.getAttribute("nopeople")%>';
+	if(errMsg != 'null' && errMsg){	
+		alert(errMsg);
+	}
 </script>
+
 </head>
 
 <body>
@@ -147,10 +153,5 @@
 	</table>
 </body>
 <script type="text/javascript" src="/GSStravel/js/selectBar.js"></script>
-<script>
-//console.log(${nopeople});
-if('${nopeople}'=='無人報名'){
-	alert('${nopeople}');	
-}
-</script>
+
 </html>
