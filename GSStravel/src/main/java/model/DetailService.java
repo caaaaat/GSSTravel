@@ -209,7 +209,7 @@ public class DetailService {
 	public List<DetailBean> update(DetailBean bean) {
 		List<DetailBean> result = null;
 		if(bean!=null) {
-			result = detailDAO.update(bean.getDet_No(), bean.getTra_NO());
+			result = detailDAO.update(bean.getDet_No(), bean.getDet_canNote());
 		}
 		return result;
 	}

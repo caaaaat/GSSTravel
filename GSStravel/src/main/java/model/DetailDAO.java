@@ -149,7 +149,7 @@ public class DetailDAO implements IDetailDAO {
 			e.printStackTrace();
 		}
 	}
-	private static final String SELECT = "SELECT det_No, Detail.emp_No, ISNULL(fam_Rel,'員工') as Rel, ISNULL(fam_Name, emp_Name) as Name, ISNULL(fam_Sex,emp_Sex) as Sex, ISNULL(fam_ID, emp_ID) as ID,ISNULL(fam_Bdate,emp_Bdate) as Bdate, ISNULL(fam_eat,emp_Eat) as Eat, ISNULL(fam_Car,1) as Car, fam_Bady, fam_kid, fam_Dis, fam_Mom,ISNULL(fam_Ben,emp_Ben) as Ben, ISNULL(fam_BenRel,emp_BenRel) as BenRel, ISNULL(fam_Emg,emp_Emg) as Emg, ISNULL(fam_EmgPhone,emp_EmgPhone) as EmgPhone, det_Date, det_CanDate as CanDate, ISNULL(fam_Note,emp_Note) as Note FROM Detail full outer join family on  Detail.fam_No = family.fam_No full outer join Employee on Detail.emp_No = Employee.emp_No WHERE Tra_No = ? order by CanDate";
+	private static final String SELECT = "SELECT det_No, Detail.emp_No, ISNULL(fam_Rel,'員工') as Rel, ISNULL(fam_Name, emp_Name) as Name, ISNULL(fam_Sex,emp_Sex) as Sex, ISNULL(fam_ID, emp_ID) as ID,ISNULL(fam_Bdate,emp_Bdate) as Bdate, ISNULL(fam_eat,emp_Eat) as Eat, ISNULL(fam_Car,1) as Car, fam_Bady, fam_kid, fam_Dis, fam_Mom,ISNULL(fam_Ben,emp_Ben) as Ben, ISNULL(fam_BenRel,emp_BenRel) as BenRel, ISNULL(fam_Emg,emp_Emg) as Emg, ISNULL(fam_EmgPhone,emp_EmgPhone) as EmgPhone, det_Date, det_CanDate as CanDate, ISNULL(fam_Note,emp_Note) as Note, det_canNote FROM Detail full outer join family on  Detail.fam_No = family.fam_No full outer join Employee on Detail.emp_No = Employee.emp_No WHERE Tra_No = ? order by CanDate";
 	@Override
 	public List<DetailBean> select(String Tra_No) {
 		List<DetailBean> result = new ArrayList<>();
@@ -181,7 +181,7 @@ public class DetailDAO implements IDetailDAO {
 				bean.setDet_Date(rset.getString("det_Date"));
 				bean.setDet_CanDate(rset.getString("CanDate"));
 				bean.setNote(rset.getString("Note"));
-				
+				bean.setDet_canNote(rset.getString("det_canNote"));
 				result.add(bean);
 			}
 		} catch (SQLException e) {
@@ -272,20 +272,17 @@ public class DetailDAO implements IDetailDAO {
 		return result;
 	}
 	
-	private static final String UPDATE_CanDate = "update Detail set det_CanDate=GETDATE() where det_No=? and Tra_No=?";
+	private static final String UPDATE_CanDate = "update Detail set det_CanDate=GETDATE(), det_canNote=? where det_No=?";
 	@Override
-	public List<DetailBean>update(int det_No, String Tra_No) {
+	public List<DetailBean>update(int det_No, String det_canNote) {
 		List<DetailBean> result = null;
 		try(
 			Connection conn = ds.getConnection();
 			PreparedStatement stmt = conn.prepareStatement(UPDATE_CanDate);) 
 		{
-			stmt.setInt(1, det_No);
-			stmt.setString(2, Tra_No);
-			int i = stmt.executeUpdate();
-			if(i==1) {
-				result = this.select(Tra_No);
-			}
+			stmt.setString(1, det_canNote);
+			stmt.setInt(2, det_No);
+			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

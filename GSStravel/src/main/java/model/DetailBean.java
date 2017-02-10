@@ -27,8 +27,15 @@ public class DetailBean {
 	private String det_Date;
 	private String det_CanDate;
 	private String Note;
-    
-
+	private String det_canNote;
+	
+	
+	public String getDet_canNote() {
+		return det_canNote;
+	}
+	public void setDet_canNote(String det_canNote) {
+		this.det_canNote = det_canNote;
+	}
 	public int getDet_No() {
 		return det_No;
 	}
