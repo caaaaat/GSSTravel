@@ -27,20 +27,21 @@ public class TravelDetail extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		
+		HttpSession session = request.getSession();
+		session.removeAttribute("nopeople");
+		
 		String tra_No = request.getParameter("tra_no");
-//		List<Float> years_money = new ArrayList<>();
 		List<TotalAmountFormBean> list = detailService.select(tra_No);
 		if (list.size() != 0) {
 			String tra_Name = list.get(0).getTra_Name();
 			request.setAttribute("list", list);
-			//request.setAttribute("years_money", years_money);
 			request.setAttribute("tra_Name", tra_Name);
 			request.setAttribute("tra_No", tra_No);
 			request.getRequestDispatcher("Detail_Money.jsp").forward(request, response);
-		} else {
-			request.setAttribute("nopeople", "無人報名");
-			request.getRequestDispatcher("/search1.jsp").forward(request, response);
-
+		} else{
+			session.setAttribute("nopeople", "無人報名");
+			response.sendRedirect("/GSStravel/search1.jsp");
 		}
 	}
 
