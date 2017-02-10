@@ -174,7 +174,7 @@ $(function(){
 });
 
 function open_Can(obj) {
-    var CanUrl = '/GSStravel/Detail_Cancel.jsp?det_No=' + obj.value;
+    var CanUrl = '/GSStravel/Detail_Cancel.jsp?can_detNo=' + obj.value;
     window.open(CanUrl, 'Detail_Cancel', 'width=300,height=250,top=100,left=400');
 }
 </script>
