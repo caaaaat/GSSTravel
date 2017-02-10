@@ -48,6 +48,7 @@ private FamilyService familyservice= new FamilyService();
 		String[] fambdatedate= req.getParameterValues("fambdate");
 		String[] famphone=req.getParameterValues("famphone");
 		String[] fameat = req.getParameterValues("fameat");
+//		看要不要改成占車位 跟不占車位兩種   name取不同的   看要不要改成下拉選單  vo會改 下拉選單記得看羅技跟益儒 的寫法(記得相同UI) 
 		String[] famcarboolean = req.getParameterValues("famcar");
 		String[] fambabyboolean = req.getParameterValues("fambaby");
 		String[] famkidboolean = req.getParameterValues("famkid");
@@ -69,6 +70,7 @@ private FamilyService familyservice= new FamilyService();
 		req.setAttribute("error", errormsg);
 		
 		
+		
 		//員工 轉值
 		if(empphone==null|| empphone.length()==0){
 			errormsg.put("empphone", "員工電話不能為空值");}
@@ -88,75 +90,95 @@ private FamilyService familyservice= new FamilyService();
 		List<Boolean> famkid= new ArrayList<Boolean>();
 		List<Boolean> famdis= new ArrayList<Boolean>();
 		List<Boolean> fammom= new ArrayList<Boolean>();
-
-//		List<Integer> famcar =  new ArrayList<Integer>();
-//		List<Integer> fambaby = new ArrayList<Integer>();
-//		List<Integer> famkid = new ArrayList<Integer>();
-//		List<Integer> famdis = new ArrayList<Integer>();
-//		List<Integer> fammom = new ArrayList<Integer>();
-		
-//		System.out.println(famcarboolean[0]);
+	
+		System.out.println(famcarboolean[0]);
+//		System.out.println(famcarboolean.length);
+//		System.out.println(famcarboolean1);
 //		System.out.println(famcarboolean[1]);//超出陣列範圍  代表 第0筆 有值而已 其他都沒有[]裡面都沒有其他值 只有 [on]而已
 //		System.out.println(famcarboolean[2]);
 		try{
-//			if(famcarboolean!=null){
-					for(String car: famcarboolean){
-						if(car.equals("on")){//String[on]
+			//on 不回傳 改成true false 
+			//變質   傳值進去familyvo
+			if(famcarboolean!=null){
+//			System.out.println(famcarboolean.length);
+				for(int i=0;i<=famname.length;i++){				
+						if(famcarboolean[i].equals("on")){
 							famcar.add(true);
+							for(boolean x :famcar){
+//								System.out.println(x);
+							}							
 						}else{
-							car="off";
 							famcar.add(false);
 						}
-					}
 					
-//				}else{
-//					famcar.add(false);
+				}
+			}
+//			else{
+////				System.out.println("裡面沒有值");
+//				for(int i=0;i<=famname.length;i++){
+//					famcar.add(i, false);
+//					System.out.println(famcar.size());
 //				}
-			if(fambabyboolean!=null){
-				for(String baby: fambabyboolean){
-				
-					if(baby=="on"){
-						fambaby.add(true);
-					}else{
-						fambaby.add(false);
-						}
-					}
-				}else{
-					fambaby.add(false);
-			}
-			if(famkidboolean!=null){
-			for(String kid: famkidboolean){
-					if(kid=="on"){
-						famkid.add(true);
-					}else{
-						famkid.add(false);
-					}
-				}
-			}else{
-				famkid.add(false);
-			}
-			if(famdisboolean!=null){
-			for(String dis: famdisboolean){
-					if(dis=="on"){
-						famdis.add(true);
-					}else{
-						famdis.add(false);
-					}
-				}
-				}else{
-					famdis.add(false);
-			}
-			if(fammomboolean!=null){
-			for(String mom: fammomboolean){
-					if(mom=="on"){
-						fammom.add(true);
-					}else{
-						fammom.add(false);
-					}
-				}
-			}else{
-				fammom.add(false);
-			}
+//			}
+			
+			
+////			if(famcarboolean!=null){
+//					for(String car: famcarboolean){
+//						if(car.equals("on")){//String[on]
+//							famcar.add(true);
+//						}
+//						if(car.length()-car.equals("on").length())
+//					}
+//					System.out.println(famcarboolean[0]);
+//					System.out.println(famcarboolean[1]);
+////				}else{
+////					famcar.add(false);
+////				}
+//			if(fambabyboolean!=null){
+//				for(String baby: fambabyboolean){
+//				
+//					if(baby=="on"){
+//						fambaby.add(true);
+//					}else{
+//						fambaby.add(false);
+//						}
+//					}
+//				}else{
+//					fambaby.add(false);
+//			}
+//			if(famkidboolean!=null){
+//			for(String kid: famkidboolean){
+//					if(kid=="on"){
+//						famkid.add(true);
+//					}else{
+//						famkid.add(false);
+//					}
+//				}
+//			}else{
+//				famkid.add(false);
+//			}
+//			if(famdisboolean!=null){
+//			for(String dis: famdisboolean){
+//					if(dis=="on"){
+//						famdis.add(true);
+//					}else{
+//						famdis.add(false);
+//					}
+//				}
+//				}else{
+//					famdis.add(false);
+//			}
+//			if(fammomboolean!=null){
+//			for(String mom: fammomboolean){
+//					if(mom=="on"){
+//						fammom.add(true);
+//					}else{
+//						fammom.add(false);
+//					}
+//				}
+//			}else{
+//				fammom.add(false);
+//			}
 
 		}catch(NumberFormatException e){
 			errormsg.put("boolean","Boolean 格式轉換錯誤");
@@ -166,7 +188,6 @@ private FamilyService familyservice= new FamilyService();
 
 		List<Date> fambdate = new ArrayList<Date>();
 		SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
-//		System.out.println(fambdatedate.length);
 				for(String bdate:fambdatedate){					
 					try {
 						fambdate.add(sdf.parse(bdate));
@@ -196,12 +217,6 @@ private FamilyService familyservice= new FamilyService();
 			errormsg.put("famemgphpone", "親屬緊急聯絡人電話不能為空值");}
 		if(famemgrel==null || famemgrel.length==0){
 			errormsg.put("famemgrel", "親屬緊急聯絡人關係不能為空值");}
-		
-		
-			
-		
-		
-		  	
 		
 			if(errormsg!=null && !errormsg.isEmpty()){
 				System.out.println("親屬員工檢查錯誤");
@@ -239,32 +254,16 @@ private FamilyService familyservice= new FamilyService();
 //		 System.out.println(idlength);
 		 
 		 for(int i=0;i<idlength;i++){
-			 System.out.println(i); //帶i=0之後就帶不下去了 找index size錯誤
+//			 System.out.println(i); //帶i=0之後就帶不下去了 找index size錯誤
 		 FamilyVO familyvo = new FamilyVO();
 			familyvo.setFam_Rel(famrel[i]);
 			
 			familyvo.setFam_Name(famname[i]);
-//			System.out.println(famname[0]);
-//			System.out.println(famname[1]);
-//			System.out.println(famname[2]);
-
 			familyvo.setFam_Sex(famsex[i]);
 			familyvo.setFam_Id(famid[i]);
-//			System.out.println(famid[0]);
-//			System.out.println(famid[1]);
-//			System.out.println(famid[2]);
-
-			
 			familyvo.setFam_Bdate(new java.sql.Date(fambdate.get(i).getTime()));
 			familyvo.setFam_Phone(famphone[i]);
 			familyvo.setFam_Eat(fameat[i]);
-		
-//			if(famcar.get(i).booleanValue()==false){
-//				if(famcar.get(i).false){
-//				System.out.println("xxxx");
-//			}else{
-//				System.out.println("yyyy");
-//			}
 			
 			if(famcar!=null){
 				for(String car:famcarboolean){
@@ -280,9 +279,9 @@ private FamilyService familyservice= new FamilyService();
 			}
 			
 
-			System.out.println(famcar.get(0).toString()+"xxxxxx");
-			System.out.println(famcar.get(i).toString()+"yyyyyy");
-			familyvo.setFam_Car(famcar.get(i));
+//			System.out.println(famcar.get(0).toString()+"xxxxxx");
+//			System.out.println(famcar.get(i).toString()+"yyyyyy");
+//			familyvo.setFam_Car(famcar.get(i));
 			
 			if(fambaby!=null){
 				if(fambaby.get(i).equals(true)){

@@ -16,12 +16,21 @@ h2 {
 	color: blue;
 }
 </style>
+<<<<<<< HEAD
 <script src="/GSStravel/js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript" src="js/LogOut.js"></script>
 <script type="text/javascript" src="js/selectBar.js"></script>
+=======
+
+<script src="/gss/js/jquery-3.1.1.min.js"></script>
+<!-- <script type="text/javascript" src="js/LogOut.js"></script> -->
+<!-- <script type="text/javascript" src="js/selectBar.js"></script> -->
+
+>>>>>>> branch 'master' of https://github.com/freelife1018/GSSTravel.git
 </head>
 <body>
-	<div id='bar'></div><br>
+<!-- 	<div id='bar'></div><br> -->
+<%@include file="../SelectBar.jsp" %>
 	<form action="<c:url value="/FineServlet" />" method="GET">
 		<input type="submit" name="FineSetting" value="罰則設定" />
 		<input type="submit" name="FineShow" value="查看罰則" /><br>

@@ -9,13 +9,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>報名明細</title>
 </head>
-
 <body>
-<div id='bar'></div>
+<%@include file="SelectBar.jsp" %>
 <h2>－報名明細－</h2>
 <form action=<c:url value="/detail"/> method="post">
 <p >活動代碼：${param.tra_no}</p>
-<input type="hidden" name="tra_no" value="${param.tra_no}">
+<input type="hidden" name="tra_no" id="tra_no" value="${param.tra_no}">
 	<table border="1" id="deailtable">
 		<tr>
 			<th></th>
@@ -34,19 +33,30 @@
 			<th>報名時間</th>
 			<th>取消日期</th>
 			<th>備註</th>
+			<th>取消原因</th>
 		</tr>
 		<tr>
 		<c:if test="${not empty select}">
 		<c:forEach var="row" items="${select}">
-		    <td><button name="cancel" type="submit" value="${row.det_No}">取消</button></td>
-		    <td><input type="text" name="emp_Num" value="${row.emp_No}"></td>
+			
+		    <td><c:if test="${empty row.det_CanDate}"><button name="cancel" id="cancel" type="button" value="${row.det_No}" onclick="open_Can(this)">取消</button></c:if></td>
+		    <td>${row.emp_No}</td>
 		     <td><input type="text" name="trel" value="${row.rel}" style="display:none">
-		     <select name="fam_Rel">
+		     <c:if test="${row.rel == '員工'}">
+		     ${row.rel}
+		      <select style="display:none" name="fam_Rel">
 					<option>請選擇</option>
-					<option>員工</option>
 			 		<option>眷屬</option>
 			        <option>親友</option>
-			     </select></td>
+			     </select>
+		     </c:if>
+		     <c:if test="${row.rel != '員工'}">
+		     <select name="fam_Rel">
+					<option>請選擇</option>
+			 		<option>眷屬</option>
+			        <option>親友</option>
+			     </select>
+			 </c:if></td>
 		     <td><input type="text" id="name" name="name" value="${row.name}"></td>
 		     <td><input type="text" name="tsex" value="${row.sex}" style="display:none">
 		     <select name="sex" >
@@ -101,7 +111,8 @@
 		     <td><input type="text" name="emg_Phone" value="${row.emgPhone}"></td>
 		     <td>${row.det_Date}</td>
 		     <td>${row.det_CanDate}</td>
-		      <td><input type="text" name="note" value="${row.note}"></td>
+		     <td><input type="text" name="note" value="${row.note}"></td>
+		     <td>${row.det_canNote}</td>
 		</tr>
 		</c:forEach>
 		</c:if>
@@ -112,10 +123,8 @@
 		<input type="button" name="prodaction" value="關閉">
 		<input type="button" value="匯出Excel">
 	
-	<br /><br /><br />
-	<input type="text" name="test" value="">
-	<input type="submit" id="btn_select" value="SELECT" name="prodaction">
 	</form>
+
 
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.common-material.min.css" />
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.material.min.css" />
@@ -141,12 +150,10 @@ $(function(){
 	 
 	//身分選取
 	 for(var i=0; i<document.getElementsByName("trel").length; i++){
-			if(document.getElementsByName("trel")[i].value =="員工"){
+			if(document.getElementsByName("trel")[i].value =="眷屬"){
 				document.getElementsByName("fam_Rel")[i].selectedIndex = 1; 
-			}else if(document.getElementsByName("trel")[i].value =="眷屬"){
-				document.getElementsByName("fam_Rel")[i].selectedIndex = 2; 
 			}else{
-				document.getElementsByName("fam_Rel")[i].selectedIndex = 3;
+				document.getElementsByName("fam_Rel")[i].selectedIndex = 2;
 			}
 		 }
 	 
@@ -160,11 +167,17 @@ $(function(){
 				document.getElementsByName("eat")[i].selectedIndex = 2;
 			}
 		 }
+	
+	
+	
 	 
 });
 
+function open_Can(obj) {
+    var CanUrl = '/GSStravel/Detail_Cancel.jsp?det_No=' + obj.value;
+    window.open(CanUrl, 'Detail_Cancel', 'width=300,height=250,top=100,left=400');
+}
 </script>
 </body>
-<script type="text/javascript" src="/GSStravel/js/selectBar.js"></script>
 </html>
 

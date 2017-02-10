@@ -58,7 +58,6 @@ public class SearchServlet extends HttpServlet {
 		}
 		if(start!=null && start!=""){
 			try {
-				System.out.println("start");
 				tv=ts.AfterOn(tv, simple.parse(start));
 			} catch (ParseException e) {
 
@@ -68,7 +67,6 @@ public class SearchServlet extends HttpServlet {
 		}
 		if(end!=null && end!=""){
 			try {
-				System.out.println("end");
 				tv=ts.BeforeOff(tv, simple.parse(end));
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block

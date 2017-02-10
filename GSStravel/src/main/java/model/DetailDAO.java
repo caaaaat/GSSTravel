@@ -38,7 +38,39 @@ public class DetailDAO implements IDetailDAO {
 	private static final String SELECT_BY_TRA_NO = "select d.tra_No , tra_Name ,t.tra_No, dept_No , e.emp_No , f.fam_No , emp_Name , emp_sub , fam_Name , det_money ,emp_subTra, det_note ,det_noteMoney from Detail d join Employee e on d.emp_No=e.emp_No left join Family f on d.fam_No = f.fam_No left join Travel t on t.tra_No=d.tra_No where d.tra_No=? and det_CanDate is null" ;
 	private static final String UPDATE_DETAIL_FOR_EMP_NO = "update Detail set det_note=? , det_noteMoney=? where emp_No=? and fam_No is null and tra_No=?";
 	private static final String UPDATE_DETAIL_FOR_FAM_NO = "update Detail set det_note=? , det_noteMoney=? where fam_No=? and tra_No=?";
+	private static final String selectFam_No ="select fam_No  from Detail where fam_No=? and tra_No=? and det_CanDate is null ";
+	private static final String selectFam_Rel ="select f.fam_Rel as fam_Rel from Detail d join Family f on d.fam_No=f.fam_No where d.det_CanDate is null and tra_No=? and d.emp_No=?";
 	
+	@Override
+	public List<String> selectFam_Rel(int emp_No,long tra_No) {
+		List<String> fam_Rels=new ArrayList<>();
+		try (Connection conn = ds.getConnection(); PreparedStatement stmt = conn.prepareStatement(selectFam_Rel);) {
+			stmt.setLong(1, tra_No);
+			stmt.setInt(2, emp_No);						
+			ResultSet rset = stmt.executeQuery();			
+			while (rset.next()) {	
+				fam_Rels.add(rset.getString("fam_Rel"));
+			}			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return fam_Rels;
+	}
+	@Override
+	public boolean selectFam_No(int fam_No,long tra_No) {
+		boolean bl=false;
+		try (Connection conn = ds.getConnection(); PreparedStatement stmt = conn.prepareStatement(selectFam_No);) {
+			stmt.setInt(1, fam_No);
+			stmt.setLong(2, tra_No);			
+			ResultSet rset = stmt.executeQuery();			
+			while (rset.next()) {	
+				bl=true;
+			}			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return bl;
+	}
 	@Override
 	public int detail_Enter(String emp_No, String tra_No) {
 		int a=0 ;
@@ -140,7 +172,7 @@ public class DetailDAO implements IDetailDAO {
 	@Override
 	public void updateDet_CanDate(String emp_No,String tra_No) {
 		try (Connection conn = ds.getConnection(); PreparedStatement stmt = conn.prepareStatement(updateDet_CanDate);) {
-			String date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());//現在系統時間
+			String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());//現在系統時間
 			stmt.setString(1, date);
 			stmt.setString(2, emp_No);
 			stmt.setString(3, tra_No);
@@ -149,7 +181,7 @@ public class DetailDAO implements IDetailDAO {
 			e.printStackTrace();
 		}
 	}
-	private static final String SELECT = "SELECT det_No, Detail.emp_No, ISNULL(fam_Rel,'員工') as Rel, ISNULL(fam_Name, emp_Name) as Name, ISNULL(fam_Sex,emp_Sex) as Sex, ISNULL(fam_ID, emp_ID) as ID,ISNULL(fam_Bdate,emp_Bdate) as Bdate, ISNULL(fam_eat,emp_Eat) as Eat, ISNULL(fam_Car,1) as Car, fam_Bady, fam_kid, fam_Dis, fam_Mom,ISNULL(fam_Ben,emp_Ben) as Ben, ISNULL(fam_BenRel,emp_BenRel) as BenRel, ISNULL(fam_Emg,emp_Emg) as Emg, ISNULL(fam_EmgPhone,emp_EmgPhone) as EmgPhone, det_Date, det_CanDate as CanDate, ISNULL(fam_Note,emp_Note) as Note FROM Detail full outer join family on  Detail.fam_No = family.fam_No full outer join Employee on Detail.emp_No = Employee.emp_No WHERE Tra_No = ?";
+	private static final String SELECT = "SELECT det_No, Detail.emp_No, ISNULL(fam_Rel,'員工') as Rel, ISNULL(fam_Name, emp_Name) as Name, ISNULL(fam_Sex,emp_Sex) as Sex, ISNULL(fam_ID, emp_ID) as ID,ISNULL(fam_Bdate,emp_Bdate) as Bdate, ISNULL(fam_eat,emp_Eat) as Eat, ISNULL(fam_Car,1) as Car, fam_Bady, fam_kid, fam_Dis, fam_Mom,ISNULL(fam_Ben,emp_Ben) as Ben, ISNULL(fam_BenRel,emp_BenRel) as BenRel, ISNULL(fam_Emg,emp_Emg) as Emg, ISNULL(fam_EmgPhone,emp_EmgPhone) as EmgPhone, det_Date, det_CanDate as CanDate, ISNULL(fam_Note,emp_Note) as Note, det_canNote FROM Detail full outer join family on  Detail.fam_No = family.fam_No full outer join Employee on Detail.emp_No = Employee.emp_No WHERE Tra_No = ? order by CanDate";
 	@Override
 	public List<DetailBean> select(String Tra_No) {
 		List<DetailBean> result = new ArrayList<>();
@@ -181,7 +213,7 @@ public class DetailDAO implements IDetailDAO {
 				bean.setDet_Date(rset.getString("det_Date"));
 				bean.setDet_CanDate(rset.getString("CanDate"));
 				bean.setNote(rset.getString("Note"));
-				
+				bean.setDet_canNote(rset.getString("det_canNote"));
 				result.add(bean);
 			}
 		} catch (SQLException e) {
@@ -250,21 +282,39 @@ public class DetailDAO implements IDetailDAO {
 		return result;
 	}
 
-
-	private static final String UPDATE_CanDate = "update Detail set det_CanDate=GETDATE() where det_No=? and Tra_No=?";
+	private static final String INSERT_DetailEmp = "insert into Detail(emp_No,tra_No,det_Date,det_money) values(?,?,GETDATE(),?)"; 
 	@Override
-	public List<DetailBean>update(int det_No, String Tra_No) {
+	public DetailVO insert_emp(DetailVO bean) {
+		DetailVO result = null;
+		try(
+		Connection conn = ds.getConnection();
+		PreparedStatement stmt = conn.prepareStatement(INSERT_DetailEmp);) {
+			if(bean!=null) {
+				stmt.setInt(1, bean.getEmp_No());
+				stmt.setString(2, bean.getTra_No());
+				stmt.setFloat(3, bean.getDet_money());
+				int i = stmt.executeUpdate();
+				if(i==1) {
+					result = bean;
+				}
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	private static final String UPDATE_CanDate = "update Detail set det_CanDate=GETDATE(), det_canNote=? where det_No=?";
+	@Override
+	public List<DetailBean>update(int det_No, String det_canNote) {
 		List<DetailBean> result = null;
 		try(
 			Connection conn = ds.getConnection();
 			PreparedStatement stmt = conn.prepareStatement(UPDATE_CanDate);) 
 		{
-			stmt.setInt(1, det_No);
-			stmt.setString(2, Tra_No);
-			int i = stmt.executeUpdate();
-			if(i==1) {
-				result = this.select(Tra_No);
-			}
+			stmt.setString(1, det_canNote);
+			stmt.setInt(2, det_No);
+			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

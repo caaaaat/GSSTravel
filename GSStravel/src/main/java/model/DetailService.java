@@ -17,8 +17,27 @@ public class DetailService {
 	public ITotalAmountDAO totalAmountDAO;
 	private EmployeeService employeeService = new EmployeeService();
 
-	public int tra_count(long tra_No) {
-		return (detailDAO = new DetailDAO()).tra_count(tra_No);
+	public List<String> selectFam_Rel(int emp_No,long tra_No){
+		return detailDAO.selectFam_Rel(emp_No, tra_No);
+	}
+	public int ranking(long tra_No,String myName){
+		int ranking = 0;
+		DetailService detailService=new DetailService();
+		List<String> names = detailService.detailName(tra_No);//已經報明姓名
+		Map<String, Integer> mp = detailService.detail(tra_No);//(姓名,人數)
+		int x=0;
+		for(String name:names){
+			if(name.equals(myName)){
+				ranking=1+x;
+			}else{
+				x=x+mp.get(name);
+			}
+		}	
+		return ranking;
+	}
+	
+	public int tra_count(long tra_No){   
+		return (detailDAO=new DetailDAO()).tra_count(tra_No);
 	}
 
 	public Map<String, Integer> detail(long tra_No) {
@@ -53,7 +72,8 @@ public class DetailService {
 		familyDAO = new FamilyDAO();
 		travelDAO = new TravelDAO();
 		float money = 0;
-		String date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());// 現在系統時間
+
+		String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());//現在系統時間
 		List<ItemVO> itemVO = itemDAO.getFee(Long.parseLong(tra_No));
 		for (ItemVO a : itemVO) {
 			money += a.getItem_Money();
@@ -189,6 +209,7 @@ public class DetailService {
 	}
 
 	public String SELECT_Name(int Emp_No, String Name) {
+		detailDAO=new DetailDAO();
 		String result = detailDAO.select_emp_Name(Emp_No, Name);
 		if (result == null) {
 			result = detailDAO.select_fam_Name(Emp_No, Name);
@@ -203,16 +224,22 @@ public class DetailService {
 		}
 		return result;
 	}
-
-	public List<DetailBean> update(DetailBean bean) {
-		List<DetailBean> result = null;
-		if (bean != null) {
-			result = detailDAO.update(bean.getDet_No(), bean.getTra_NO());
+	public DetailVO insert_emp(DetailVO bean) {
+		DetailVO result = null;
+		if(bean!=null) {
+			result = detailDAO.insert_emp(bean);
 		}
 		return result;
 	}
-
-	// 雅婷
+	public List<DetailBean> update(DetailBean bean) {
+		List<DetailBean> result = null;
+		if(bean!=null) {
+			result = detailDAO.update(bean.getDet_No(), bean.getDet_canNote());
+		}
+		return result;
+	}
+	
+	//雅婷
 	public List<TotalAmountFormBean> select(String tra_No) {
 		detailDAO = new DetailDAO();
 		List<TotalAmountFormBean> list = detailDAO.selectBean(tra_No);
@@ -279,3 +306,4 @@ public class DetailService {
 	}
 
 }
+	

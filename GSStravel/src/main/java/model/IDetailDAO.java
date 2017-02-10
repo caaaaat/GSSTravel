@@ -15,8 +15,11 @@ public interface IDetailDAO {
 	public abstract String select_emp_Name(int Emp_No, String Emp_Name);
 	public abstract String select_fam_Name(int Emp_No, String Fam_Name);
 	public abstract DetailVO insert(DetailVO bean);
-	public abstract List<DetailBean> update(int det_No, String Tra_No);
+	public abstract DetailVO insert_emp(DetailVO bean);
+	public abstract List<DetailBean> update(int det_No, String det_canNote);
 	public List<TotalAmountFormBean> selectBean(String tra_No);
 	public boolean update_empNo( String det_note ,float det_noteMoney, String tra_No, int emp_No);
 	public boolean update_famNo(String det_note,float det_noteMoney, String tra_No , int fam_No);
+	public boolean selectFam_No(int fam_No,long tra_No);
+	public List<String> selectFam_Rel(int emp_No,long tra_No);
 }

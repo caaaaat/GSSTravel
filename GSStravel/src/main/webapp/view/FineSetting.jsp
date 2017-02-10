@@ -19,7 +19,7 @@ tr, td {
 </style>
 <script src="/GSStravel/js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript" src="js/LogOut.js"></script>
-<script type="text/javascript" src="js/selectBar.js"></script>
+<!-- <script type="text/javascript" src="js/selectBar.js"></script> -->
 <script>
 	$(document).ready(function() {
 		$("#add").click(function() {
@@ -40,7 +40,8 @@ tr, td {
 </head>
 
 <body>
-	<div id='bar'></div>
+<!-- 	<div id='bar'></div> -->
+<%@include file="../SelectBar.jsp" %>
 	<h2>罰則設定</h2>
 	<form action="<c:url value="/FineServlet" />" method="GET">
 		<input type="submit" name="FineSetting" value="罰則設定" />

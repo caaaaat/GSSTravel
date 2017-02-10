@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE>
-	<script src="js/jquery-3.1.1.min.js"></script>
+	
 	
 <html>
 <head>
@@ -11,11 +11,17 @@
 </head>
 <body>
 
+	<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.material.mobile.min.css" />
+	<script src="js/jquery-3.1.1.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2017.1.118/js/kendo.all.min.js"></script>
 
+<!-- <div id="bar"></div>記得改 -->
 
-<div id="bar"></div><!-- 記得改 -->
-
+<%@include file="SelectBar.jsp" %>
 <form  action=<c:url value="/Servlet"/>  method="post">
+
 <table>
 <span>員工編號</span>${empno}<br>
 <span>姓名</span>${empname}<br>
@@ -47,7 +53,7 @@
 </div>
 
 
-<table id=familytable>
+<table id="familytable">
 <tr >
 	<th></th>
 	<th>*眷屬/親友</th>
@@ -57,10 +63,7 @@
 	<th>*生日</th>
 	<th>*手機</th>
 	<th>用餐/車位</th>
-	<th>幼童(0~3歲)</th>
-	<th>兒童(4~11歲)</th>
-	<th>持身心障礙手冊</th>
-	<th>孕婦</th>
+	<th>特殊身份</th>
 	<th>*保險受益人</th>
 	<th>*保險受益人關係</th>
 	<th>*緊急聯絡人</th>
@@ -98,55 +101,60 @@
 		</select></td>
 		
 		<td><input type="text" name ="famid" id="famid" value="${start.fam_Id}"><div id="famiderror">${error.famid}</div></td><!-- getfamid()會抓到value值 -->
-		<td><input type="text" id="fambdate" name="fambdate" value="${start.fam_Bdate}"><div id="fambdateerror">${error.fambdate}${error.fambdatedate}</div></td> 
+		<td><input type="date" id="fambdate" name="fambdate" value="${start.fam_Bdate}" /><div id="fambdateerror">${error.fambdate}${error.fambdatedate}</div></td>
 		<td><input type="text" name ="famphone" id="famphone"  value="${start.fam_Phone}"><div id=famphoneerror>${error.famphone}</div></td>
 		<td><select name ="fameat" >
 			<c:if test="${start.fam_Eat=='葷'}">
-				<option value="葷" selected>葷</option>
-				<option value="素">素</option>
+				<option value="葷" selected>葷食</option>
+				<option value="素">素食</option>
 			</c:if>
 			<c:if test="${start.fam_Eat=='素'}">
 				<option value="葷" >葷</option>
 				<option value="素" selected>素</option>
 			</c:if>
 			</select>
-			
-			<c:if test="${start.fam_Car=='true'}">
-			<input type="checkbox" id="famcar" name="famcar" value="1" checked>不占車位
-			</c:if>
-			<c:if test="${start.fam_Car=='false'}">
-			<input type="checkbox" id="famcar" name="famcar" value="1" >不占車位
-			</c:if>
+
+
+ 			<select  name ="famcar" id='famcar'  style="width: 100px;">
+	 			<c:if test="${start.fam_Car=='true'}">
+					<option value="1" selected>有占車位</option>
+					<option value="0" >不占車位</option>
+				</c:if>
+				<c:if test="${start.fam_Car=='false'}">
+					<option value="1" >有占車位</option>
+					<option value="0" selected>不占車位</option>
+				</c:if>
+ 			</select>
 			</td>
-			
-		<c:if test="${start.fam_Bady=='true'}">	
-		<td><input type="checkbox" id ="fambaby" name= "fambaby" checked>是</td>
-		</c:if>
-		<c:if test="${start.fam_Bady=='false'}">	
-		<td><input type="checkbox" id ="fambaby" name= "fambaby" >是</td>
-		</c:if>
 		
-		<c:if test="${start.fam_kid=='true'}">
-		<td><input type="checkbox" id ="famkid" name= "famkid" checked>是</td>
-		</c:if>
-		<c:if test="${start.fam_kid=='false'}">
-		<td><input type="checkbox" id ="famkid" name= "famkid" >是</td>
-		</c:if>
+		<td><select class="multiselect" name ="famspa"  multiple="multiple" data-placeholder="請選擇" style="width: 200px;">
 		
-		<c:if test="${start.fam_Dis=='true'}">
-		<td><input type="checkbox" id ="famdis" name= "famdis" checked>是</td>
-		</c:if>
-		<c:if test="${start.fam_Dis=='false'}">
-		<td><input type="checkbox" id ="famdis" name= "famdis" >是</td>
-		</c:if>
-		
-		<c:if test="${start.fam_Mom=='true'}">
-		<td><input type="checkbox" id ="fammom" name= "fammom" checked>是</td>
-		</c:if>
-		<c:if test="${start.fam_Mom=='false'}">
-		<td><input type="checkbox" id ="fammom" name= "fammom" >是</td>
-		</c:if>
-		
+<%-- 		     <c:if test="${start.fam_Bady=='false'}"> --%>
+		     <option>幼童(0~3歲)</option>
+<%-- 			 </c:if> --%>
+<%-- 			 <c:if test="${start.fam_Bady}"> --%>
+<!-- 			 <option Selected>幼童(0~3歲)</option> -->
+<%-- 			 </c:if> --%>
+<%-- 			 <c:if test="${start.fam_kid=='false'}"> --%>
+		     <option>兒童(4~11歲)</option>
+<%-- 			 </c:if> --%>
+<%-- 			 <c:if test="${start.fam_kid}"> --%>
+<!-- 			 <option Selected>兒童(4~11歲)</option> -->
+<%-- 			 </c:if> --%>
+<%-- 		      <c:if test="${start.fam_Dis=='false'}"> --%>
+		     <option>持身心障礙手冊</option>
+<%-- 		     </c:if> --%>
+<%-- 		      <c:if test="${start.fam_Dis}"> --%>
+<!-- 		     <option Selected>持身心障礙手冊</option> -->
+<%-- 		     </c:if> --%>
+<%-- 		     <c:if test="${start.fam_Mom=='false'}"> --%>
+		     <option>孕婦(媽媽手冊)</option>
+<%-- 		      </c:if> --%>
+<%-- 		      <c:if test="${start.fam_Mom}"> --%>
+<!-- 		     <option Selected>孕婦(媽媽手冊)</option> -->
+<%-- 		      </c:if> --%>
+		     </select>
+		</td>
 		
 		<td><input type="text" name ="famben" id="famben" value="${start.fam_Ben}"><div id="fambenerror">${error.famben}</div></td>
 		<td><input type="text" name ="fambenrel" id="fambenrel" value="${start.fam_BenRel}" ><div id="fambenrelerror">${error.fambenrel}</div></td>
@@ -171,7 +179,7 @@
 
 	<table>
 	<!-- 空白欄位 -->
-	<tr id=repeat>
+	<tr name="repeat">
 		<td><input type="button" name ="delete" id="delete" value="刪除"></td>
 		<td>
 			<select name ="famrel" >		
@@ -185,18 +193,27 @@
 			<option value="男" >男<option>
 		</select></td>
 		<td><input type="text" name ="famid" id="famid" ><div id="famiderror">${error.famid}</div></td>
-		<td><input type="text" id="fambdate" name="fambdate" ><div id="fambdateerror">${error.fambdate}${error.fambdatedate}</div></td> 
-		<td><input type="text" name ="famphone" id="famphone"  >  <div id=famphoneerror>${error.famphone}</div><br></td> 
+		<td><input type="date" id="fambdate" name="fambdate"  /><div id="fambdateerror">${error.fambdate}${error.fambdatedate}</div></td>
+<%-- 		<td><input type="text" id="fambdate" name="fambdate" ><div id="fambdateerror">${error.fambdate}${error.fambdatedate}</div></td>  --%>
+		<td><input type="text" name ="famphone" id="famphone"  >  <div id=famphoneerror>${error.famphone}</div></td> 
 		<td><select name ="fameat">
 				<option value="葷" >葷</option>
 				<option value="素" >素</option>
 			</select>
-			<input type="checkbox" id="famcar" name="famcar" >不占車位</td>
-		<td><input type="checkbox" id ="fambaby" name= "fambaby" >是</td>
-		<td><input type="checkbox" id ="famkid" name= "famkid" >是</td>
-		<td><input type="checkbox" id ="famdis" name= "famdis" >是</td>
-		<td><input type="checkbox" id ="fammom" name= "fammom" >是</td>
-		
+			<select  name ="famcar" id='famcar'  style="width: 100px;">
+					<option value="1" >有占車位</option>
+					<option value="0" selected>不占車位</option>
+ 			</select>
+ 		</td>
+		<td>
+			<select  name ="famspa"  id="multiselect"  multiple="multiple" data-placeholder="請選擇" style="width: 200px;">
+		     <option>幼童(0~3歲)</option>
+		     <option>兒童(4~11歲)</option>
+		     <option>持身心障礙手冊</option>
+		     <option>孕婦(媽媽手冊)</option>
+		     </select>
+		</td>
+<!-- 		class="multiselect"   id="multiselect"-->
 		<td><input type="text" name ="famben" id="famben" ><div id="fambenerror">${error.famben}</div></td>
 		<td><input type="text" name ="fambenrel" id="fambenrel"><div id="fambenrelerror">${error.fambenrel}</div></td>
 		<td><input type="text" name ="famemg" id="famemg"><div id="famemgerror">${error.famemg}</div ></td>
@@ -209,18 +226,24 @@
 
 <script>
 $(function(){
-	$("#repeat").hide();
+	$(".multiselect").kendoMultiSelect({autoClose: false});
+	$("tr[name='repeat']").hide();
 	$("#familytable").attr("width","1200px").attr("border","3px").attr("border-collapse","collapse");
 	$("#insert").click(
 		function(){
-			$("#familytable").append('<tr id=repeat name=repeat>'+ $("#repeat").html()+'<tr>');
+			$("#familytable").append('<tr class=repeat >'+ $("tr[name='repeat']").html()+'</tr>');
+			$(".repeat:last #multiselect").kendoMultiSelect({autoClose: false});
+// 			$("select:last").kendoMultiSelect({autoClose: false});
+// 			$("#multiselect").removeAttr("id");
+// 			$("select:last").removeAttr("id");
 			}
+		
 	);	
-
 	$("#familytable").on("click","input[name*='delete']",function(){
 		$("input[name*='delete']").parents("tr:last").remove();
 		
 	});
+	
 	
 	
 	var empphone=/^09\d{2}-?\d{3}-?\d{3}$/;
@@ -278,16 +301,16 @@ $(function(){
 		}
 	});
 	
-	var empnote=/.*\s/;
-	$("#empnote").blur(function(){
-		if(empnote.test($(this).val())){
-			$(this).css("border-color","green")
-			$("#empnoteerror").text("");
-		}else{
-			$("#empnoteerror").text("需要為中文");
-			$(this).css("border-color","red");
-		}
-	});
+// 	var empnote=/^[\u4e00-\u9fa5]/;
+// 	$("#empnote").blur(function(){
+// 		if(empnote.test($(this).val())){
+// 			$(this).css("border-color","green")
+// 			$("#empnoteerror").text("");
+// 		}else{
+// 			$("#empnoteerror").text("需要為中文");
+// 			$(this).css("border-color","red");
+// 		}
+// 	});
 	
 	var famname=/^[^\s].*\s*[^\s]/;
 	var x= function (){
@@ -303,16 +326,73 @@ $(function(){
 // 	$("tr[name='repeat']>input[name*='famname]").on("blur",x);
 	
 	
-	var famid=/^[A-Za-z][1-2]\d{8}$/;
-	$("input[name*='famid']").on("blur",function(){
-		if(famid.test($(this).val())){
-			$(this).css("border-color","green")
-			$("#famiderror").text("");
-		}else{
-// 			$("#famiderror").text("需要為台灣身份證規格");
-			$(this).css("border-color","red");
+	
+	$("input[name*='famid']").on("blur",
+			function checkID(idStr){
+		  // 依照字母的編號排列，存入陣列備用。
+		  var letters = new Array('A', 'B', 'C', 'D', 
+		      'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 
+		      'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 
+		      'X', 'Y', 'W', 'Z', 'I', 'O');
+		  // 儲存各個乘數
+		  var multiply = new Array(1, 9, 8, 7, 6, 5, 
+		                           4, 3, 2, 1);
+		  var nums = new Array(2);
+		  var firstChar;
+		  var firstNum;
+		  var lastNum;
+		  var total = 0;
+		  // 撰寫「正規表達式」。第一個字為英文字母，
+		  // 第二個字為1或2，後面跟著8個數字，不分大小寫。
+		  var regExpID=/^[a-z](1|2)\d{8}$/i; 
+		  // 使用「正規表達式」檢驗格式
+		  if (idStr.test(regExpID)==-1) {
+		    // 基本格式錯誤
+			alert("請仔細填寫身份證號碼");
+		   return false;
+		  } else {
+			// 取出第一個字元和最後一個數字。
+			firstChar = idStr.charAt(0).toUpperCase();
+			lastNum = idStr.charAt(9);
+		  }
+		  // 找出第一個字母對應的數字，並轉換成兩位數數字。
+		  for (var i=0; i<26; i++) {
+			if (firstChar == letters[i]) {
+			  firstNum = i + 10;
+			  nums[0] = Math.floor(firstNum / 10);
+			  nums[1] = firstNum - (nums[0] * 10);
+			  break;
+			} 
+		  }
+		  // 執行加總計算
+		  for(var i=0; i<multiply.length; i++){
+		    if (i<2) {
+		      total += nums[i] * multiply[i];
+		    } else {
+		      total += parseInt(idStr.charAt(i-1)) * 
+		               multiply[i];
+		    }
+		  }
+		  // 和最後一個數字比對
+		  if ((10 - (total % 10))!= lastNum) {
+			alert("身份證號碼寫錯了！");
+			return false;
+		  } 
+		  return true;
 		}
-	});
+	    );
+	
+	
+
+
+// 		if(famid.test($(this).val())){
+// 			$(this).css("border-color","green")
+// // 			$("#famiderror").text("");
+// 		}else{
+// // 			$("#famiderror").text("需要為台灣身份證規格");
+// 			$(this).css("border-color","red");
+// 		}
+
 	
 	var fambdate=/^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29)$/;
 	$("input[name*='fambdate']").on("blur",function(){
@@ -391,16 +471,16 @@ $(function(){
 		}
 	});
 	
-	var famnote=/.*\s/;
-	$("input[name*='famnote']").on("blur",function(){
-		if(famnote.test($(this).val())){
-			$(this).css("border-color","green")
-			$("#famnoteerror").text("");
-		}else{
-// 			$("#famnoteerror").text("需要為中文");
-			$(this).css("border-color","red");
-		}
-	});
+// 	var famnote=/.*\s/;
+// 	$("input[name*='famnote']").on("blur",function(){
+// 		if(famnote.test($(this).val())){
+// 			$(this).css("border-color","green")
+// 			$("#famnoteerror").text("");
+// 		}else{
+// // 			$("#famnoteerror").text("需要為中文");
+// 			$(this).css("border-color","red");
+// 		}
+// 	});
 	
 });
 
@@ -409,5 +489,4 @@ $(function(){
 
 
 </body>
-<script type="text/javascript" src="/GSStravel/js/selectBar.js"></script>
 </html>
