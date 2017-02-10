@@ -21,7 +21,14 @@ public class FamilyVO {
 	private boolean fam_kid;
 	private boolean fam_Dis;
 	private boolean fam_Mom;
+	private String checked;
 	
+	public String getChecked() {
+		return checked;
+	}
+	public void setChecked(String checked) {
+		this.checked = checked;
+	}
 	public int getEmp_No() {
 		return emp_No;
 	}

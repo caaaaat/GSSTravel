@@ -38,7 +38,39 @@ public class DetailDAO implements IDetailDAO {
 	private static final String SELECT_BY_TRA_NO = "select d.tra_No , tra_Name , dept_No , e.emp_No , f.fam_No , emp_Name , emp_sub , fam_Name , det_money , det_note ,det_noteMoney from Detail d join Employee e on d.emp_No=e.emp_No left join Family f on d.fam_No = f.fam_No left join Travel t on t.tra_No=d.tra_No where d.tra_No=? and det_CanDate is null" ;
 	private static final String UPDATE_DETAIL_FOR_EMP_NO = "update Detail set det_note=? , det_noteMoney=? where emp_No=? and fam_No is null and tra_No=?";
 	private static final String UPDATE_DETAIL_FOR_FAM_NO = "update Detail set det_note=? , det_noteMoney=? where fam_No=? and tra_No=?";
+	private static final String selectFam_No ="select fam_No  from Detail where fam_No=? and tra_No=? and det_CanDate is null ";
+	private static final String selectFam_Rel ="select f.fam_Rel as fam_Rel from Detail d join Family f on d.fam_No=f.fam_No where d.det_CanDate is null and tra_No=? and d.emp_No=?";
 	
+	@Override
+	public List<String> selectFam_Rel(int emp_No,long tra_No) {
+		List<String> fam_Rels=new ArrayList<>();
+		try (Connection conn = ds.getConnection(); PreparedStatement stmt = conn.prepareStatement(selectFam_Rel);) {
+			stmt.setLong(1, tra_No);
+			stmt.setInt(2, emp_No);						
+			ResultSet rset = stmt.executeQuery();			
+			while (rset.next()) {	
+				fam_Rels.add(rset.getString("fam_Rel"));
+			}			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return fam_Rels;
+	}
+	@Override
+	public boolean selectFam_No(int fam_No,long tra_No) {
+		boolean bl=false;
+		try (Connection conn = ds.getConnection(); PreparedStatement stmt = conn.prepareStatement(selectFam_No);) {
+			stmt.setInt(1, fam_No);
+			stmt.setLong(2, tra_No);			
+			ResultSet rset = stmt.executeQuery();			
+			while (rset.next()) {	
+				bl=true;
+			}			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return bl;
+	}
 	@Override
 	public int detail_Enter(String emp_No, String tra_No) {
 		int a=0 ;
@@ -140,7 +172,7 @@ public class DetailDAO implements IDetailDAO {
 	@Override
 	public void updateDet_CanDate(String emp_No,String tra_No) {
 		try (Connection conn = ds.getConnection(); PreparedStatement stmt = conn.prepareStatement(updateDet_CanDate);) {
-			String date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());//現在系統時間
+			String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());//現在系統時間
 			stmt.setString(1, date);
 			stmt.setString(2, emp_No);
 			stmt.setString(3, tra_No);

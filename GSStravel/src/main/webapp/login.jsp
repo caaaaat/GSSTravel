@@ -31,6 +31,5 @@
 		<label>password:</label> <input type="text" name='pwd'  id='pwd' /><br>
 		<input id='sub' type="button" value='submit' onclick='check()' /> <input type='reset' />
 	</form>
-<%-- 	<h3>${error.act}</h3> --%>
 </body>
 </html>

@@ -43,7 +43,7 @@ public class DetailInsertServlet extends HttpServlet {
 			try {
 				emp_No = Integer.parseInt(temp_empNo);
 				temp_famNo = detailService.SELECT_Name(emp_No, name);
-				System.out.println(temp_famNo);
+//				System.out.println(temp_famNo);
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 				DetInError.put("InError", "員工編號必須輸入整數");

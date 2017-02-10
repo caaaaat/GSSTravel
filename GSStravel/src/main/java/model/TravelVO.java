@@ -14,7 +14,14 @@ public class TravelVO {
 	private String tra_Con;
 	private String tra_Atter;
 	private String tra_File;
+	private int sign_InTotal;
 	
+	public int getSign_InTotal() {
+		return sign_InTotal;
+	}
+	public void setSign_InTotal(int sign_InTotal) {
+		this.sign_InTotal = sign_InTotal;
+	}
 	public String getTra_NO() {
 		return tra_NO;
 	}
