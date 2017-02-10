@@ -120,7 +120,6 @@
 	<br />
 		<button type="submit" name="prodaction" value="insert">新增</button>
 		<input type="submit" name="prodaction" value="修改">
-		<input type="button" name="prodaction" value="關閉">
 		<input type="button" value="匯出Excel">
 	
 	</form>
@@ -174,9 +173,9 @@ $(function(){
 });
 
 function open_Can(obj) {
-    var CanUrl = '/GSStravel/Detail_Cancel.jsp?can_detNo=' + obj.value;
+    var CanUrl = '/GSStravel/Detail_Cancel.jsp?can_detNo=' + obj.value + "&can_traNo=" + document.getElementById("tra_no").value;
     window.open(CanUrl, 'Detail_Cancel', 'width=300,height=250,top=100,left=400');
-}
+};
 </script>
 </body>
 </html>

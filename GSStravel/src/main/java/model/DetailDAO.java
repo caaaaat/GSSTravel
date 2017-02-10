@@ -259,6 +259,24 @@ public class DetailDAO implements IDetailDAO {
 		return result;
 	}
 
+	private static final String SELECT_emp_No = "SELECT emp_No FROM Detail WHERE det_No=?";
+	@Override
+	public int select_emp_No(int det_No){
+		int result = 0;
+		try(
+			Connection conn = ds.getConnection();
+			PreparedStatement stmt = conn.prepareStatement(SELECT_emp_No);){
+			stmt.setInt(1, det_No);
+			ResultSet set  = stmt.executeQuery();
+			while(set.next()){
+				result = set.getInt("emp_No");
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	private static final String INSERT_Detail = "insert into Detail(emp_No,fam_No,tra_No,det_Date,det_money) values(?,?,?,GETDATE(),?)"; 
 	@Override
 	public DetailVO insert(DetailVO bean) {
@@ -304,16 +322,17 @@ public class DetailDAO implements IDetailDAO {
 		return result;
 	}
 	
-	private static final String UPDATE_CanDate = "update Detail set det_CanDate=GETDATE(), det_canNote=? where det_No=?";
+	private static final String UPDATE_CanDate = "update Detail set det_CanDate=GETDATE(), det_canNote=? where emp_No=? and tra_No=? and det_CanDate is null";
 	@Override
-	public List<DetailBean>update(int det_No, String det_canNote) {
+	public List<DetailBean>update(int emp_No, String det_canNote, String tra_No) {
 		List<DetailBean> result = null;
 		try(
 			Connection conn = ds.getConnection();
 			PreparedStatement stmt = conn.prepareStatement(UPDATE_CanDate);) 
 		{
 			stmt.setString(1, det_canNote);
-			stmt.setInt(2, det_No);
+			stmt.setInt(2, emp_No);
+			stmt.setString(3, tra_No);
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

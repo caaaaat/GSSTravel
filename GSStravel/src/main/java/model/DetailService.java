@@ -233,8 +233,9 @@ public class DetailService {
 	}
 	public List<DetailBean> update(DetailBean bean) {
 		List<DetailBean> result = null;
+		int emp_No = detailDAO.select_emp_No(bean.getDet_No());
 		if(bean!=null) {
-			result = detailDAO.update(bean.getDet_No(), bean.getDet_canNote());
+			result = detailDAO.update(emp_No, bean.getDet_canNote(), bean.getTra_NO());
 		}
 		return result;
 	}
