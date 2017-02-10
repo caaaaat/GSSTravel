@@ -123,6 +123,7 @@ td {
  	var $personmoney = $(".person_money");		//會員個人可補助金額	
 	var a=0;
  	var b=0;
+ 	console.log($fam);
 	$.each($personmoney,function(i,value){
 		var sum=Number(0);
  			$.each($personemp,function(k,value){
@@ -138,24 +139,18 @@ td {
  	});
  	a=0;
  	$.each($emp,function(keys,emp){
-		var sum = 0;
+		var sum = Number(0);
+		sum = Number($money[keys].value)+Number($noteMoney[a].value)-Number($personmoney[keys].value);
+	 	a++;	
   	 	$.each($fam,function(key , fam){
-
-	 			console.log("Number($money[keys].value)",Number($money[key].value));
-	 			console.log("Number($noteMoney[a].value",Number($noteMoney[a].value));
-  	 		sum = Number($money[keys].value)+Number($noteMoney[a].value)-Number($personmoney[keys].value);
-  	 		console.log("sum",sum);
-  	 		if ($fam[key].value.split("/")[0] == $emp[keys].value) {
-  	 			
-  	 			console.log("Number($money[key].value)",Number($money[key].value));
-  	 			console.log("$personmoney[keys].value",$personmoney[keys].value);
-  	 			sum = sum + Number($money[key].value)+Number($noteMoney[a].value)-Number($personmoney[keys].value);
- 	 			a=a+1;
+	 		if ($fam[key].value.split("/")[0] == $emp[keys].value) {
+  	 			sum = sum + Number($money[a].value)+Number($noteMoney[a].value);
+ 	 			a=a++;
  	 		}
-  	 	if(sum <= 0){
- 				sum=0;
-  			}
 	 	});
+  	 	if(sum <= 0){
+			sum=0;
+		}
  	 	$TAmoney[keys].value = sum;
 	});
 </script>

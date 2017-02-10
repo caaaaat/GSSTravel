@@ -249,15 +249,7 @@ public class DetailService {
 					if(bean.getEmp_subTra()==null){
 						bean.setEmp_subTra("");
 					}
-					System.out.println("bean.getEmp_No()="+bean.getEmp_No());
-					System.out.println("bean.getEmp_subTra()"+bean.getEmp_subTra().length());
-					System.out.println("bean.getTra_No()"+bean.getTra_No().length());
-					System.out.println("!bean.getEmp_sub()"+!bean.getEmp_sub());
-					System.out.println(bean.getEmp_subTra().equals(bean.getTra_No()));
-					System.out.println(bean.getEmp_subTra().equals(bean.getTra_No()) && !bean.getEmp_sub());
-					
 					if(bean.getEmp_subTra().equals(bean.getTra_No()) && !bean.getEmp_sub()){
-						System.out.println("aaa");
 						Integer emp_No = bean.getEmp_No();
 						EmployeeVO employeeVo = employeeService.select(emp_No.toString());
 						java.sql.Date hireDate = employeeVo.getEmp_HireDate();
@@ -272,12 +264,10 @@ public class DetailService {
 							float money = 4500 / 12 * hireMonths;
 							bean.setYears_money(money);
 						}
-						System.out.println("bean.getYears_money"+bean.getYears_money());	
 					}
 					else{
 						bean.setYears_money(0);
 					}
-					System.out.println("out bean.getYears_money"+bean.getYears_money());
 				}
 				familyDAO = new FamilyDAO();
 				String fam_Rel = familyDAO.selectfam_Rel(Integer.toString(bean.getEmp_No()), bean.getFam_Name());
