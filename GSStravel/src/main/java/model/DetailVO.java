@@ -10,7 +10,15 @@ public class DetailVO {
 	private float det_money;
 	private String det_note;
 	private float det_noteMoney;
+	private String det_canNote;
 	
+	
+	public String getDet_canNote() {
+		return det_canNote;
+	}
+	public void setDet_canNote(String det_canNote) {
+		this.det_canNote = det_canNote;
+	}
 	public String getDet_note() {
 		return det_note;
 	}

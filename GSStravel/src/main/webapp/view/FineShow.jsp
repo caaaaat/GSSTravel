@@ -16,11 +16,17 @@ h2 {
 	color: blue;
 }
 </style>
+<<<<<<< HEAD
+<script src="/GSStravel/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="js/LogOut.js"></script>
+<script type="text/javascript" src="js/selectBar.js"></script>
+=======
 
 <script src="/gss/js/jquery-3.1.1.min.js"></script>
 <!-- <script type="text/javascript" src="js/LogOut.js"></script> -->
 <!-- <script type="text/javascript" src="js/selectBar.js"></script> -->
 
+>>>>>>> branch 'master' of https://github.com/freelife1018/GSSTravel.git
 </head>
 <body>
 <!-- 	<div id='bar'></div><br> -->

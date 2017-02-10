@@ -1,7 +1,9 @@
 package controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,13 +20,19 @@ public class DetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private DetailService detailService = new DetailService();
 	String test;
-
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		resp.setContentType("text/html; charset=UTF-8");
+		req.setCharacterEncoding("UTF-8");
 		String cancel = req.getParameter("cancel");
 		String prodaction = req.getParameter("prodaction");
 		String tra_no = req.getParameter("tra_no");
+		String can_detNo = req.getParameter("can_detNo");
+		
 		DetailBean bean = new DetailBean();
+		
+		Map<String, String> DetCanError = new HashMap<String, String>();
+		req.setAttribute("DetCanError", DetCanError);
 		
 		if ("insert".equals(prodaction)) {
 			req.setAttribute("tra_no", tra_no);
@@ -32,14 +40,21 @@ public class DetailServlet extends HttpServlet {
 			return;
 		}
 		// 點選取消按鈕，更新取消日期
-		if (cancel != null) {
-			int canNum = Integer.parseInt(cancel);
-			bean.setDet_No(canNum);
-			bean.setTra_NO(tra_no);
-			List<DetailBean> result1 = detailService.update(bean);
-			req.setAttribute("select", result1);
-			req.getRequestDispatcher("/Detail.jsp").forward(req, resp);
-			return;
+		if ("送出".equals(prodaction) && can_detNo != null) {
+			String det_canNote = req.getParameter("det_CanNote");
+			if(det_canNote.trim().length()!=0){
+				int canNum = Integer.parseInt(can_detNo);
+				bean.setDet_No(canNum);
+				bean.setDet_canNote(det_canNote);
+				List<DetailBean> result1 = detailService.update(bean);
+				req.setAttribute("select", result1);
+				req.getRequestDispatcher("/Detail_CanSuccess.jsp").forward(req, resp);
+				return;
+			}else{
+				DetCanError.put("CanError", "必須輸入取消原因！");
+				req.getRequestDispatcher("/Detail_Cancel.jsp").forward(req, resp);
+				return;
+			}
 		}
 
 		bean.setTra_NO(tra_no);
