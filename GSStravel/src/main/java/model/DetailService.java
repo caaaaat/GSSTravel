@@ -205,7 +205,7 @@ public class DetailService {
 		detailDAO=new DetailDAO();
 		String result = detailDAO.select_emp_Name(Emp_No, Name);
 		if(result == null) {
-			result = detailDAO.select_fam_Name(Emp_No, Name);	
+			result = detailDAO.select_fam_Name(Emp_No, Name);
 		}
 		return result;
 	}
