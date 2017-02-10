@@ -63,17 +63,22 @@ public class DetailService {
 		return result;
 	}
 	
-	public boolean tra_Enter(String[] fams ,String emp_No,String tra_No ) throws NumberFormatException, SQLException{
+	public boolean tra_Enter(String[] fams ,String emp_No,String tra_No,String[] rooms ) throws NumberFormatException, SQLException{
 		detailDAO=new DetailDAO();
 		itemDAO=new ItemDAO();
 		familyDAO=new FamilyDAO();
 		travelDAO=new TravelDAO();
 		float money = 0;
 		String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());//現在系統時間
-		List<ItemVO> itemVO = itemDAO.getFee(Long.parseLong(tra_No));
+		List<ItemVO> itemVO = itemDAO.getFareMoney(Long.parseLong(tra_No));
 		for(ItemVO a:itemVO){
 			money+=a.getItem_Money();
-		}	
+		}
+		if(rooms!=null){
+			for(String room:rooms){
+				money+=Float.parseFloat(room);
+			}
+		}
 		if(fams==null){		
 			detailDAO.tra_Enter(Integer.parseInt(emp_No), null, tra_No, date,money);
 			return false;
@@ -127,10 +132,8 @@ public class DetailService {
 					if("親友".equals(fam_Rel)){
 						friebdCounts+=1;
 					}
-				}
-			
-		}
-		
+				}			
+		}		
 		if(emp_Sub==1){
 			employeeDAO=new EmployeeDAO();
 			java.sql.Date hireDate = employeeDAO.select(Integer.parseInt(emp_No)).getEmp_HireDate();			
@@ -145,17 +148,6 @@ public class DetailService {
 				subMoney=4500/12*hireMonths;			
 			}			
 		}else{
-			employeeDAO=new EmployeeDAO();
-			java.sql.Date hireDate = employeeDAO.select(Integer.parseInt(emp_No)).getEmp_HireDate();			
-			String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());//現在系統時間
-			java.sql.Date today = java.sql.Date.valueOf(date);
-			if(hireDate.getTime()/(24*60*60*1000)+365<today.getTime()/(24*60*60*1000)){
-				subMoney=4500;
-			}else{				
-				long x = today.getTime()/(24*60*60*1000)-hireDate.getTime()/(24*60*60*1000);//相差天數
-				hireMonths=x/31;
-				subMoney=4500/12*hireMonths;			
-			}
 			subMoney=0;
 		}
 		if((payMoney*(counts-friebdCounts))<=subMoney){
@@ -168,6 +160,7 @@ public class DetailService {
 		drtail.add(counts);	
 		drtail.add(titleMoney);
 		drtail.add((float)hireMonths);
+		drtail.add(friebdCounts);
 		return drtail;
 	}
 	

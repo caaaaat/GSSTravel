@@ -21,6 +21,7 @@ public class FamilyVO {
 	private boolean fam_kid;
 	private boolean fam_Dis;
 	private boolean fam_Mom;
+	//取消報名親屬預設打勾<checkbox>
 	private String checked;
 	
 	public String getChecked() {
