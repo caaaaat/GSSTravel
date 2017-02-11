@@ -9,15 +9,19 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>報名明細</title>
 </head>
+
+<style>
+
+</style>
 <body>
 <%@include file="SelectBar.jsp" %>
 <h2>－報名明細－</h2>
 <form action=<c:url value="/detail"/> method="post">
 <p >活動代碼：${param.tra_no}</p>
 <input type="hidden" name="tra_no" id="tra_no" value="${param.tra_no}">
-	<table border="1" id="deailtable">
+	<table border="1" id="deailtable" width="140%">
 		<tr>
-			<th></th>
+			<th> </th>
 			<th>員工編號</th>
 			<th>身份</th>
 			<th>姓名</th>
@@ -39,7 +43,11 @@
 		<c:if test="${not empty select}">
 		<c:forEach var="row" items="${select}">
 			
-		    <td><c:if test="${empty row.det_CanDate}"><button name="cancel" id="cancel" type="button" value="${row.det_No}" onclick="open_Can(this)">取消</button></c:if></td>
+		    <td><c:if test="${empty row.det_CanDate}">
+		    <button name="cancel" id="cancel" type="button" value="${row.det_No}" onclick="open_Can(this)">取消</button>
+		    <button name="cancel" id="edit" type="button" value="${row.det_No}">編輯</button>
+		    </c:if>
+		    </td>
 		    <td>${row.emp_No}</td>
 		     <td><input type="text" name="trel" value="${row.rel}" style="display:none">
 		     <c:if test="${row.rel == '員工'}">
@@ -119,7 +127,6 @@
 	</table>
 	<br />
 		<button type="submit" name="prodaction" value="insert">新增</button>
-		<input type="submit" name="prodaction" value="修改">
 		<input type="button" value="匯出Excel">
 	
 	</form>
