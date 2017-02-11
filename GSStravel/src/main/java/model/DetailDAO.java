@@ -181,6 +181,8 @@ public class DetailDAO implements IDetailDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	//SELECT報名維護所有欄位
 	private static final String SELECT = "SELECT det_No, Detail.emp_No, ISNULL(fam_Rel,'員工') as Rel, ISNULL(fam_Name, emp_Name) as Name, ISNULL(fam_Sex,emp_Sex) as Sex, ISNULL(fam_ID, emp_ID) as ID,ISNULL(fam_Bdate,emp_Bdate) as Bdate, ISNULL(fam_eat,emp_Eat) as Eat, ISNULL(fam_Car,1) as Car, fam_Bady, fam_kid, fam_Dis, fam_Mom,ISNULL(fam_Ben,emp_Ben) as Ben, ISNULL(fam_BenRel,emp_BenRel) as BenRel, ISNULL(fam_Emg,emp_Emg) as Emg, ISNULL(fam_EmgPhone,emp_EmgPhone) as EmgPhone, det_Date, det_CanDate as CanDate, ISNULL(fam_Note,emp_Note) as Note, det_canNote FROM Detail full outer join family on  Detail.fam_No = family.fam_No full outer join Employee on Detail.emp_No = Employee.emp_No WHERE Tra_No = ? order by CanDate";
 	@Override
 	public List<DetailBean> select(String Tra_No) {
@@ -222,6 +224,7 @@ public class DetailDAO implements IDetailDAO {
 		return result;
 	}
 
+	//由name判斷是否為員工(SELECT_emp_Name)or親屬(SELECT_fam_Name)
 	private static final String SELECT_emp_Name = "SELECT emp_No = '員工' from Employee where emp_No=? and emp_Name=?";
 	@Override
 	public String select_emp_Name(int Emp_No, String Emp_Name){
@@ -239,7 +242,7 @@ public class DetailDAO implements IDetailDAO {
 			e.printStackTrace();
 		}
 		return result;
-	}	
+	}
 	private static final String SELECT_fam_Name = "SELECT fam_No from Family where emp_No=? and fam_Name=?";
 	@Override
 	public String select_fam_Name(int Emp_No, String Fam_Name){
@@ -259,6 +262,82 @@ public class DetailDAO implements IDetailDAO {
 		return result;
 	}
 
+		//找到員工目前所套用的emp_SubTra
+			private static final String SELECT_emp_SubTra = "SELECT emp_SubTra FROM Employee where emp_No=?";
+			@Override
+			public String SELECT_emp_SubTra(int Emp_No){
+				String result = null;
+				try(
+					Connection conn = ds.getConnection();
+					PreparedStatement stmt = conn.prepareStatement(SELECT_emp_SubTra);){
+					stmt.setInt(1, Emp_No);
+					ResultSet set  = stmt.executeQuery();
+					while(set.next()){
+						result = set.getString("emp_SubTra");
+					}
+				}catch (SQLException e) {
+					e.printStackTrace();
+				}
+				return result;
+			}
+			
+		//找到員工所報名的所有旅費中花費最高的Tra_No
+		private static final String SELECT_top1_Tra_No = "SELECT TOP 1 Tra_No FROM (SELECT Detail.Tra_No, Detail.emp_No,SUM(det_money) as totalMoney FROM Detail full outer join family on  Detail.fam_No = family.fam_No full outer join Employee on Detail.emp_No = Employee.emp_No full outer join Travel on Detail.tra_No = Travel.tra_No WHERE Detail.emp_No=? and ISNULL(fam_Rel,'員工') <> '親友' and det_CanDate is null and tra_On>GETDATE() GROUP BY  Detail.emp_No,Detail.Tra_No )temp1 ORDER BY totalMoney";
+		@Override
+		public String SELECT_top1_Tra_No(int Emp_No){
+			String result = null;
+			try(
+				Connection conn = ds.getConnection();
+				PreparedStatement stmt = conn.prepareStatement(SELECT_top1_Tra_No);){
+				stmt.setInt(1, Emp_No);
+				ResultSet set  = stmt.executeQuery();
+				while(set.next()){
+					result = set.getString("Tra_No");
+				}
+			}catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return result;
+		}
+		
+		//找到員工所報名的所有旅費中花費第二高的Tra_No
+		private static final String SELECT_top2_Tra_No = "SELECT  TOP 1 Tra_No FROM (SELECT TOP 2 Detail.Tra_No, Detail.emp_No,SUM(det_money) as totalMoney FROM Detail full outer join family on  Detail.fam_No = family.fam_No full outer join Employee on Detail.emp_No = Employee.emp_No full outer join Travel on Detail.tra_No = Travel.tra_No WHERE Detail.emp_No=? and ISNULL(fam_Rel,'員工') <> '親友' and det_CanDate is null and tra_On>GETDATE() GROUP BY  Detail.emp_No,Detail.Tra_No order by totalMoney)temp1 ORDER BY totalMoney DESC";
+		@Override
+		public String SELECT_top2_Tra_No(int Emp_No){
+			String result = null;
+			try(
+				Connection conn = ds.getConnection();
+				PreparedStatement stmt = conn.prepareStatement(SELECT_top2_Tra_No);){
+				stmt.setInt(1, Emp_No);
+				ResultSet set  = stmt.executeQuery();
+				while(set.next()){
+					result = set.getString("Tra_No");
+				}
+			}catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return result;
+		}
+	
+	//取消detail用，點選取消找到附屬的emp_No
+	private static final String SELECT_emp_No = "SELECT emp_No FROM Detail WHERE det_No=?";
+	@Override
+	public int select_emp_No(int det_No){
+		int result = 0;
+		try(
+			Connection conn = ds.getConnection();
+			PreparedStatement stmt = conn.prepareStatement(SELECT_emp_No);){
+			stmt.setInt(1, det_No);
+			ResultSet set  = stmt.executeQuery();
+			while(set.next()){
+				result = set.getInt("emp_No");
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	private static final String INSERT_Detail = "insert into Detail(emp_No,fam_No,tra_No,det_Date,det_money) values(?,?,?,GETDATE(),?)"; 
 	@Override
 	public DetailVO insert(DetailVO bean) {
@@ -304,22 +383,58 @@ public class DetailDAO implements IDetailDAO {
 		return result;
 	}
 	
-	private static final String UPDATE_CanDate = "update Detail set det_CanDate=GETDATE(), det_canNote=? where det_No=?";
+	//更新取消日期=點選當下的時間
+	private static final String UPDATE_CanDate = "update Detail set det_CanDate=GETDATE(), det_canNote=? where emp_No=? and tra_No=? and det_CanDate is null";
 	@Override
-	public List<DetailBean>update(int det_No, String det_canNote) {
+	public List<DetailBean>update(int emp_No, String det_canNote, String tra_No) {
 		List<DetailBean> result = null;
 		try(
 			Connection conn = ds.getConnection();
 			PreparedStatement stmt = conn.prepareStatement(UPDATE_CanDate);) 
 		{
 			stmt.setString(1, det_canNote);
-			stmt.setInt(2, det_No);
+			stmt.setInt(2, emp_No);
+			stmt.setString(3, tra_No);
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return result;
 	}
+	
+	//當員工沒有花費第二高的Tra_No時，將他的輔助金變回尚未使用，emp_SubTra=NULL
+	private static final String UPDATE_emp_Sub = "update Employee set emp_Sub=1, emp_SubTra=NULL where emp_No=?";
+	@Override
+	public boolean UPDATE_emp_Sub(int Emp_No){
+		boolean b=true;
+		try(Connection conn=ds.getConnection()){
+			PreparedStatement stmt = conn.prepareStatement(UPDATE_emp_Sub);
+			stmt.setInt(1, Emp_No);
+			stmt.executeUpdate();
+		}catch (SQLException e){
+			e.printStackTrace();
+			b=false;
+		}
+		return b;
+	}
+	
+	//當員工有花費第二高的Tra_No時，將他的輔助金套用至該Tra_No
+		private static final String UPDATE_emp_SubTra = "update Employee set emp_SubTra=? where emp_No=?";
+		@Override
+		public boolean UPDATE_emp_SubTra(String Tra_No, int Emp_No){
+			boolean b=true;
+			try(Connection conn=ds.getConnection()){
+				PreparedStatement stmt = conn.prepareStatement(UPDATE_emp_SubTra);
+				stmt.setString(1, Tra_No);
+				stmt.setInt(2, Emp_No);
+				stmt.executeUpdate();
+			}catch (SQLException e){
+				e.printStackTrace();
+				b=false;
+			}
+			return b;
+		}
+	
 	@Override
 	public List<TotalAmountFormBean> selectBean(String tra_No) {
 		List<TotalAmountFormBean> result = null;

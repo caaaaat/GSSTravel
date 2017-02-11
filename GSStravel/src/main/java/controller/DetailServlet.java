@@ -42,10 +42,12 @@ public class DetailServlet extends HttpServlet {
 		// 點選取消按鈕，更新取消日期
 		if ("送出".equals(prodaction) && can_detNo != null) {
 			String det_canNote = req.getParameter("det_CanNote");
+			String det_canTraNo = req.getParameter("can_traNo");
 			if(det_canNote.trim().length()!=0){
 				int canNum = Integer.parseInt(can_detNo);
 				bean.setDet_No(canNum);
 				bean.setDet_canNote(det_canNote);
+				bean.setTra_NO(det_canTraNo);
 				List<DetailBean> result1 = detailService.update(bean);
 				req.setAttribute("select", result1);
 				req.getRequestDispatcher("/Detail_CanSuccess.jsp").forward(req, resp);

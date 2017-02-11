@@ -259,7 +259,18 @@ public class DetailService {
 	public List<DetailBean> update(DetailBean bean) {
 		List<DetailBean> result = null;
 		if (bean != null) {
-			result = detailDAO.update(bean.getDet_No(), bean.getDet_canNote());
+			int emp_No = detailDAO.select_emp_No(bean.getDet_No());
+			String emp_SubTra = detailDAO.SELECT_emp_SubTra(emp_No);
+			String top1_Tra_No = detailDAO.SELECT_top1_Tra_No(emp_No);
+			String top2_Tra_No = detailDAO.SELECT_top2_Tra_No(emp_No);
+			if (emp_SubTra.equals(top1_Tra_No)) {
+				if (top1_Tra_No.equals(top2_Tra_No)) {
+					detailDAO.UPDATE_emp_Sub(emp_No);
+				} else {
+					detailDAO.UPDATE_emp_SubTra(top2_Tra_No, emp_No);
+				}
+			}
+			result = detailDAO.update(emp_No, bean.getDet_canNote(), bean.getTra_NO());
 		}
 		return result;
 	}

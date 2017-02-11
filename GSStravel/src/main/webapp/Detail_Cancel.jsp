@@ -26,6 +26,7 @@ fieldset {
 			<textarea style="width:250px; height:100px; resize:none" name="det_CanNote"></textarea>
 			<br />
 			<input type="text" id="can_detNo" name="can_detNo" style="display:none">
+			<input type="text" id="can_traNo" name="can_traNo" style="display:none">
 			<br />
 			<input name="prodaction" type="submit" value="送出">
 			<button name="canClose" type="button" onclick="window.close()">關閉</button>
@@ -39,13 +40,25 @@ fieldset {
 $(function () {
 	var temp = location.search;
 	var index = temp.indexOf("can_detNo=");
-	var index2 = "can_detNo".length+1
+	var index2 = "can_detNo".length+1;
 	var det_No = temp.substring(index+index2);
-	var index3 = det_No.indexOf("&");
+	var index3 = det_No.indexOf("&can_traNo");
+	
+	var index4 = temp.indexOf("can_traNo=");
+	var index5 = "can_traNo".length+1;
+	var tra_No = temp.substring(index4+index5);
+	var index6 = tra_No.indexOf("&prodaction");
+	
 	if(index3>=0){
 		$("#can_detNo").attr("value",det_No.slice(0,index3));
 	}else{
 		$("#can_detNo").attr("value",det_No);
+	}
+	
+	if(index6>=0){
+		$("#can_traNo").attr("value",tra_No.slice(0,index6));
+	}else{
+		$("#can_traNo").attr("value",tra_No);
 	}
 });
 
