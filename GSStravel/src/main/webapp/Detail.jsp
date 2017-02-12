@@ -39,55 +39,71 @@
 			<th>備註</th>
 			<th>取消原因</th>
 		</tr>
-		<tr>
+		
 		<c:if test="${not empty select}">
 		<c:forEach var="row" items="${select}">
-			
+		<tr>
 		    <td><c:if test="${empty row.det_CanDate}">
 		    <button name="cancel" id="cancel" type="button" value="${row.det_No}" onclick="open_Can(this)">取消</button>
-		    <button name="cancel" id="edit" type="button" value="${row.det_No}">編輯</button>
+		    <button name="edit" class="detEdit" id="detEdit" type="button" value="${row.det_No}" >編輯</button>
+		    <button name="prodaction" class="save" type="submit" value="save" hidden>儲存</button>
 		    </c:if>
 		    </td>
 		    <td>${row.emp_No}</td>
 		     <td><input type="text" name="trel" value="${row.rel}" style="display:none">
 		     <c:if test="${row.rel == '員工'}">
 		     ${row.rel}
-		      <select style="display:none" name="fam_Rel">
-					<option>請選擇</option>
+		      <select style="display:none" class="fam_Rel" name="fam_Rel" disabled>
+					<option>員工</option>
 			 		<option>眷屬</option>
 			        <option>親友</option>
 			     </select>
 		     </c:if>
 		     <c:if test="${row.rel != '員工'}">
-		     <select name="fam_Rel">
+		     <select name="fam_Rel" disabled>
 					<option>請選擇</option>
 			 		<option>眷屬</option>
 			        <option>親友</option>
 			     </select>
 			 </c:if></td>
-		     <td><input type="text" id="name" name="name" value="${row.name}"></td>
+		     <td><input type="text" class="name" name="name" value="${row.name}" disabled></td>
 		     <td><input type="text" name="tsex" value="${row.sex}" style="display:none">
-		     <select name="sex" >
+		     <select name="sex" disabled>
 					<option>請選擇</option>
 			 		<option>男</option>
 			        <option>女</option>
 			     </select></td>
-		     <td><input type="text" name="ID" value="${row.ID}"></td>
-		     <td><input type="date" name="Bdate" value="${row.bdate}"></td>
+		     <td><input type="text" name="ID" value="${row.ID}" disabled></td>
+		     <td><input type="date" name="Bdate" value="${row.bdate}" disabled></td>
 		     <td><input type="text" name="teat" value="${row.eat}" style="display:none">
-		     <select name="eat" >
+		     <select name="eat" disabled>
 					<option>葷</option>
 			 		<option>素</option>
 			        <option>不佔餐</option>
 			     </select>
-			     <c:if test="${row.car == false}">
-			        <input type="checkbox" name="car" Checked>不佔車位</td>
-			        </c:if>
-			          <c:if test="${row.car}">
-			        <input type="checkbox" name="car">不佔車位</td>
-			        </c:if>
+			     <c:if test="${row.rel != '員工'}">
+				     <c:if test="${row.car == false}">
+				        <input type="checkbox" name="car" Checked disabled>不佔車位
+				        </c:if>
+				          <c:if test="${row.car}">
+				        <input type="checkbox" name="car" disabled>不佔車位
+				        </c:if>
+			     </c:if></td>
 		     <td>
-		     <select class="multiselect" name ="spe" id="multiselect" multiple="multiple" data-placeholder="請選擇" style="width: 200px;">
+		     <c:if test="${row.rel != '員工'}">
+		     <c:if test="${row.fam_Bady == true}">
+		     	<p>幼童(0~3歲) </p>
+		     </c:if>
+		     <c:if test="${row.fam_kid == true}">
+		     	<p>兒童(4~11歲) </p>
+		     </c:if>
+		      <c:if test="${row.fam_Dis == true}">
+		     	<p>持身心障礙手冊 </p>
+		     </c:if>
+		      <c:if test="${row.fam_Mom == true}">
+		     	<p>孕婦(媽媽手冊) </p>
+		     </c:if>
+		     <select class="multiselect" name ="spe" id="multiselect" multiple="multiple" data-placeholder="請選擇" style="width: 210px;">
 		     <c:if test="${row.fam_Bady == false}">
 		     <option>幼童(0~3歲)</option>
 			 </c:if>
@@ -113,13 +129,15 @@
 		     <option Selected>孕婦(媽媽手冊)</option>
 		      </c:if>
 		     </select>
-		     <td><input type="text" name="ben" value="${row.ben}"></td>
-		     <td><input type="text" name="ben_Rel" value="${row.benRel}"></td>
-		     <td><input type="text" name="emg" value="${row.emg}"></td>
-		     <td><input type="text" name="emg_Phone" value="${row.emgPhone}"></td>
+		     </c:if>
+		     </td>
+		     <td><input type="text" name="ben" value="${row.ben}" disabled></td>
+		     <td><input type="text" name="ben_Rel" value="${row.benRel}" disabled></td>
+		     <td><input type="text" name="emg" value="${row.emg}" disabled></td>
+		     <td><input type="text" name="emg_Phone" id="emg_Phone" value="${row.emgPhone}" disabled></td>
 		     <td>${row.det_Date}</td>
 		     <td>${row.det_CanDate}</td>
-		     <td><input type="text" name="note" value="${row.note}"></td>
+		     <td><input type="text" name="note" value="${row.note}" disabled></td>
 		     <td>${row.det_canNote}</td>
 		</tr>
 		</c:forEach>
@@ -128,7 +146,6 @@
 	<br />
 		<button type="submit" name="prodaction" value="insert">新增</button>
 		<input type="button" value="匯出Excel">
-	
 	</form>
 
 
@@ -142,9 +159,8 @@
 
 $(function(){ 	
 	 //多選下拉式選單
-	 $(".multiselect").kendoMultiSelect({autoClose: false});
 	 
-    
+	 $(".multiselect").hide();
     //性別選取
 	 for(var i=0; i<document.getElementsByName("tsex").length; i++){
 		if(document.getElementsByName("tsex")[i].value =="男"){
@@ -158,8 +174,11 @@ $(function(){
 	 for(var i=0; i<document.getElementsByName("trel").length; i++){
 			if(document.getElementsByName("trel")[i].value =="眷屬"){
 				document.getElementsByName("fam_Rel")[i].selectedIndex = 1; 
-			}else{
+			}else if(document.getElementsByName("trel")[i].value =="親友"){
 				document.getElementsByName("fam_Rel")[i].selectedIndex = 2;
+			}
+			else{
+				document.getElementsByName("fam_Rel")[i].selectedIndex = 0;
 			}
 		 }
 	 
@@ -174,10 +193,20 @@ $(function(){
 			}
 		 }
 	
-	
-	
+	 $(".detEdit").click(function () {
+		 $(this).parents("tr").find("input").removeAttr("disabled");
+		 $(this).parents("tr").find("select").removeAttr("disabled");
+		 $(this).parents("tr").find("radio").removeAttr("disabled");
+		 $(this).parents("tr").find(".save").show();
+		 $(this).parents("tr").find(".multiselect").show();
+		 $(this).parents("tr").find(".multiselect").kendoMultiSelect({autoClose: false});
+		 $(this).parents("tr").find("p").hide();
+		 $(this).hide();
+		 $(".detEdit").prop("disabled",true);
+     });
 	 
 });
+
 
 function open_Can(obj) {
     var CanUrl = '/GSStravel/Detail_Cancel.jsp?can_detNo=' + obj.value + "&can_traNo=" + document.getElementById("tra_no").value;
