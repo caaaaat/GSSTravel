@@ -57,7 +57,13 @@
 					<c:if test="${mp[tra_no]==3}">
 						<td><a
 							href="<c:url value="/CancelServlet?tra_No=${row.tra_NO}&emp_No=${emp_No}"></c:url>"><button >取消報名</button></a></td>
-					</c:if>					
+					</c:if>		
+					<c:if test="${mp[tra_no]==4}">
+						<td>活動已結束</td>
+					</c:if>	
+					<c:if test="${mp[tra_no]==5}">
+						<td>活動尚未開始登記</td>
+					</c:if>				
 				</tr>
 			</c:forEach>
 		</tbody>

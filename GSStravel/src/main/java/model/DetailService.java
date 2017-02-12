@@ -18,6 +18,7 @@ public class DetailService {
 	private EmployeeService employeeService = new EmployeeService();
 
 	public List<String> selectFam_Rel(int emp_No, long tra_No) {
+		detailDAO=new DetailDAO();
 		return detailDAO.selectFam_Rel(emp_No, tra_No);
 	}
 
