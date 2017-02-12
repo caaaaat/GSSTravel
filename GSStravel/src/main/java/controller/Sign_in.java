@@ -77,8 +77,7 @@ public class Sign_in extends HttpServlet {
 					}					
 				}
 					totalAmountService.insertTotalAmount(tra_No, Integer.parseInt(emp_No), TA_money);							
-					employeeService.updateEmp_Sub(false,emp_No);
-				
+					employeeService.updateEmp_Sub(false,emp_No);				
 			}
 			HttpSession session = req.getSession();
 			session.setAttribute("decide", decide);
