@@ -24,7 +24,6 @@ public class DetailServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/html; charset=UTF-8");
 		req.setCharacterEncoding("UTF-8");
-		String cancel = req.getParameter("cancel");
 		String prodaction = req.getParameter("prodaction");
 		String tra_no = req.getParameter("tra_no");
 		String can_detNo = req.getParameter("can_detNo");
@@ -58,7 +57,12 @@ public class DetailServlet extends HttpServlet {
 				return;
 			}
 		}
-
+		
+		if ("save".equals(prodaction)) {
+//			String name = req.getParameter("name");
+//			String rel = req.getParameter("fam_Rel");
+//			System.out.println(name+rel);
+		}
 		bean.setTra_NO(tra_no);
 		List<DetailBean> result = detailService.select(bean);
 		req.setAttribute("select", result);
