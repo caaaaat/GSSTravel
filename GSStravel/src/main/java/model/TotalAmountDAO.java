@@ -26,6 +26,27 @@ public class TotalAmountDAO implements ITotalAmountDAO {
 	private static final String selectTa_money="select  TOP(1)Ta_money,tra_No from TotalAmount where emp_No=? order by TA_money DESC";
 	private static final String selectAll="select * from TotalAmount where emp_No=?";
 	private static final String counts="select count(emp_No)as count from TotalAmount where emp_No=?";
+	private static final String select="select * from TotalAmount where emp_No=? and tra_No=?";
+	
+	@Override
+	public TotalAmountVO select(String emp_No,String tra_NO){
+		TotalAmountVO totalAmountVO=new TotalAmountVO();
+		try(
+			Connection conn=dataSource.getConnection();
+			PreparedStatement stem=conn.prepareStatement(select);
+				){
+			stem.setString(1, emp_No);
+			stem.setString(2, tra_NO);
+			ResultSet rest = stem.executeQuery();
+			while(rest.next()){
+				totalAmountVO.setTra_No(rest.getString("tra_No"));
+				totalAmountVO.setTa_Money(Float.parseFloat(rest.getString("Ta_money")));
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return totalAmountVO;
+	}
 	
 	@Override
 	public int counts(String emp_No) {
