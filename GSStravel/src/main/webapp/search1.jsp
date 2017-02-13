@@ -6,7 +6,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-
+<script>
+var Error="<%=session.getAttribute("nopeople")%>";
+<% session.removeAttribute("nopeople");%>
+if(Error!='null'){
+	alert(Error);
+	Error='null';
+}
+</script>
 <script>
 	window.onload = function() {
 		var id = document.getElementById('id');
@@ -107,11 +114,6 @@
 
 			}
 	}
-	
-	var errMsg = '<%= session.getAttribute("nopeople")%>';
-	if(errMsg != 'null' && errMsg){	
-		alert(errMsg);
-	}
 </script>
 
 </head>
@@ -162,9 +164,5 @@
 </body>
 <script type="text/javascript" src="/GSStravel/js/selectBar.js"></script>
 
-<script>
-if('${nopeople}'=='無人報名'){
-	alert('${nopeople}');	
-}
-</script>
+
 </html>

@@ -28,4 +28,7 @@ public class ItemService {
 		}
 		return result;
 	}
+	public List<ItemVO> getFareMoney(long tra_No){
+		return itemDAO.getFareMoney(tra_No);
+	}
 }

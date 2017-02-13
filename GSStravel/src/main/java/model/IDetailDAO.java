@@ -22,4 +22,4 @@ public interface IDetailDAO {
 	public boolean update_famNo(String det_note,float det_noteMoney, String tra_No , int fam_No);
 	public boolean selectFam_No(int fam_No,long tra_No);
 	public List<String> selectFam_Rel(int emp_No,long tra_No);
-}
+	}

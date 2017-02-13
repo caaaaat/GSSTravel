@@ -64,7 +64,9 @@ public class Sign_in extends HttpServlet {
 						decide.add(travelvo2.getTra_Name());
 					}
 					String emp_SubTra = employeeService.select(emp_No).getEmp_SubTra();
-					if(emp_SubTra.equals("null")||emp_SubTra==null){
+					System.out.println(emp_SubTra);
+					System.out.println(emp_SubTra==null);
+					if(emp_SubTra==null||"null".equals(emp_SubTra)){
 						employeeService.updateEmp_SubTra(tra_No, emp_No);
 					}else{
 						TravelVO travelVo = travelService.select(Long.parseLong(emp_SubTra));

@@ -80,10 +80,12 @@ public class DetailService {
 			money += a.getItem_Money();
 		}
 		if (rooms != null) {
+			
 			for (String room : rooms) {
 				money += Float.parseFloat(room);
 			}
 		}
+		System.out.println(money);
 		if (fams == null) {
 			detailDAO.tra_Enter(Integer.parseInt(emp_No), null, tra_No, date, money);
 			return false;
@@ -99,7 +101,9 @@ public class DetailService {
 						detailDAO.tra_Enter(Integer.parseInt(emp_No), familyDAO.selectfam_No(fam).toString(), tra_No,
 								date, money);
 					}
+					
 					return false;
+					
 				} else {
 					return true;
 				}
@@ -263,7 +267,6 @@ public class DetailService {
 		}
 		return result;
 	}
-
 	// 雅婷
 	public List<TotalAmountFormBean> select(String tra_No) {
 		detailDAO = new DetailDAO();
@@ -306,7 +309,6 @@ public class DetailService {
 		}
 		return list;
 	}
-
 	public boolean update_empNo(String det_note, float det_noteMoney, String tra_No, int emp_No) {
 		detailDAO = new DetailDAO();
 		boolean b = true;
@@ -320,5 +322,4 @@ public class DetailService {
 		b = detailDAO.update_famNo(det_note, det_noteMoney, tra_No, fam_No);
 		return b;
 	}
-
 }

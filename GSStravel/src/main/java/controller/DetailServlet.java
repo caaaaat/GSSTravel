@@ -36,18 +36,22 @@ public class DetailServlet extends HttpServlet {
 	
 		Map<String, String> DetCanError = new HashMap<String, String>();
 		req.setAttribute("DetCanError", DetCanError);
-		
-		ItemVO itemVO=new ItemVO();
-
+		List<ItemVO> itemVO=null;
+		List<ItemVO> room=null;
 		if ("insert".equals(prodaction)) {
-			
+			Long tra_No=Long.parseLong(tra_no);
+			itemVO=itemService.getFareMoney(tra_No);
+			room=itemService.getRoomMoney(tra_No);
+			float f=0;
+			for(ItemVO i:itemVO){
+				f=f+i.getItem_Money();
+			}	
+			req.setAttribute("tra_no", tra_no);
+			req.setAttribute("money",f);
+			req.setAttribute("room",room);
 			req.getRequestDispatcher("/Detail_Insert.jsp").forward(req, resp);
 			return;
 		}
-		
-		
-		
-		
 		// 點選取消按鈕，更新取消日期
 		if ("送出".equals(prodaction) && can_detNo != null) {
 			String det_canNote = req.getParameter("det_CanNote");
@@ -70,7 +74,7 @@ public class DetailServlet extends HttpServlet {
 		List<DetailBean> result = detailService.select(bean);
 		req.setAttribute("select", result);
 		req.getRequestDispatcher("/Detail.jsp").forward(req, resp);
-
+		
 	}
 
 	@Override
