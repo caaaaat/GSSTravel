@@ -17,7 +17,9 @@ public class email {
 	private static final String username = "gsstravelteam2@gmail.com";
 	private static final String password = "bjo4u;6vu/4zj6fu4u,4";// 叡揚幸福企業
 	
-	public static void prop(String email,String title,String content){
+	
+	//email:寄給誰 ;title:標題 ;content:內容
+	public static void send(String email,String title,String content){
 		Properties props = new Properties();
 		props.put("mail.smtp.host", host);
 		props.put("mail.smtp.auth", "true");

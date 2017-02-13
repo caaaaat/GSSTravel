@@ -45,10 +45,8 @@ public class TravelServlet extends HttpServlet {
 		String inputdate = "";
 		if (request.getParameter("inputdate") != "" && request.getParameter("inputdate") != null)
 		inputdate = request.getParameter("inputdate");
-
 //		String traNo = request.getParameter("edittraNO");//正式用
 		String traNo = request.getParameter("tra_no"); // 單頁更新測試用
-		System.out.println(traNo);
 		String traName = request.getParameter("edittraName");
 		String traLoc = request.getParameter("edittraLoc");
 		String traOn = request.getParameter("edittraOn");
@@ -115,8 +113,6 @@ public class TravelServlet extends HttpServlet {
 			}
 
 		}
-		System.out.println(edittraName+","+request.getParameter("edittraName"));
-
 		/* 活動起始日 */
 		//java.util.Date edittraOn = new java.util.Date(edittraOn.getTime());  // sql -> util
 		java.util.Date edittraOn = null;
@@ -314,7 +310,6 @@ public class TravelServlet extends HttpServlet {
 		/*--Travel--*/	
 			travelview.setTra_Name(edittraName);
 			travelview.setTra_Loc(edittraLoc);
-			System.out.println(travelview);
 			travelview.setTra_On(new java.sql.Date(edittraOn.getTime()));
 			travelview.setTra_Off(new java.sql.Date(edittraOff.getTime()));
 			travelview.setTra_Beg(new java.sql.Timestamp(edittraBeg.getTime()));
