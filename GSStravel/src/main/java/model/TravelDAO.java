@@ -275,4 +275,9 @@ public class TravelDAO implements ITravelDAO {
 		}
 		return result;
 	}
+	
+	@Override
+	public int[] Count(long tra_No) {
+		return null;
+	}
 }

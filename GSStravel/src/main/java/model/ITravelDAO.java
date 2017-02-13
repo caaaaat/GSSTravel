@@ -14,4 +14,5 @@ public interface ITravelDAO {
 	public TravelVO insert(TravelVO bean);
 	public TravelVO update(TravelVO Travelupdate);
 	public boolean delete(String tra_NO);
+	public int[] Count(long tra_No);			//此行程的可報名總人數&個人可報名總人數
 }

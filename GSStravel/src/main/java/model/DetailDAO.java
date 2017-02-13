@@ -186,7 +186,8 @@ public class DetailDAO implements IDetailDAO {
 	}
 
 	// SELECT報名維護所有欄位
-	private static final String SELECT = "SELECT det_No, Detail.emp_No, ISNULL(fam_Rel,'員工') as Rel, ISNULL(fam_Name, emp_Name) as Name, ISNULL(fam_Sex,emp_Sex) as Sex, ISNULL(fam_ID, emp_ID) as ID,ISNULL(fam_Bdate,emp_Bdate) as Bdate, ISNULL(fam_eat,emp_Eat) as Eat, ISNULL(fam_Car,1) as Car, fam_Bady, fam_kid, fam_Dis, fam_Mom,ISNULL(fam_Ben,emp_Ben) as Ben, ISNULL(fam_BenRel,emp_BenRel) as BenRel, ISNULL(fam_Emg,emp_Emg) as Emg, ISNULL(fam_EmgPhone,emp_EmgPhone) as EmgPhone, det_Date, det_CanDate as CanDate, ISNULL(fam_Note,emp_Note) as Note, det_canNote FROM Detail full outer join family on  Detail.fam_No = family.fam_No full outer join Employee on Detail.emp_No = Employee.emp_No WHERE Tra_No = ? order by CanDate";
+	private static final String SELECT = "SELECT det_No, Detail.emp_No, ISNULL(Detail.fam_No,Detail.emp_No) as number, ISNULL(fam_Rel,'員工') as Rel, ISNULL(fam_Name, emp_Name) as Name, ISNULL(fam_Sex,emp_Sex) as Sex, ISNULL(fam_ID, emp_ID) as ID,ISNULL(fam_Bdate,emp_Bdate) as Bdate, ISNULL(fam_Phone,emp_Phone) as Phone,ISNULL(fam_eat,emp_Eat) as Eat, ISNULL(fam_Car,1) as Car, fam_Bady, fam_kid, fam_Dis, fam_Mom,ISNULL(fam_Ben,emp_Ben) as Ben, ISNULL(fam_BenRel,emp_BenRel) as BenRel, ISNULL(fam_Emg,emp_Emg) as Emg, ISNULL(fam_EmgPhone,emp_EmgPhone) as EmgPhone, det_Date, det_CanDate as CanDate, ISNULL(fam_Note,emp_Note) as Note, det_canNote FROM Detail full outer join family on  Detail.fam_No = family.fam_No full outer join Employee on Detail.emp_No = Employee.emp_No WHERE Tra_No = ? order by CanDate";
+
 	@Override
 	public List<DetailBean> select(String Tra_No) {
 		List<DetailBean> result = new ArrayList<>();
@@ -200,11 +201,13 @@ public class DetailDAO implements IDetailDAO {
 				DetailBean bean = new DetailBean();
 				bean.setDet_No(rset.getInt("det_No"));
 				bean.setEmp_No(rset.getInt("emp_No"));
+				bean.setFam_No(rset.getInt("number"));
 				bean.setRel(rset.getString("Rel"));
 				bean.setName(rset.getString("Name"));
 				bean.setSex(rset.getString("Sex"));
 				bean.setID(rset.getString("ID"));
 				bean.setBdate(rset.getDate("Bdate"));
+				bean.setPhone(rset.getString("Phone"));
 				bean.setEat(rset.getString("Eat"));
 				bean.setCar(rset.getBoolean("Car"));
 				bean.setFam_Bady(rset.getBoolean("fam_Bady"));
@@ -229,6 +232,7 @@ public class DetailDAO implements IDetailDAO {
 
 	// 由name判斷是否為員工(SELECT_emp_Name)or親屬(SELECT_fam_Name)
 	private static final String SELECT_emp_Name = "SELECT emp_No = '員工' from Employee where emp_No=? and emp_Name=?";
+
 	@Override
 	public String select_emp_Name(int Emp_No, String Emp_Name) {
 		String result = null;
@@ -244,7 +248,9 @@ public class DetailDAO implements IDetailDAO {
 		}
 		return result;
 	}
+
 	private static final String SELECT_fam_Name = "SELECT fam_No from Family where emp_No=? and fam_Name=?";
+
 	@Override
 	public String select_fam_Name(int Emp_No, String Fam_Name) {
 		String result = null;
@@ -263,6 +269,7 @@ public class DetailDAO implements IDetailDAO {
 
 	// 找到員工目前所套用的emp_SubTra
 	private static final String SELECT_emp_SubTra = "SELECT emp_SubTra FROM Employee where emp_No=?";
+
 	@Override
 	public String SELECT_emp_SubTra(int Emp_No) {
 		String result = null;
@@ -280,6 +287,7 @@ public class DetailDAO implements IDetailDAO {
 
 	// 找到員工所報名的所有旅費中花費最高的Tra_No
 	private static final String SELECT_top1_Tra_No = "SELECT  TOP 1 Tra_No FROM (SELECT TOP 1  Detail.Tra_No, Detail.emp_No,SUM(det_money) as totalMoney FROM Detail full outer join family on  Detail.fam_No = family.fam_No full outer join Employee on Detail.emp_No = Employee.emp_No full outer join Travel on Detail.tra_No = Travel.tra_No WHERE Detail.emp_No=? and ISNULL(fam_Rel,'員工') <> '親友' and det_CanDate is null and tra_On>GETDATE() GROUP BY  Detail.emp_No,Detail.Tra_No ORDER BY totalMoney DESC )temp1";
+
 	@Override
 	public String SELECT_top1_Tra_No(int Emp_No) {
 		String result = null;
@@ -298,6 +306,7 @@ public class DetailDAO implements IDetailDAO {
 
 	// 找到員工所報名的所有旅費中花費第二高的Tra_No
 	private static final String SELECT_top2_Tra_No = "SELECT  TOP 1 Tra_No FROM (SELECT TOP 2 Detail.Tra_No, Detail.emp_No,SUM(det_money) as totalMoney FROM Detail full outer join family on  Detail.fam_No = family.fam_No full outer join Employee on Detail.emp_No = Employee.emp_No full outer join Travel on Detail.tra_No = Travel.tra_No WHERE Detail.emp_No=? and ISNULL(fam_Rel,'員工') <> '親友' and det_CanDate is null and tra_On>GETDATE() GROUP BY  Detail.emp_No,Detail.Tra_No order by totalMoney DESC)temp1 ORDER BY totalMoney ";
+
 	@Override
 	public String SELECT_top2_Tra_No(int Emp_No) {
 		String result = null;
@@ -316,6 +325,7 @@ public class DetailDAO implements IDetailDAO {
 
 	// 取消detail用，點選取消找到附屬的emp_No
 	private static final String SELECT_emp_No = "SELECT emp_No FROM Detail WHERE det_No=?";
+
 	@Override
 	public int select_emp_No(int det_No) {
 		int result = 0;
@@ -332,6 +342,7 @@ public class DetailDAO implements IDetailDAO {
 	}
 
 	private static final String INSERT_Detail = "insert into Detail(emp_No,fam_No,tra_No,det_Date,det_money) values(?,?,?,GETDATE(),?)";
+
 	@Override
 	public DetailVO insert(DetailVO bean) {
 		DetailVO result = null;
@@ -353,6 +364,7 @@ public class DetailDAO implements IDetailDAO {
 	}
 
 	private static final String INSERT_DetailEmp = "insert into Detail(emp_No,tra_No,det_Date,det_money) values(?,?,GETDATE(),?)";
+
 	@Override
 	public DetailVO insert_emp(DetailVO bean) {
 		DetailVO result = null;
@@ -374,6 +386,7 @@ public class DetailDAO implements IDetailDAO {
 
 	// 更新取消日期=點選當下的時間
 	private static final String UPDATE_CanDate = "update Detail set det_CanDate=GETDATE(), det_canNote=? where emp_No=? and tra_No=? and det_CanDate is null";
+
 	@Override
 	public List<DetailBean> update(int emp_No, String det_canNote, String tra_No) {
 		List<DetailBean> result = null;
@@ -390,6 +403,7 @@ public class DetailDAO implements IDetailDAO {
 
 	// 當員工沒有花費第二高的Tra_No時，將他的輔助金變回尚未使用，emp_SubTra=NULL
 	private static final String UPDATE_emp_Sub = "update Employee set emp_Sub=1, emp_SubTra=NULL where emp_No=?";
+
 	@Override
 	public boolean UPDATE_emp_Sub(int Emp_No) {
 		boolean b = true;
@@ -406,6 +420,7 @@ public class DetailDAO implements IDetailDAO {
 
 	// 當員工有花費第二高的Tra_No時，將他的輔助金套用至該Tra_No
 	private static final String UPDATE_emp_SubTra = "update Employee set emp_SubTra=? where emp_No=?";
+
 	@Override
 	public boolean UPDATE_emp_SubTra(String Tra_No, int Emp_No) {
 		boolean b = true;
@@ -413,6 +428,68 @@ public class DetailDAO implements IDetailDAO {
 			PreparedStatement stmt = conn.prepareStatement(UPDATE_emp_SubTra);
 			stmt.setString(1, Tra_No);
 			stmt.setInt(2, Emp_No);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			b = false;
+		}
+		return b;
+	}
+
+	// 報名明細update員工table
+	private static final String UPDATE_empData = "update Employee set emp_name=?, emp_Phone=?, emp_Sex=?, emp_ID=?, emp_Bdate=?, emp_Eat=?, emp_Ben=?, emp_BenRel=?, emp_Emg=?, emp_EmgPhone=?, emp_Note=?  where emp_No=?";
+
+	@Override
+	public boolean UPDATE_empData(EmployeeVO bean) {
+		boolean b = true;
+		try (Connection conn = ds.getConnection()) {
+			PreparedStatement stmt = conn.prepareStatement(UPDATE_empData);
+			stmt.setString(1, bean.getEmp_Name());
+			stmt.setString(2, bean.getEmp_Phone());
+			stmt.setString(3, bean.getEmp_Sex());
+			stmt.setString(4, bean.getEmp_ID());
+			stmt.setDate(5, bean.getEmp_Bdate());
+			stmt.setString(6, bean.getEmp_Eat());
+			stmt.setString(7, bean.getEmp_Ben());
+			stmt.setString(8, bean.getEmp_BenRel());
+			stmt.setString(9, bean.getEmp_Emg());
+			stmt.setString(10, bean.getEmp_EmgPhone());
+			stmt.setString(11, bean.getEmp_Note());
+			stmt.setInt(12, bean.getEmp_No());
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			b = false;
+		}
+		return b;
+	}
+
+	// 報名明細update親屬table
+	private static final String UPDATE_famData = "update Family set fam_Rel=?,fam_Name=?,fam_Phone=?,fam_Sex=?,fam_Id=?,fam_Bdate=?,fam_Eat=?,fam_Car=?,fam_Bady=?,fam_kid=?,fam_Dis=?,fam_Mom=?,fam_Ben=?,fam_BenRel=?,fam_Emg=?,fam_EmgPhone=?,fam_Note=? where fam_No=?";
+
+	@Override
+	public boolean UPDATE_famData(FamilyVO bean) {
+		boolean b = true;
+		try (Connection conn = ds.getConnection()) {
+			PreparedStatement stmt = conn.prepareStatement(UPDATE_famData);
+			stmt.setString(1, bean.getFam_Rel());
+			stmt.setString(2, bean.getFam_Name());
+			stmt.setString(3, bean.getFam_Phone());
+			stmt.setString(4, bean.getFam_Sex());
+			stmt.setString(5, bean.getFam_Id());
+			stmt.setDate(6, bean.getFam_Bdate());
+			stmt.setString(7, bean.getFam_Eat());
+			stmt.setBoolean(8, bean.isFam_Car());
+			stmt.setBoolean(9, bean.isFam_Bady());
+			stmt.setBoolean(10, bean.isFam_kid());
+			stmt.setBoolean(11, bean.isFam_Dis());
+			stmt.setBoolean(12, bean.isFam_Mom());
+			stmt.setString(13, bean.getFam_Ben());
+			stmt.setString(14, bean.getFam_BenRel());
+			stmt.setString(15, bean.getFam_Emg());
+			stmt.setString(16, bean.getFam_EmgPhone());
+			stmt.setString(17, bean.getFam_Note());
+			stmt.setInt(18, bean.getFam_No());
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -485,4 +562,5 @@ public class DetailDAO implements IDetailDAO {
 		}
 		return b;
 	}
+	
 }

@@ -65,6 +65,7 @@ public class Sign_in extends HttpServlet {
 						decide.add(travelvo2.getTra_Name());
 					}
 					String emp_SubTra = employeeService.select(emp_No).getEmp_SubTra();
+			
 					if(emp_SubTra==null||emp_SubTra.equals("null")){
 						employeeService.updateEmp_SubTra(tra_No, emp_No);
 					}else{
