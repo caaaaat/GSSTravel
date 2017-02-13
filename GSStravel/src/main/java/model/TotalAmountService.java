@@ -21,6 +21,11 @@ public class TotalAmountService {
 	public TotalAmountVO selectTa_money(String emp_No){
 		return totalAmountDAO.selectTa_money(emp_No);
 	}
+	
+	public TotalAmountVO select(String emp_No,String tra_No){
+		return totalAmountDAO.select(emp_No,tra_No);
+	}
+	
 	public boolean update(TotalAmountVO bean){
 		boolean b=false;
 		if(bean != null){

@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,8 +24,8 @@ import model.FamilyVO;
 
 
 
-@WebServlet("/Servlet")
-public class Servlet extends HttpServlet {
+@WebServlet("/FamilyServlet")
+public class FamilyServlet extends HttpServlet {
 	
 private static final ArrayList<Object> Integer = null;
 private EmployeeService employeeservice = new EmployeeService();
@@ -48,12 +49,10 @@ private FamilyService familyservice= new FamilyService();
 		String[] fambdatedate= req.getParameterValues("fambdate");
 		String[] famphone=req.getParameterValues("famphone");
 		String[] fameat = req.getParameterValues("fameat");
-//		看要不要改成占車位 跟不占車位兩種   name取不同的   看要不要改成下拉選單  vo會改 下拉選單記得看羅技跟益儒 的寫法(記得相同UI) 
-		String[] famcarboolean = req.getParameterValues("famcar");
-		String[] fambabyboolean = req.getParameterValues("fambaby");
-		String[] famkidboolean = req.getParameterValues("famkid");
-		String[] famdisboolean = req.getParameterValues("famdis");
-		String[] fammomboolean = req.getParameterValues("fammom");
+//		String famspa=req.getParameter("famspa");
+		String[] famspa=req.getParameterValues("famspa");
+
+		
 		String[] famben = req.getParameterValues("famben");
 		String[] fambenrel = req.getParameterValues("fambenrel");
 		String[] famemg = req.getParameterValues("famemg");
@@ -68,6 +67,16 @@ private FamilyService familyservice= new FamilyService();
 		
 		Map<String,String> errormsg = new HashMap<String, String>();
 		req.setAttribute("error", errormsg);
+		
+//		System.out.println(i + "次"  + famspa[i]+"值");
+		
+		
+//		String[] items = loca.replaceAll("\\[", "").replaceAll("\"","")
+//                .replaceAll("\\]", "").split(",");
+//		if(famspa!=null){
+//			 String[] spa = famspa.replaceAll("\\[", "").replaceAll("\"","").replaceAll("\\]", "").split(",");
+//			 System.out.println(spa);
+//		}
 		
 		
 		
@@ -85,106 +94,13 @@ private FamilyService familyservice= new FamilyService();
 		
 		
 		//親屬 轉值
-		List<Boolean> famcar= new ArrayList<Boolean>();
-		List<Boolean> fambaby= new ArrayList<Boolean>();
-		List<Boolean> famkid= new ArrayList<Boolean>();
-		List<Boolean> famdis= new ArrayList<Boolean>();
-		List<Boolean> fammom= new ArrayList<Boolean>();
-	
-		System.out.println(famcarboolean[0]);
+		
+//		System.out.println(famcarboolean[0]);
 //		System.out.println(famcarboolean.length);
 //		System.out.println(famcarboolean1);
 //		System.out.println(famcarboolean[1]);//超出陣列範圍  代表 第0筆 有值而已 其他都沒有[]裡面都沒有其他值 只有 [on]而已
 //		System.out.println(famcarboolean[2]);
-		try{
-			//on 不回傳 改成true false 
-			//變質   傳值進去familyvo
-			if(famcarboolean!=null){
-//			System.out.println(famcarboolean.length);
-				for(int i=0;i<=famname.length;i++){				
-						if(famcarboolean[i].equals("on")){
-							famcar.add(true);
-							for(boolean x :famcar){
-//								System.out.println(x);
-							}							
-						}else{
-							famcar.add(false);
-						}
-					
-				}
-			}
-//			else{
-////				System.out.println("裡面沒有值");
-//				for(int i=0;i<=famname.length;i++){
-//					famcar.add(i, false);
-//					System.out.println(famcar.size());
-//				}
-//			}
-			
-			
-////			if(famcarboolean!=null){
-//					for(String car: famcarboolean){
-//						if(car.equals("on")){//String[on]
-//							famcar.add(true);
-//						}
-//						if(car.length()-car.equals("on").length())
-//					}
-//					System.out.println(famcarboolean[0]);
-//					System.out.println(famcarboolean[1]);
-////				}else{
-////					famcar.add(false);
-////				}
-//			if(fambabyboolean!=null){
-//				for(String baby: fambabyboolean){
-//				
-//					if(baby=="on"){
-//						fambaby.add(true);
-//					}else{
-//						fambaby.add(false);
-//						}
-//					}
-//				}else{
-//					fambaby.add(false);
-//			}
-//			if(famkidboolean!=null){
-//			for(String kid: famkidboolean){
-//					if(kid=="on"){
-//						famkid.add(true);
-//					}else{
-//						famkid.add(false);
-//					}
-//				}
-//			}else{
-//				famkid.add(false);
-//			}
-//			if(famdisboolean!=null){
-//			for(String dis: famdisboolean){
-//					if(dis=="on"){
-//						famdis.add(true);
-//					}else{
-//						famdis.add(false);
-//					}
-//				}
-//				}else{
-//					famdis.add(false);
-//			}
-//			if(fammomboolean!=null){
-//			for(String mom: fammomboolean){
-//					if(mom=="on"){
-//						fammom.add(true);
-//					}else{
-//						fammom.add(false);
-//					}
-//				}
-//			}else{
-//				fammom.add(false);
-//			}
 
-		}catch(NumberFormatException e){
-			errormsg.put("boolean","Boolean 格式轉換錯誤");
-			System.out.println("Boolean 格式轉換錯誤");
-			e.printStackTrace();
-		}
 
 		List<Date> fambdate = new ArrayList<Date>();
 		SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
@@ -194,13 +110,15 @@ private FamilyService familyservice= new FamilyService();
 //						(java.sql.Date)sdf.parse(bdate);
 						
 						
-//						System.out.println(sdf.format(fambdate));
 					} catch (ParseException e) {
 						errormsg.put("fambdate","日期錯誤必須符合 年-月-日格式");
 						System.out.println("使用者輸入日期錯誤");
 					}
 				}
 			
+
+				
+				
 		if(famname==null || famname.length==0 ){
 			errormsg.put("famname", "親屬家人不能為空值");}
 		if( famid ==null ||famid.length==0){
@@ -224,6 +142,40 @@ private FamilyService familyservice= new FamilyService();
 				return;	
 			}else{
 				System.out.println("親屬員工檢查完畢");
+			}
+			
+
+			//記得改VoDAO boolean 的地方
+			// 假如跟checkbox一樣只有抓到的值?
+			//看到一個bug就是新增兩三次之後 刪除欄位兩三次後刪不掉
+			List<Integer> spa = new ArrayList();
+			if(famspa!=null){
+				for(int i =1;i<=famname.length*4-3;i+=4){ //假如 一位親屬無特殊身份? 	
+					for(String xxx:famspa){//1234 5678 9101112 13 17  
+						if(xxx.equals("no")==true){spa.add(i,0);
+							spa.add(i+1, 0); spa.add(i+2, 0); spa.add(i+3, 0);}
+						if(xxx.equals("baby")==true){ spa.add(i, 1);}
+						if(xxx.equals("baby")==false){ spa.add(i, 0);}
+						if(xxx.equals("kid")==true){ spa.add(i+1, 1);}
+						if(xxx.equals("kid")==false){ spa.add(i+1, 0);}
+						if(xxx.equals("dis")==true){ spa.add(i+2, 1);}
+						if(xxx.equals("dis")==false){ spa.add(i+2, 0);}
+						if(xxx.equals("mom")==true){ spa.add(i+3, 1);}
+						if(xxx.equals("mom")==false){ spa.add(i+3, 0);}
+						
+					}
+				}
+				
+			}else{
+				for(int i =1;i<=famname.length*4-3;i+=4){
+//					spa.add(i, 0);//完全沒有時出現此行錯誤 
+					spa.add(0);
+//					System.out.println(spa);
+				}
+			}
+			
+			for(Integer yyy:spa){
+				System.out.print(yyy + "+");
 			}
 			
 	    	HttpSession session = req.getSession();
@@ -265,68 +217,68 @@ private FamilyService familyservice= new FamilyService();
 			familyvo.setFam_Phone(famphone[i]);
 			familyvo.setFam_Eat(fameat[i]);
 			
-			if(famcar!=null){
-				for(String car:famcarboolean){
-					if(car.equals("on")){//{true}
-						familyvo.setFam_Car(true);
-					}
-					if(car.equals("off")){
-						familyvo.setFam_Car(false);
-					}
-				}
-			}else{
-				familyvo.setFam_Car(famcar.get(i).valueOf(false));
-			}
+//			if(famcar!=null){
+//				for(String car:famcarboolean){
+//					if(car.equals("on")){//{true}
+//						familyvo.setFam_Car(true);
+//					}
+//					if(car.equals("off")){
+//						familyvo.setFam_Car(false);
+//					}
+//				}
+//			}else{
+//				familyvo.setFam_Car(famcar.get(i).valueOf(false));
+//			}
 			
 
 //			System.out.println(famcar.get(0).toString()+"xxxxxx");
 //			System.out.println(famcar.get(i).toString()+"yyyyyy");
 //			familyvo.setFam_Car(famcar.get(i));
-			
-			if(fambaby!=null){
-				if(fambaby.get(i).equals(true)){
-					familyvo.setFam_Bady(true);
-				}else{
-					familyvo.setFam_Bady(false);
-				}
-			}else{
-				familyvo.setFam_Bady(fambaby.get(i).valueOf(false));
-			}
+//			
+//			if(fambaby!=null){
+//				if(fambaby.get(i).equals(true)){
+//					familyvo.setFam_Bady(true);
+//				}else{
+//					familyvo.setFam_Bady(false);
+//				}
+//			}else{
+//				familyvo.setFam_Bady(fambaby.get(i).valueOf(false));
+//			}
 //			familyvo.setFam_Bady(fambaby.get(i));
 			
-			if(famkid!=null){
-				if(famkid.get(i).equals(true)){
-					familyvo.setFam_kid(true);
-				}else{
-					familyvo.setFam_kid(false);
-				}
-			}else{
-				familyvo.setFam_kid(famkid.get(i).valueOf(false));
-			}
+//			if(famkid!=null){
+//				if(famkid.get(i).equals(true)){
+//					familyvo.setFam_kid(true);
+//				}else{
+//					familyvo.setFam_kid(false);
+//				}
+//			}else{
+//				familyvo.setFam_kid(famkid.get(i).valueOf(false));
+//			}
 //			familyvo.setFam_kid(famkid.get(i));
 			
 			
-			if(famdis!=null){
-				if(famdis.get(i).equals(true)){
-					familyvo.setFam_Dis(true);
-				}else{
-					familyvo.setFam_Dis(false);
-				}
-			}else{
-				familyvo.setFam_Dis(famdis.get(i).valueOf(false));
-			}
+//			if(famdis!=null){
+//				if(famdis.get(i).equals(true)){
+//					familyvo.setFam_Dis(true);
+//				}else{
+//					familyvo.setFam_Dis(false);
+//				}
+//			}else{
+//				familyvo.setFam_Dis(famdis.get(i).valueOf(false));
+//			}
 //			familyvo.setFam_Dis(famdis.get(i));
 			
 			
-			if(fammom!=null){
-				if(fammom.get(i).equals(true)){
-					familyvo.setFam_Mom(true);
-				}else{
-					familyvo.setFam_Mom(false);
-				}
-			}else{
-				familyvo.setFam_Mom(fammom.get(i).valueOf(false));
-			}
+//			if(fammom!=null){
+//				if(fammom.get(i).equals(true)){
+//					familyvo.setFam_Mom(true);
+//				}else{
+//					familyvo.setFam_Mom(false);
+//				}
+//			}else{
+//				familyvo.setFam_Mom(fammom.get(i).valueOf(false));
+//			}
 //			familyvo.setFam_Mom(fammom.get(i));
 //			
 			familyvo.setFam_Ben(famben[i]);
@@ -381,7 +333,7 @@ private FamilyService familyservice= new FamilyService();
 //			 System.out.println(idlength);
 		 }//回圈結束
 		 
-		 req.getRequestDispatcher("start").forward(req, res);
+		 req.getRequestDispatcher("Register").forward(req, res);
 		}
 	}
 	

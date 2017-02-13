@@ -6,14 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<script>
-var Error="<%=session.getAttribute("nopeople")%>";
-<% session.removeAttribute("nopeople");%>
-if(Error!='null'){
-	alert(Error);
-	Error='null';
-}
-</script>
+
 <script>
 	window.onload = function() {
 		var id = document.getElementById('id');
@@ -69,7 +62,7 @@ if(Error!='null'){
 					tr = document.createElement('tr');
 					td = document.createElement('td');
 					a = document.createElement('a');
-					a.setAttribute("href",result+"/TravelDetail?tra_no="+travel[i].id);
+					a.setAttribute("href",result+"/Travel_Edit?tra_no="+travel[i].id);
 					a.appendChild(document.createTextNode(travel[i].id));
 					td.appendChild(a);
 					tr.appendChild(td);
@@ -104,7 +97,6 @@ if(Error!='null'){
 					td.appendChild(document.createTextNode(travel[i].peopleNow));
 					tr.appendChild(td);
 
-
 					td = document.createElement('td');
 					td.appendChild(document.createTextNode(travel[i].location));
 					tr.appendChild(td);
@@ -115,7 +107,6 @@ if(Error!='null'){
 			}
 	}
 </script>
-
 </head>
 
 <body>
@@ -125,7 +116,7 @@ if(Error!='null'){
  <script src="js/jquery-1.12.3.min.js"></script>
  <script src="https://kendo.cdn.telerik.com/2017.1.118/js/kendo.all.min.js"></script>
 <%@include file="SelectBar.jsp" %>
-<h2>旅費統計</h2>
+<h2>行程維護</h2>
 	<form>
 		活動代碼:<input type='text' id='id' value='' /><br> 活動名稱:<input
 			type='text' id='tra_name' value='' /><br> 開始日期:<input
@@ -135,14 +126,14 @@ if(Error!='null'){
 <!-- 			type="checkbox" name="loc" value="東" />東 <input type="checkbox" -->
 <!-- 			name="loc" value="西" />西 <input type="checkbox" name="loc" value="南" />南 -->
 <!-- 		<input type="checkbox" name="loc" value="北" />北  -->
-        <select class="multiselect" name ="loca" multiple="multiple" data-placeholder="請選擇" style="width: 350px;">
+        <select class="multiselect" name ="loca" id='jj' multiple="multiple" data-placeholder="請選擇" style="width: 350px;">
         <option>東</option>
         <option>西</option>
         <option>南</option>
         <option>北</option>
         </select>
 		<br> <input
-			type="button" value="查詢" onclick="search()" /> <input type="reset">
+			type="button" value="查詢" onclick="search()" /> <input type="reset"><button><a href="Travel_New.jsp">新增</a></button>
 	</form>
 	<table class='table'  cellpadding="10">
 		<thead>

@@ -2,7 +2,9 @@ package controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import model.DetailService;
 import model.EmployeeService;
+import model.EmployeeVO;
 import model.TotalAmountService;
 import model.TravelService;
 import model.TravelVO;
@@ -28,6 +31,7 @@ public class Sign_in extends HttpServlet {
 	public boolean bl1=false;
 	public List<Float> drtail;
 	float TA_money;
+	float sub_Money;
 	List<String> decide;
 	public Sign_in() {
 		super();
@@ -39,14 +43,16 @@ public class Sign_in extends HttpServlet {
 			String[] room = req.getParameterValues("room");
 			String emp_No = req.getParameter("emp_No");
 			String tra_No = req.getParameter("tra_No");
-			bl = detailService.tra_Enter(fams, emp_No, tra_No);
+			bl = detailService.tra_Enter(fams, emp_No, tra_No,room);
 			String Emp_SubTra = null;//使用補助金的旅遊編號
 			String tra_Name = null;//使用補助金的旅遊名稱
+			EmployeeVO employeeVO = employeeService.select(emp_No);
 			if(!bl){						
 				drtail=detailService.drtail(emp_No, tra_No, fams,room);
 				TA_money=drtail.get(1)*drtail.get(2);
-				if(detailService.decide(emp_No, TA_money)){						
-					if(totalAmountService.counts(emp_No)>0){
+				sub_Money=drtail.get(1)*(drtail.get(2)-drtail.get(5));
+				if(detailService.decide(emp_No,sub_Money)){						
+					if(totalAmountService.counts(emp_No)>0 && employeeVO.isEmp_Sub()){
 						bl1 =true;
 						decide=new ArrayList<>();
 						Emp_SubTra=employeeService.select(emp_No).getEmp_SubTra();
@@ -57,11 +63,23 @@ public class Sign_in extends HttpServlet {
 						decide.add(tra_Name);
 						decide.add(tra_No);
 						decide.add(travelvo2.getTra_Name());
-					}						
-					employeeService.updateEmp_SubTra(tra_No, emp_No);
+					}
+					String emp_SubTra = employeeService.select(emp_No).getEmp_SubTra();
+			
+					if(emp_SubTra==null||emp_SubTra.equals("null")){
+						employeeService.updateEmp_SubTra(tra_No, emp_No);
+					}else{
+						TravelVO travelVo = travelService.select(Long.parseLong(emp_SubTra));
+						java.sql.Date tra_Off = travelVo.getTra_Off();
+						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());//現在系統時間
+						java.sql.Date today = java.sql.Date.valueOf(date);
+						if(tra_Off.after(today)){
+							employeeService.updateEmp_SubTra(tra_No, emp_No);							
+						}						
+					}					
 				}
-				totalAmountService.insertTotalAmount(tra_No, Integer.parseInt(emp_No), TA_money);							
-				employeeService.updateEmp_Sub(false,emp_No);
+					totalAmountService.insertTotalAmount(tra_No, Integer.parseInt(emp_No), TA_money);							
+					employeeService.updateEmp_Sub(false,emp_No);				
 			}
 			HttpSession session = req.getSession();
 			session.setAttribute("decide", decide);
@@ -70,8 +88,6 @@ public class Sign_in extends HttpServlet {
 			req.setAttribute("bl", bl);
 			bl1=false;
 			req.getRequestDispatcher("/display.jsp").forward(req, resp);
-			
-
 		} catch (NumberFormatException | SQLException e) {
 			e.printStackTrace();
 		}		

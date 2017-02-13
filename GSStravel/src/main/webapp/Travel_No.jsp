@@ -67,7 +67,7 @@
 		</tr>
 		<tr>
 			<td>附件</td>
-			<td>${traveResult.tra_File}</td>
+			<td><a href="<c:url value="/File?tra_Name=${traveResult.tra_Name}"></c:url>">${traveResult.tra_File}</a></td>
 		</tr>
 		<tr>
 			<td>費用</td>
@@ -82,7 +82,8 @@
 		</tr>
 		</c:forEach>
 	</table>
-	<button><a href="<c:url value="/AllTravel"></c:url>" class="a">回到報名/查詢</a></button><button><a href="<c:url value="/Login_Information?tra_No=${traveResult.tra_NO}&emp_No=${emp_No}" ></c:url>" class="a">報名</a></button>
+	<button><a href="<c:url value="/AllTravel"></c:url>" class="a">回到報名/查詢</a></button>
+<%-- 	<button><a href="<c:url value="/Login_Information?tra_No=${traveResult.tra_NO}&emp_No=${emp_No}" ></c:url>" class="a">報名</a></button> --%>
 
 	
 </body>
