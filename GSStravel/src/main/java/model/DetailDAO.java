@@ -562,4 +562,5 @@ public class DetailDAO implements IDetailDAO {
 		}
 		return b;
 	}
+	
 }

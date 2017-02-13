@@ -46,12 +46,13 @@ public class Sign_in extends HttpServlet {
 			bl = detailService.tra_Enter(fams, emp_No, tra_No,room);
 			String Emp_SubTra = null;//使用補助金的旅遊編號
 			String tra_Name = null;//使用補助金的旅遊名稱
+			EmployeeVO employeeVO = employeeService.select(emp_No);
 			if(!bl){						
 				drtail=detailService.drtail(emp_No, tra_No, fams,room);
 				TA_money=drtail.get(1)*drtail.get(2);
 				sub_Money=drtail.get(1)*(drtail.get(2)-drtail.get(5));
 				if(detailService.decide(emp_No,sub_Money)){						
-					if(totalAmountService.counts(emp_No)>0){
+					if(totalAmountService.counts(emp_No)>0 && employeeVO.isEmp_Sub()){
 						bl1 =true;
 						decide=new ArrayList<>();
 						Emp_SubTra=employeeService.select(emp_No).getEmp_SubTra();
@@ -64,6 +65,7 @@ public class Sign_in extends HttpServlet {
 						decide.add(travelvo2.getTra_Name());
 					}
 					String emp_SubTra = employeeService.select(emp_No).getEmp_SubTra();
+			
 					if(emp_SubTra==null||emp_SubTra.equals("null")){
 						employeeService.updateEmp_SubTra(tra_No, emp_No);
 					}else{

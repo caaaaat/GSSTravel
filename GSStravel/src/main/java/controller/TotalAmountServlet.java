@@ -25,6 +25,7 @@ public class TotalAmountServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		
 		// 接收資料
 		String[] temp1 = request.getParameterValues("emp_No");
 		String tra_No = request.getParameter("tra_No");
