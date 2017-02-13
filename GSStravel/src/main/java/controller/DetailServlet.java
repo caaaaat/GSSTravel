@@ -15,13 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.DetailBean;
 import model.DetailService;
-<<<<<<< HEAD
 import model.EmployeeVO;
 import model.FamilyVO;
-=======
 import model.ItemService;
 import model.ItemVO;
->>>>>>> branch 'master' of https://github.com/freelife1018/GSSTravel.git
 
 @WebServlet(urlPatterns = { ("/detail") })
 public class DetailServlet extends HttpServlet {
@@ -41,19 +38,10 @@ public class DetailServlet extends HttpServlet {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 		DetailBean bean = new DetailBean();
-<<<<<<< HEAD
-
-=======
-	
->>>>>>> branch 'master' of https://github.com/freelife1018/GSSTravel.git
 		Map<String, String> DetCanError = new HashMap<String, String>();
 		req.setAttribute("DetCanError", DetCanError);
-<<<<<<< HEAD
-
-=======
 		List<ItemVO> itemVO=null;
 		List<ItemVO> room=null;
->>>>>>> branch 'master' of https://github.com/freelife1018/GSSTravel.git
 		if ("insert".equals(prodaction)) {
 			Long tra_No=Long.parseLong(tra_no);
 
