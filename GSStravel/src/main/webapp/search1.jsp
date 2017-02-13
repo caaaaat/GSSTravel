@@ -162,7 +162,4 @@ if(Error!='null'){
 		</tbody>
 	</table>
 </body>
-<script type="text/javascript" src="/GSStravel/js/selectBar.js"></script>
-
-
 </html>

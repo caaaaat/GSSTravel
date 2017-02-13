@@ -153,7 +153,9 @@ function select_emp_No(){
 			if(Msg.emp_Name!=null){
 				$("#select").append($("<option></option>").attr("class", 'emp_name').text(Msg.emp_Name));
 			}
-			if(Msg.fam_No!=null){
+			console.log(Msg.fam_No);
+			console.log(typeof Msg.fam_No);
+			if(Msg.fam_No){
 				insertnewfam(Msg.fam_No);
 			}
 			$(".name").val(Msg.emp_Name);
@@ -171,12 +173,13 @@ function clearName(){
 	$('.nofam').text('');
 	$("#select option").remove();
 	$(".div").hide();
+	$("#multiselect").remove();
 }
 function insertnewfam(nofam){
 	var a;
 	if(confirm(nofam)){
 		$(".div").show();
-		$(".multiselect").kendoMultiSelect({autoClose: false});
+		$("#multiselect").kendoMultiSelect({autoClose: false});
 	}
 }
 </script>

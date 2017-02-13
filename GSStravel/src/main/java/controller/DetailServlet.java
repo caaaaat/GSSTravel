@@ -39,6 +39,9 @@ public class DetailServlet extends HttpServlet {
 		List<ItemVO> room=null;
 		if ("insert".equals(prodaction)) {
 			Long tra_No=Long.parseLong(tra_no);
+
+			int Count=detailService.tra_count(tra_No);
+			int NowCount=detailService.tra_count(tra_No);
 			itemVO=itemService.getFareMoney(tra_No);
 			room=itemService.getRoomMoney(tra_No);
 			float f=0;

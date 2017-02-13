@@ -10,5 +10,7 @@ public interface ITravelDAO {
 	public List<String> selectTra_No();//所有活動行程編號
 	public List<TravelVO> search(String no,String name);
 	public Map<String,String> selectTra_NoTra_Beg();//所有活動行程編號跟對應的登記開始日期
+	
+	public int[] Count(long tra_No);			//此行程的可報名總人數&個人可報名總人數
 
 }
