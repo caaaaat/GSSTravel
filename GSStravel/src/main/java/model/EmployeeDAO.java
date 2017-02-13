@@ -30,6 +30,47 @@ public class EmployeeDAO implements IEmployeeDAO {
 	private static final String updateEmp_SubTra="update Employee set emp_SubTra = ? where emp_No=?";
 //	private static final String update = "update Employee set emp_Name=?,emp_Phone=?, emp_ID=?, emp_Sex=?, emp_Bdate=?, emp_Eat=?, emp_Emg=?, emp_EmgPhone=?, emp_EmgRel=?, emp_HireDate=?, emp_Sub=?, emp_PW=?, emp_Ben=?, emp_BenRel=?, dept_NO=?, emp_Note=?, emp_Mail=?, emp_Role=? where emp_NO=?";
 	private static final String update1 ="update Employee set emp_Phone=?,emp_Ben=?,emp_BenRel=?,emp_Emg=?,emp_EmgPhone=?,emp_Eat=?,emp_Note=? where emp_NO=? ";
+	private static final String years ="select * from Year";
+	private static final String updateYear ="update Year set year=?";
+	private static final String updateEmp ="update Employee set emp_Sub=? , emp_SubTra = ?";
+	
+	public void updateEmp() {		
+		try (	Connection conn = ds.getConnection(); 
+				PreparedStatement stmt = conn.prepareStatement(updateEmp);
+				) {		
+			stmt.setBoolean(1, true);
+			stmt.setString(2, "null");
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+	}
+	
+	public void updateYear(int year) {		
+		try (	Connection conn = ds.getConnection(); 
+				PreparedStatement stmt = conn.prepareStatement(updateYear);
+				) {		
+			stmt.setInt(1, year);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+	}
+	
+	public int year() {
+		int year = 0;
+		try (	Connection conn = ds.getConnection(); 
+				PreparedStatement stmt = conn.prepareStatement(years);
+				ResultSet rset = stmt.executeQuery();) {			
+			while (rset.next()) {
+				year=rset.getInt("year");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return year;
+	}
+	
 	@Override
 	public String selectEmp_Name(String emp_No) {
 		String name = null;

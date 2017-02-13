@@ -1,14 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="BIG5"%>
-	
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>旅遊報名</title>
-<script type="text/javascript" src="/GSStravel/js/selectBar.js"></script>
-<script type="text/javascript" src='js/LogOut.js'></script>
 </head>
 <style>
 * {
@@ -36,8 +33,7 @@ td {
 </style>
 
 <body>
-	<div id='bar'></div>
-	<input type="button" value='登出' onclick='logOut()'>
+	<%@include file="SelectBar.jsp" %>
 	<form action="<c:url value='/TotalAmountServlet' />" method="GET">
 		<div>
 			<textarea name="tra_Name" readonly>${tra_Name}</textarea>
@@ -91,7 +87,7 @@ td {
 					<td><input type="text" name="money" class="money" value="${list.det_money}" readonly ></td>
 					
 					<td><input type="text" name="det_note" class="det_note" value="${list.det_note}"></td>
-					<td><input type="text" name="det_noteMoney" class="det_noteMoney" value="${list.det_noteMoney}"></td>
+					<td><input type="text" name="det_noteMoney" class="det_noteMoney" value="${list.det_noteMoney}" onkeyup="changeNotemoney()"></td>
 					<td><c:if test="${list.fam_No==0}">
 							<input type="text" name="TA_money" class="TA_money" value="">
 						</c:if>
@@ -121,35 +117,39 @@ td {
  	var $personmoney = $(".person_money");		//會員個人可補助金額	
 	var a=0;
  	var b=0;
- 	console.log($fam);
-	$.each($personmoney,function(i,value){
-		var sum=Number(0);
- 			$.each($personemp,function(k,value){
- 				if($emp[i].value==$personemp[k].value){
- 					sum=sum+Number($money[a].value);
-					a++;
+ 	$().ready(function(){
+	 	$.each($personmoney,function(i,value){
+			var sum=Number(0);
+	 			$.each($personemp,function(k,value){
+	 				if($emp[i].value==$personemp[k].value){
+	 					sum=sum+Number($money[a].value);
+						a++;
+					}
+				});
+				if($yearsmoney[i].value<=sum){
+					sum=$yearsmoney[i].value;
 				}
-			});
-			if($yearsmoney[i].value<=sum){
-				sum=$yearsmoney[i].value;
-			}
-		$personmoney[i].value=sum;		
- 	});
- 	a=0;
- 	$.each($emp,function(keys,emp){
-		var sum = Number(0);
-		sum = Number($money[keys].value)+Number($noteMoney[a].value)-Number($personmoney[keys].value);
-	 	a++;	
-  	 	$.each($fam,function(key , fam){
-	 		if ($fam[key].value.split("/")[0] == $emp[keys].value) {
-  	 			sum = sum + Number($money[a].value)+Number($noteMoney[a].value);
- 	 			a=a++;
- 	 		}
+			$personmoney[i].value=sum;		
 	 	});
-  	 	if(sum <= 0){
-			sum=0;
-		}
- 	 	$TAmoney[keys].value = sum;
-	});
+	 	changeNotemoney();
+ 	});
+ 	function changeNotemoney(){
+ 		 a=0;
+	 	$.each($emp,function(keys,emp){
+			var sum = Number(0);
+			sum = Number($money[keys].value)+Number($noteMoney[a].value)-Number($personmoney[keys].value);
+		 	a++;	
+	  	 	$.each($fam,function(key , fam){
+		 		if ($fam[key].value.split("/")[0] == $emp[keys].value) {
+	  	 			sum = sum + Number($money[a].value)+Number($noteMoney[a].value);
+	 	 			a++;
+	 	 		}
+		 	});
+	  	 	if(sum <= 0){
+				sum=0;
+			}
+	 	 	$TAmoney[keys].value = sum;
+		});
+ 	}
 </script>
 </html>

@@ -23,9 +23,11 @@ public interface IDetailDAO {
 	public abstract List<DetailBean> update(int det_No, String det_canNote, String tra_No);
 	public abstract boolean UPDATE_emp_Sub(int Emp_No);
 	public abstract boolean UPDATE_emp_SubTra(String Tra_No, int Emp_No);
+	public abstract boolean UPDATE_empData(EmployeeVO bean);
+	public abstract boolean UPDATE_famData(FamilyVO bean); 
 	public List<TotalAmountFormBean> selectBean(String tra_No);
 	public boolean update_empNo( String det_note ,float det_noteMoney, String tra_No, int emp_No);
 	public boolean update_famNo(String det_note,float det_noteMoney, String tra_No , int fam_No);
 	public boolean selectFam_No(int fam_No,long tra_No);
 	public List<String> selectFam_Rel(int emp_No,long tra_No);
-}
+	}

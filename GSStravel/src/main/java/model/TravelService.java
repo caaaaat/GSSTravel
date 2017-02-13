@@ -147,4 +147,37 @@ public class TravelService {
 			result.add(temp);
 			return result;
 		}
+		//信智
+		public TravelVO select(String tra_NO){
+			TravelVO result = null;
+			if(tra_NO!=null &&  tra_NO!="") {
+				result = travelDAO.getAll(Long.parseLong(tra_NO));
+			}
+//			else {
+//				result = travelDAO.select(""); 
+//			}
+			return result;
+		}
+		public TravelVO insert(TravelVO bean) {
+			TravelVO result = null;
+			if(bean!=null) {
+				System.out.println("service");
+				result = travelDAO.insert(bean);
+			}
+			return result;
+		}
+		public TravelVO update(TravelVO Travelupdate){
+			TravelVO result = null;
+			if(Travelupdate!=null) {
+				result = travelDAO.update(Travelupdate);
+			}
+			return result;
+		}
+		public boolean delete(TravelVO bean) {
+			boolean result = false;
+			if(bean!=null) {
+				result = travelDAO.delete(bean.getTra_NO());
+			}
+			return result;
+		}
 }
