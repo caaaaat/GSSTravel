@@ -17,33 +17,36 @@
 	<script src="js/jquery-3.1.1.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2017.1.118/js/kendo.all.min.js"></script>
 
-<!-- <div id="bar"></div>記得改 -->
 
 <%@include file="SelectBar.jsp" %>
 <form  action=<c:url value="/FamilyServlet"/>  method="post">
 
 <table>
-<span>員工編號</span>${empno}<br>
-<span>姓名</span>${empname}<br>
-<tr><span>手機</span><input type="text" name ="empphone" id="empphone"  value="${empphone}">  <div id=empphoneerror>${error.empphone}</div><br>
-<span>保險受益人</span><input type="text" name ="empben" id="empben" value ="${empben}"><div id=empbenerror>${error.empben}</div><br>
-<span>與受益人關係</span><input type="text" name ="empbenrel" id="empbenrel" value = "${empbenrel}"><div id=empbenrelerror>${error.empbenrel}</div><br>
-<span>緊急聯絡人</span><input type="text" name ="empemg" id="empemg" value = "${empemg}" ><div id=empemgerror>${error.empemg}</div><br>
-<tr><span>緊急聯絡人電話</span><input type="text" name ="empemgphone" id="empemgphone" value="${empemgphone}"><div id=empemgphoneerror>${error.empemgphone}</div><br>
-
-<span>用餐</span>
-<select name ="empeat">
-<c:if test="${empeat=='葷'}">
-<option  value="葷" selected>葷</option>
-<option  value="素">素</option>
-</c:if>
-
-<c:if test="${empeat=='素'}">
-<option  value="葷" >葷</option>
-<option  value="素" selected>素</option>
-</c:if></select><br>
-<span>(如有特別要求請填寫於備註)</span><br>
-<span>備註</span><input type="text" name ="empnote" id="empnote" value="${empnote}" ><div id=empnoteerror></div><br>
+	
+		<tr>  <td>員工編號</td>  <td>${empno}</td></tr>
+		<tr>  <td>姓名</td>  <td>${empname}</td></tr>
+		<tr>  <td>手機</td>  <td><input type="text" name ="empphone" id="empphone"  value="${empphone}"> <div id=empphoneerror>${error.empphone}</div> </td></tr>
+		<tr>  <td>保險受益人</td> <td><input type="text" name ="empben" id="empben" value ="${empben}"><div id=empbenerror>${error.empben}</div> </td></tr>
+		<tr>  <td>與受益人關係</td> <td><input type="text" name ="empbenrel" id="empbenrel" value = "${empbenrel}"><div id=empbenrelerror>${error.empbenrel}</div> </td></tr>
+		<tr>  <td>緊急聯絡人</td> <td><input type="text" name ="empemg" id="empemg" value = "${empemg}" ><div id=empemgerror>${error.empemg}</div> </td></tr>
+		<tr>  <td>緊急聯絡人電話</td> <td><input type="text" name ="empemgphone" id="empemgphone" value="${empemgphone}"><div id=empemgphoneerror>${error.empemgphone}</div> </td></tr>
+		<tr>  <td>用餐</td>
+			<td><select name ="empeat">
+				<c:if test="${empeat=='葷'}">
+					<option  value="葷" selected>葷</option>
+					<option  value="素">素</option>
+				</c:if>
+				<c:if test="${empeat=='素'}">
+					<option  value="葷" >葷</option>
+					<option  value="素" selected>素</option>
+				</c:if>
+				</select>
+				(如有特別要求請填寫於備註)
+			</td>
+		</tr>
+		
+		<tr>  <td>備註</td>  <td><input type="text" name ="empnote" id="empnote" value="${empnote}" ><div id=empnoteerror></div></td></tr>
+	
 </table>
 
 <div>
@@ -71,9 +74,10 @@
 	<th>*緊急聯絡人關係</th>
 	<th>備註</th>
 </tr>
-			<!-- option裡面有空白??????? --><!--沒有抓到錯誤訊息-->		
+		
 	<c:if test="${famstartsize>0}">
-	<c:forEach var="start" items="${famstart}" >
+
+	<c:forEach var="start" items="${famstart}">
 	  <tr>
 		<td><input type="button" name ="delete" id="delete" value="刪除"></td>
 		<td>
@@ -88,7 +92,7 @@
 				</c:if>
 			</select>
 			</td>
-		<td><input type="text" name ="famname" id="famname" value="${start.fam_Name}" ><div id="famnameerror" name="famnameerror">${error.famneme}</div></td>
+		<td><input type="text" name ="famname" id="famname" value="${start.fam_Name}" ><div name="famnameerror" name="famnameerror">${error.famneme}</div></td>
 		<td><select name ="famsex">  <!--  servlet抓name db抓值會抓進value值進去-->
 		<c:if test="${start.fam_Sex=='男'}">
 			<option value="女" >女</option>
@@ -100,10 +104,10 @@
 		</c:if>
 		</select></td>
 		
-		<td><input type="text" name ="famid" id="famid" value="${start.fam_Id}"><div id="famiderror">${error.famid}</div></td><!-- getfamid()會抓到value值 -->
-		<td><input type="date" id="fambdate" name="fambdate" value="${start.fam_Bdate}" /><div id="fambdateerror">${error.fambdate}${error.fambdatedate}</div></td>
-		<td><input type="text" name ="famphone" id="famphone"  value="${start.fam_Phone}"><div id=famphoneerror>${error.famphone}</div></td>
-		<td><select name ="fameat" >  <!-- 今天的日期 減去 他的生日 < 三歲  (剩幾天?) (看年底還是年初)  看年?  -->
+		<td><input type="text" name ="famid" id="famid" value="${start.fam_Id}"><div class="famiderror">${error.famid}</div></td><!-- getfamid()會抓到value值 -->
+		<td><input type="date" id="fambdate" name="fambdate" class="fambdate" value="${start.fam_Bdate}" /><div class="fambdateerror">${error.fambdate}${error.fambdatedate}</div></td>
+		<td><input type="text" name ="famphone" id="famphone"  value="${start.fam_Phone}"><div class=famphoneerror>${error.famphone}</div></td>
+		<td ><select name ="fameat" >  <!-- 今天的日期 減去 他的生日 < 三歲  (剩幾天?) (看年底還是年初)  看年?  -->
 			<c:if test="${start.fam_Eat=='葷'}">
 				<option value="葷" selected>葷食</option>
 				<option value="素">素食</option>
@@ -113,40 +117,37 @@
 				<option value="素" selected>素</option>
 			</c:if>
 			</select>
-
-
- 			<select  name ="famcar" id='famcar'  style="width: 100px;">
+ 			
 	 			<c:if test="${start.fam_Car=='true'}">
-					<option value="1" selected>有占車位</option>
-					<option value="0" >不占車位</option>
+					<input name="check1" type="checkbox" value="true" checked><div>占車位</div>
 				</c:if>
 				<c:if test="${start.fam_Car=='false'}">
-					<option value="1" >有占車位</option>
-					<option value="0" selected>不占車位</option>
+					<input name="check1" type="checkbox" value="true" ><div>占車位</div>
 				</c:if>
- 			</select>
+ 			
 			</td>
 		
-		<td><select class="multiselect" name ="famspa"  multiple="multiple" data-placeholder="請選擇" style="width: 200px;">
-			 <c:if test="${start.fam_Bady=='false'} ${start.fam_kid=='false'} ${start.fam_Dis=='false'} ${start.fam_Mom=='false'}" >
-			 <option value="no" Selected>請選擇</option>
-			 </c:if>
-			 
+		<td><select class="multiselect aaa" name ="famspa"  multiple="multiple" data-placeholder="請選擇" style="width: 200px;">
+		    
 		     <c:if test="${start.fam_Bady=='false'}">
 		     <option value="baby">幼童(0~3歲)</option>
 			 </c:if>
 			 <c:if test="${start.fam_Bady}">
-			 <option value="baby" Selected>幼童(0~3歲)</option>
+			 <option id="${start.fam_No}_span_1" value="baby" Selected>幼童(0~3歲)</option>
 			 </c:if>
+			 <script>
+			 	console.log('${start.fam_No}_span_1');
+			 </script>
 			 
 			 <c:if test="${start.fam_kid=='false'}">
 		     <option value="kid">兒童(4~11歲)</option>
 			 </c:if>
-			 <c:if test="${start.fam_kid}">
+			 <c:if test="${start.fam_kid}">	 
 			 <option value="kid" Selected>兒童(4~11歲)</option>
 			 </c:if>
+			 		 
 		      <c:if test="${start.fam_Dis=='false'}">
-		     <option value="dis">持身心障礙手冊</option>
+		     <option  value="dis">持身心障礙手冊</option>
 		     </c:if>
 		      <c:if test="${start.fam_Dis}">
 		     <option value="dis" Selected>持身心障礙手冊</option>
@@ -160,16 +161,15 @@
 		     </select>
 		</td>
 		
-		<td><input type="text" name ="famben" id="famben" value="${start.fam_Ben}"><div id="fambenerror">${error.famben}</div></td>
-		<td><input type="text" name ="fambenrel" id="fambenrel" value="${start.fam_BenRel}" ><div id="fambenrelerror">${error.fambenrel}</div></td>
-		<td><input type="text" name ="famemg" id="famemg" value="${start.fam_Emg}"><div id="famemgerror">${error.famemg}</div></td>
-		<td><input type="text" name ="famemgphpone" id="famemgphone" value="${start.fam_EmgPhone}"><div id="famemgphoneerror">${error.famemgphone}</div></td>
-		<td><input type="text" name ="famemgrel" id="famemgrel" value="${start.fam_EmgRel}"><div id="famemgrelerror">${error.famemgrel}</div ></td>
-		<td><input type="text" name ="famnote" id="famnote" value="${start.fam_Note}"><div id="famnoteerror"></div></td>
+		<td><input type="text" name ="famben" id="famben" value="${start.fam_Ben}"><div class="fambenerror">${error.famben}</div></td>
+		<td><input type="text" name ="fambenrel" id="fambenrel" value="${start.fam_BenRel}" ><div class="fambenrelerror">${error.fambenrel}</div></td>
+		<td><input type="text" name ="famemg" id="famemg" value="${start.fam_Emg}"><div class="famemgerror">${error.famemg}</div></td>
+		<td><input type="text" name ="famemgphpone" id="famemgphone" value="${start.fam_EmgPhone}"><div class="famemgphoneerror">${error.famemgphone}</div></td>
+		<td><input type="text" name ="famemgrel" id="famemgrel" value="${start.fam_EmgRel}"><div nameclass"famemgrelerror">${error.famemgrel}</div ></td>
+		<td><input type="text" name ="famnote" id="famnote" value="${start.fam_Note}"><div class="famnoteerror"></div></td>
 	</tr> 
-	
-	
 	</c:forEach>
+	
 	</c:if>
 
 </table>
@@ -191,39 +191,35 @@
 					<option value="親友" >親友<option>
 			</select>
 			</td>
-		<td><input type="text" name ="famname" id="famname"  ><div id="famnameerror">${error.famneme}</div></td>
+		<td><input type="text" name ="famname" id="famname"  ><div class="famnameerror">${error.famneme}</div></td>
 		<td><select name ="famsex">  <!--  servlet抓name db抓值會抓進value值進去-->
 			<option value="女" >女</option>
 			<option value="男" >男<option>
 		</select></td>
-		<td><input type="text" name ="famid" id="famid" ><div id="famiderror">${error.famid}</div></td>
-		<td><input type="date" id="fambdate" name="fambdate"  /><div id="fambdateerror">${error.fambdate}${error.fambdatedate}</div></td>
-<%-- 		<td><input type="text" id="fambdate" name="fambdate" ><div id="fambdateerror">${error.fambdate}${error.fambdatedate}</div></td>  --%>
-		<td><input type="text" name ="famphone" id="famphone"  >  <div id=famphoneerror>${error.famphone}</div></td> 
+		<td><input type="text" name ="famid" id="famid" ><div class="famiderror">${error.famid}</div></td>
+		<td><input type="date" id="fambdate" name="fambdate" class="fambdate" /><div class="fambdateerror">${error.fambdate}${error.fambdatedate}</div></td>
+		<td><input type="text" name ="famphone" id="famphone"  >  <div class=famphoneerror>${error.famphone}</div></td> 
 		<td><select name ="fameat">
 				<option value="葷" >葷</option>
 				<option value="素" >素</option>
 			</select>
-			<select  name ="famcar" id='famcar'  style="width: 100px;">
-					<option value="1" >有占車位</option>
-					<option value="0" selected>不占車位</option>
- 			</select>
+			<input name="check1" type="checkbox" value="true" ><div>占車位</div>
  		</td>
 		<td>
 			<select  name ="famspa"  id="multiselect"  multiple="multiple" data-placeholder="請選擇" style="width: 200px;">
-		     <option>幼童(0~3歲)</option>
+		     <option >幼童(0~3歲)</option>
 		     <option>兒童(4~11歲)</option>
 		     <option>持身心障礙手冊</option>
 		     <option>孕婦(媽媽手冊)</option>
 		     </select>
 		</td>
 <!-- 		class="multiselect"   id="multiselect"-->
-		<td><input type="text" name ="famben" id="famben" ><div id="fambenerror">${error.famben}</div></td>
-		<td><input type="text" name ="fambenrel" id="fambenrel"><div id="fambenrelerror">${error.fambenrel}</div></td>
-		<td><input type="text" name ="famemg" id="famemg"><div id="famemgerror">${error.famemg}</div ></td>
-		<td><input type="text" name ="famemgphpone" id="famemgphone"><div id="famemgphoneerror">${error.famemgphone}</div></td>
-		<td><input type="text" name ="famemgrel" id="famemgrel"><div id="famemgrelerror">${error.famemgrel}</div ></td>
-		<td><input type="text" name ="famnote" id="famnote"><div id="famnoteerror"></div></td>
+		<td><input type="text" name ="famben" id="famben" ><div class="fambenerror">${error.famben}</div></td>
+		<td><input type="text" name ="fambenrel" id="fambenrel"><div class="fambenrelerror">${error.fambenrel}</div></td>
+		<td><input type="text" name ="famemg" id="famemg"><div class="famemgerror">${error.famemg}</div ></td>
+		<td><input type="text" name ="famemgphpone" id="famemgphone"><div class="famemgphoneerror">${error.famemgphone}</div></td>
+		<td><input type="text" name ="famemgrel" id="famemgrel"><div class="famemgrelerror">${error.famemgrel}</div ></td>
+		<td><input type="text" name ="famnote" id="famnote"><div class="famnoteerror"></div></td>
 	</tr>
 	</table>
 
@@ -237,38 +233,57 @@ $(function(){
 		function(){
 			$("#familytable").append('<tr class=repeat >'+ $("tr[name='repeat']").html()+'</tr>');
 			$(".repeat:last #multiselect").kendoMultiSelect({autoClose: false});
-// 			$("select:last").kendoMultiSelect({autoClose: false});
-// 			$("#multiselect").removeAttr("id");
-// 			$("select:last").removeAttr("id");
+			
 			}
 	);	
 	$("#familytable").on("click","input[name*='delete']",function(){
-		$("input[name*='delete']").parents("tr:last").remove();
+// 		$("input[name*='delete']").parents("tr:last").remove();
+		$(this).parents("tr").remove();
 		
-	});
+	});	
+	  
+// 		  for(i=0;i<=;i++){
+// 		  var fambdate =$(".repeat input[name*='fambdate']").
+// 		  }
+// 		  console.log(fambdate);
+// 		  $.post("Register",{})
+	  
+// 	var xh = new XMLHttpRequest();
+// 	search();
 	
-	function search() {
-		if (xh != null) {
+// 	function search() {
+// 		if (xh != null) {
 	
-		var selectedValues = $('select[name="loca"]').val() ;
-		if (selectedValues!= undefined) {
-			url = url + "loc=" + JSON.stringify(selectedValues);
-		}
+// 		var selectedValues = $('select[name="famspa"]').serialize() ;
 		
-		xh.addEventListener("readystatechange", ajaxReturn)
-		xh.open("GET", url);
-		xh.send();
-		}else {
-			alert("Your browser doesn't support JSON!");
-		}
-	}
-	function ajaxReturn() {
-		if (xh.readyState == 4){
-			if (xh.status == 200) {
-					
-			}
-		}
-	}
+// 		var pathName = document.location.pathname;
+// 		var index = pathName.substr(1).indexOf("/");
+// 		var result = pathName.substr(0, index + 1);
+// 		var url = result + "/controller/Datainsert.do?";
+		
+// 		if (selectedValues!= undefined) {
+// 			var selectvalues =JSON.stringify(selectedValues);
+// 		}
+	
+// 		//轉json 格式? 字串證列  console.log() 輸出   h
+				
+// 		xh.addEventListener("readystatechange", ajaxReturn);
+// 		xh.open("POST","FamilyServlet");
+// 		xh.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+// 		xh.send(selectvalues);
+// 		console.log(selectedValues);
+// 		}else {
+// 			alert("Your browser doesn't support JSON!");
+// 		}
+// 	}
+// 	function ajaxReturn() {
+// 		if (xh.readyState == 4){
+// 			if (xh.status == 200) {
+// 			 	alert(selectedValues);
+			 	
+// 			}
+// 		}
+// 	}
 	
 	var empphone=/^09\d{2}-?\d{3}-?\d{3}$/;
 	$("#empphone").blur(function(){
@@ -281,35 +296,35 @@ $(function(){
 		}
 	});
 	
-	var empben=/^[^\s].*[^\s]/;
+	var empben=/^.*\s*[^\s]/;
 	$("#empben").blur(function(){
 		if(empben.test($(this).val())){
 			$(this).css("border-color","green")
 			$("#empbenerror").text("");
 		}else{
-			$("#empbenerror").text("需要為中文");
+			$("#empbenerror").text("不能為空值");
 			$(this).css("border-color","red");
 		}
 	});
 	
-	var empbenrel=/^[^\s].*\s*[^\s]/;
+	var empbenrel=/^.*\s*[^\s]/;
 	$("#empbenrel").blur(function(){
 		if(empbenrel.test($(this).val())){
 			$(this).css("border-color","green")
 			$("#empbenrelerror").text("");
 		}else{
-			$("#empbenrelerror").text("需要為中文");
+			$("#empbenrelerror").text("不能為空值");
 			$(this).css("border-color","red");
 		}
 	});
 	
-	var empemg=/^[^\s].*\s*[^\s]/;
+	var empemg=/^.*\s*[^\s]/;
 	$("#empemg").blur(function(){
 		if(empemg.test($(this).val())){
 			$(this).css("border-color","green")
 			$("#empemgerror").text("");
 		}else{
-			$("#empemgerror").text("需要為中文");
+			$("#empemgerror").text("不能為空值");
 			$(this).css("border-color","red");
 		}
 	});
@@ -325,34 +340,30 @@ $(function(){
 		}
 	});
 	
-// 	var empnote=/^[\u4e00-\u9fa5]/;
-// 	$("#empnote").blur(function(){
-// 		if(empnote.test($(this).val())){
-// 			$(this).css("border-color","green")
-// 			$("#empnoteerror").text("");
-// 		}else{
-// 			$("#empnoteerror").text("需要為中文");
-// 			$(this).css("border-color","red");
-// 		}
-// 	});
 	
-	var famname=/^[^\s].*\s*[^\s]/;
-	var x= function (){
+	var famname=/^.*\s*[^\s]/;
+	$("input[name*='famname']").on("blur",function(){
 		if(famname.test($(this).val())){
 			$(this).css("border-color","green")
 			$("#famnameerror").text("");
 		}else{
-// 			$("#famnameerror").on("text",function(){$(this).text("需要為中文")});
+			//後面用append加一個h4 或什麼 來顯示錯誤訊息  新增的抓不到正規劃  正規劃錯誤後要不能新增進去
 			$(this).css("border-color","red");
 		}
-	};
-	$("input[name*='famname']").on("blur",x);
+	});
+	$(".repeat td").on("blur","input[name='famname']",function(){
+		if(famname.test($(this).val())){
+			$(this).css("border-color","green")
+		}else{
+			$(this).css("border-color","red");
+		}
+	});
 // 	$("tr[name='repeat']>input[name*='famname]").on("blur",x);
-	
-	
+// 	$("input[name*='famname']").css("border-color","red");
+// 	$("input[name*='famname']").css("border-color","green")
 	
 	$("input[name*='famid']").on("blur",
-			function checkID(idStr){
+			function (){
 		  // 依照字母的編號排列，存入陣列備用。
 		  var letters = new Array('A', 'B', 'C', 'D', 
 		      'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 
@@ -370,14 +381,17 @@ $(function(){
 		  // 第二個字為1或2，後面跟著8個數字，不分大小寫。
 		  var regExpID=/^[a-z](1|2)\d{8}$/i; 
 		  // 使用「正規表達式」檢驗格式
-		  if (idStr.test(regExpID)==-1) {
-		    // 基本格式錯誤
-			alert("請仔細填寫身份證號碼");
-		   return false;
-		  } else {
+		  if (regExpID.test($("input[name*='famid']").val())){
+		    
 			// 取出第一個字元和最後一個數字。
-			firstChar = idStr.charAt(0).toUpperCase();
-			lastNum = idStr.charAt(9);
+				firstChar = $(this).val().charAt(0).toUpperCase();
+				lastNum = $(this).val().charAt(9);
+		   
+		  } else {
+			
+			$(this).css("border-color","red");
+			$("#famiderror").text("身分證格式錯誤");
+// 			return false;
 		  }
 		  // 找出第一個字母對應的數字，並轉換成兩位數數字。
 		  for (var i=0; i<26; i++) {
@@ -393,29 +407,19 @@ $(function(){
 		    if (i<2) {
 		      total += nums[i] * multiply[i];
 		    } else {
-		      total += parseInt(idStr.charAt(i-1)) * 
+		      total += parseInt( $(this).val().charAt(i-1)) * 
 		               multiply[i];
 		    }
 		  }
 		  // 和最後一個數字比對
 		  if ((10 - (total % 10))!= lastNum) {
-			alert("身份證號碼寫錯了！");
-			return false;
-		  } 
-		  return true;
-		}
-	    );
-	
-	
-
-
-// 		if(famid.test($(this).val())){
-// 			$(this).css("border-color","green")
-// // 			$("#famiderror").text("");
-// 		}else{
-// // 			$("#famiderror").text("需要為台灣身份證規格");
-// 			$(this).css("border-color","red");
-// 		}
+			  $(this).css("border-color","red");
+			  $("#famiderror").text("身分證格式錯誤");
+// 			return false;
+		  }else{
+		  $(this).css("border-color","green")
+// 		  return true;
+		}});
 
 	
 	var fambdate=/^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29)$/;
@@ -433,14 +437,14 @@ $(function(){
 	$("input[name*='famphone']").on("blur",function(){
 		if(famphone.test($(this).val())){
 			$(this).css("border-color","green")
-			$("#fambdateerror").text("");
+			$("#famnameerrror").text("");
 		}else{
-// 			$("#fambdateerror").text("需要為年-月-日的規格");
+// 			$("#famnameerror").text("不符和手機規則");
 			$(this).css("border-color","red");
 		}
 	});
 	
-	var famben=/^[^\s].*\s*[^\s]/;
+	var famben=/^.*\s*[^\s]/;
 	$("input[name*='famben']").on("blur",function(){
 		if(famben.test($(this).val())){
 			$(this).css("border-color","green")
@@ -451,7 +455,7 @@ $(function(){
 		}
 	});
 	
-	var fambenrel=/^[^\s].*\s*[^\s]/;
+	var fambenrel=/^.*\s*[^\s]/;
 	$("input[name*='fambenrel']").on("blur",function(){
 		if(fambenrel.test($(this).val())){
 			$(this).css("border-color","green")
@@ -462,7 +466,7 @@ $(function(){
 		}
 	});
 	
-	var famemg=/^[^\s].*\s*[^\s]/;
+	var famemg=/^.*\s*[^\s]/;
 	$("input[name*='famemg']").on("blur",function(){
 		if(famemg.test($(this).val())){
 			$(this).css("border-color","green")
@@ -484,7 +488,7 @@ $(function(){
 		}
 	});
 	
-	var famemgrel=/^[^\s].*\s*[^\s]/;
+	var famemgrel=/^.*\s*[^\s]/;
 	$("input[name*='famemgrel']").on("blur",function(){
 		if(famemgrel.test($(this).val())){
 			$(this).css("border-color","green")
@@ -494,17 +498,6 @@ $(function(){
 			$(this).css("border-color","red");
 		}
 	});
-	
-// 	var famnote=/.*\s/;
-// 	$("input[name*='famnote']").on("blur",function(){
-// 		if(famnote.test($(this).val())){
-// 			$(this).css("border-color","green")
-// 			$("#famnoteerror").text("");
-// 		}else{
-// // 			$("#famnoteerror").text("需要為中文");
-// 			$(this).css("border-color","red");
-// 		}
-// 	});
 	
 });
 

@@ -1,7 +1,13 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +21,7 @@ import model.EmployeeVO;
 import model.FamilyService;
 import model.FamilyVO;
 
-@WebServlet("/register")
+@WebServlet("/Register")
 public class Register extends HttpServlet {
 	private EmployeeService employeeservice = new EmployeeService();
 	private FamilyService familyservice= new FamilyService();
@@ -41,12 +47,33 @@ public class Register extends HttpServlet {
 		List<FamilyVO> famstart=familyservice.selectFam(emp_No.toString(),tra_No);
 		req.setAttribute("famstartsize", famstart.size());
 		req.setAttribute("famstart", famstart);
-		 String[] fambdate= req.getParameterValues("fam_Bdate");
-//		 if(String bdate:fambdate){
-//			 
-//		 }
-		
-		
+				
+
+			long betweenDate =0;
+			FamilyVO start=null;
+			for(int i=0;i<famstart.size();i++){//0 1 2 3 4
+				 start=famstart.get(i);
+				 Date bdate = start.getFam_Bdate();	 
+				 Calendar calendar = Calendar.getInstance();
+				 long nowDate = calendar.getTime().getTime(); //Date.getTime() 獲得毫秒型 現在日期
+				 
+				 long specialDate = bdate.getTime();//把要比較的值放這(親屬日期)
+				 betweenDate = (nowDate - specialDate) / (1000 * 60 * 60 * 24); //計算間隔多少天，則除以毫秒到天的轉換公式			 
+//				 System.out.println(betweenDate);  //10353 1745 43 43 43 
+				 if(betweenDate<365*3){
+					 start.setFam_Bady(true);
+				 }else{
+					 start.setFam_Bady(false);
+				 }
+				 if(betweenDate<365*11){
+					 start.setFam_kid(true);
+				 }else{
+					 start.setFam_kid(false);
+				 }
+
+				 
+			}
+			
 		req.getRequestDispatcher("Datainsert.jsp").forward(req, res);
     }
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

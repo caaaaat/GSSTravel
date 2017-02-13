@@ -67,9 +67,14 @@ private FamilyService familyservice= new FamilyService();
 		
 		Map<String,String> errormsg = new HashMap<String, String>();
 		req.setAttribute("error", errormsg);
-		
-//		System.out.println(i + "次"  + famspa[i]+"值");
-		
+		try{
+	           String orderId = req.getAttribute("selectvalue").toString();
+	        
+	           System.out.println(orderId);
+	       
+		}catch(Exception ex){
+			System.out.println("aaaaa");
+		}
 		
 //		String[] items = loca.replaceAll("\\[", "").replaceAll("\"","")
 //                .replaceAll("\\]", "").split(",");
@@ -77,8 +82,6 @@ private FamilyService familyservice= new FamilyService();
 //			 String[] spa = famspa.replaceAll("\\[", "").replaceAll("\"","").replaceAll("\\]", "").split(",");
 //			 System.out.println(spa);
 //		}
-		
-		
 		
 		//員工 轉值
 		if(empphone==null|| empphone.length()==0){
@@ -94,30 +97,16 @@ private FamilyService familyservice= new FamilyService();
 		
 		
 		//親屬 轉值
-		
-//		System.out.println(famcarboolean[0]);
-//		System.out.println(famcarboolean.length);
-//		System.out.println(famcarboolean1);
-//		System.out.println(famcarboolean[1]);//超出陣列範圍  代表 第0筆 有值而已 其他都沒有[]裡面都沒有其他值 只有 [on]而已
-//		System.out.println(famcarboolean[2]);
-
-
 		List<Date> fambdate = new ArrayList<Date>();
 		SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
 				for(String bdate:fambdatedate){					
 					try {
 						fambdate.add(sdf.parse(bdate));
-//						(java.sql.Date)sdf.parse(bdate);
-						
-						
 					} catch (ParseException e) {
 						errormsg.put("fambdate","日期錯誤必須符合 年-月-日格式");
 						System.out.println("使用者輸入日期錯誤");
 					}
 				}
-			
-
-				
 				
 		if(famname==null || famname.length==0 ){
 			errormsg.put("famname", "親屬家人不能為空值");}
@@ -145,9 +134,7 @@ private FamilyService familyservice= new FamilyService();
 			}
 			
 
-			//記得改VoDAO boolean 的地方
-			// 假如跟checkbox一樣只有抓到的值?
-			//看到一個bug就是新增兩三次之後 刪除欄位兩三次後刪不掉
+
 			List<Integer> spa = new ArrayList();
 			if(famspa!=null){
 				for(int i =1;i<=famname.length*4-3;i+=4){ //假如 一位親屬無特殊身份? 	
@@ -162,7 +149,6 @@ private FamilyService familyservice= new FamilyService();
 						if(xxx.equals("dis")==false){ spa.add(i+2, 0);}
 						if(xxx.equals("mom")==true){ spa.add(i+3, 1);}
 						if(xxx.equals("mom")==false){ spa.add(i+3, 0);}
-						
 					}
 				}
 				

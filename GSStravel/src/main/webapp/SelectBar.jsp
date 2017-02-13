@@ -9,7 +9,7 @@
 	<input type='button' value='報名/查詢'
 		onclick="window.location.href=resultjs+'/AllTravel';" />
 	<input type='button' value='資料輸入'
-		onclick="window.location.href=resultjs+'/register';" />
+		onclick="window.location.href=resultjs+'/Register';" />
 	<c:if test='${sessionScope.emp_Role==true}'>
 		<input type='button' value='行程維護'
 			onclick="window.location.href=resultjs+'/search.jsp';" />
