@@ -17,27 +17,29 @@ public class DetailService {
 	public ITotalAmountDAO totalAmountDAO;
 	private EmployeeService employeeService = new EmployeeService();
 
-	public List<String> selectFam_Rel(int emp_No,long tra_No){
+	public List<String> selectFam_Rel(int emp_No, long tra_No) {
+		detailDAO=new DetailDAO();
 		return detailDAO.selectFam_Rel(emp_No, tra_No);
 	}
-	public int ranking(long tra_No,String myName){
+
+	public int ranking(long tra_No, String myName) {
 		int ranking = 0;
-		DetailService detailService=new DetailService();
-		List<String> names = detailService.detailName(tra_No);//已經報明姓名
-		Map<String, Integer> mp = detailService.detail(tra_No);//(姓名,人數)
-		int x=0;
-		for(String name:names){
-			if(name.equals(myName)){
-				ranking=1+x;
-			}else{
-				x=x+mp.get(name);
+		DetailService detailService = new DetailService();
+		List<String> names = detailService.detailName(tra_No);// 已經報明姓名
+		Map<String, Integer> mp = detailService.detail(tra_No);// (姓名,人數)
+		int x = 0;
+		for (String name : names) {
+			if (name.equals(myName)) {
+				ranking = 1 + x;
+			} else {
+				x = x + mp.get(name);
 			}
-		}	
+		}
 		return ranking;
 	}
-	
-	public int tra_count(long tra_No){   
-		return (detailDAO=new DetailDAO()).tra_count(tra_No);
+
+	public int tra_count(long tra_No) {
+		return (detailDAO = new DetailDAO()).tra_count(tra_No);
 	}
 
 	public Map<String, Integer> detail(long tra_No) {
@@ -55,7 +57,6 @@ public class DetailService {
 
 	public List<String> detailName(long tra_No) {
 		List<String> result = new ArrayList<>();
-		;
 		detailDAO = new DetailDAO();
 		employeeDAO = new EmployeeDAO();
 		List<String> detail_Emp_No = detailDAO.detail_Emp_No(tra_No);
@@ -66,18 +67,25 @@ public class DetailService {
 		return result;
 	}
 
-	public boolean tra_Enter(String[] fams, String emp_No, String tra_No) throws NumberFormatException, SQLException {
+	public boolean tra_Enter(String[] fams, String emp_No, String tra_No, String[] rooms)
+			throws NumberFormatException, SQLException {
 		detailDAO = new DetailDAO();
 		itemDAO = new ItemDAO();
 		familyDAO = new FamilyDAO();
 		travelDAO = new TravelDAO();
 		float money = 0;
-
-		String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());//現在系統時間
-		List<ItemVO> itemVO = itemDAO.getFee(Long.parseLong(tra_No));
+		String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());// 現在系統時間
+		List<ItemVO> itemVO = itemDAO.getFareMoney(Long.parseLong(tra_No));
 		for (ItemVO a : itemVO) {
 			money += a.getItem_Money();
 		}
+		if (rooms != null) {
+			
+			for (String room : rooms) {
+				money += Float.parseFloat(room);
+			}
+		}
+		System.out.println(money);
 		if (fams == null) {
 			detailDAO.tra_Enter(Integer.parseInt(emp_No), null, tra_No, date, money);
 			return false;
@@ -93,7 +101,9 @@ public class DetailService {
 						detailDAO.tra_Enter(Integer.parseInt(emp_No), familyDAO.selectfam_No(fam).toString(), tra_No,
 								date, money);
 					}
+					
 					return false;
+					
 				} else {
 					return true;
 				}
@@ -134,7 +144,6 @@ public class DetailService {
 					friebdCounts += 1;
 				}
 			}
-
 		}
 
 		if (emp_Sub == 1) {
@@ -151,19 +160,9 @@ public class DetailService {
 				subMoney = 4500 / 12 * hireMonths;
 			}
 		} else {
-			employeeDAO = new EmployeeDAO();
-			java.sql.Date hireDate = employeeDAO.select(Integer.parseInt(emp_No)).getEmp_HireDate();
-			String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());// 現在系統時間
-			java.sql.Date today = java.sql.Date.valueOf(date);
-			if (hireDate.getTime() / (24 * 60 * 60 * 1000) + 365 < today.getTime() / (24 * 60 * 60 * 1000)) {
-				subMoney = 4500;
-			} else {
-				long x = today.getTime() / (24 * 60 * 60 * 1000) - hireDate.getTime() / (24 * 60 * 60 * 1000);// 相差天數
-				hireMonths = x / 31;
-				subMoney = 4500 / 12 * hireMonths;
-			}
 			subMoney = 0;
 		}
+
 		if ((payMoney * (counts - friebdCounts)) <= subMoney) {
 			titleMoney = 0 + (friebdCounts * payMoney);
 		} else {
@@ -174,6 +173,7 @@ public class DetailService {
 		drtail.add(counts);
 		drtail.add(titleMoney);
 		drtail.add((float) hireMonths);
+		drtail.add(friebdCounts);
 		return drtail;
 	}
 
@@ -202,16 +202,14 @@ public class DetailService {
 		detailDAO = new DetailDAO();
 		if (bean != null && bean.getTra_NO() != null) {
 			result = detailDAO.select(bean.getTra_NO());
-		} else {
-			// result = detailDAO.select("");
 		}
 		return result;
 	}
 
 	public String SELECT_Name(int Emp_No, String Name) {
-		detailDAO=new DetailDAO();
+		detailDAO = new DetailDAO();
 		String result = detailDAO.select_emp_Name(Emp_No, Name);
-		if(result == null) {
+		if (result == null) {
 			result = detailDAO.select_fam_Name(Emp_No, Name);
 		}
 		return result;
@@ -224,48 +222,82 @@ public class DetailService {
 		}
 		return result;
 	}
+
 	public DetailVO insert_emp(DetailVO bean) {
 		DetailVO result = null;
-		if(bean!=null) {
+		if (bean != null) {
 			result = detailDAO.insert_emp(bean);
 		}
 		return result;
 	}
+
 	public List<DetailBean> update(DetailBean bean) {
 		List<DetailBean> result = null;
-		if(bean!=null) {
-			result = detailDAO.update(bean.getDet_No(), bean.getDet_canNote());
+		if (bean != null) {
+			int emp_No = detailDAO.select_emp_No(bean.getDet_No());
+			String emp_SubTra = detailDAO.SELECT_emp_SubTra(emp_No);
+			String top1_Tra_No = detailDAO.SELECT_top1_Tra_No(emp_No);
+			String top2_Tra_No = detailDAO.SELECT_top2_Tra_No(emp_No);
+			String canTra_No = bean.getTra_NO();
+			if(canTra_No.equals(emp_SubTra)){
+				if (emp_SubTra.equals(top1_Tra_No)) {
+					if (top1_Tra_No.equals(top2_Tra_No)) {
+						detailDAO.UPDATE_emp_Sub(emp_No);
+					} else {
+						detailDAO.UPDATE_emp_SubTra(top2_Tra_No, emp_No);
+					}
+				}
+			}
+			result = detailDAO.update(emp_No, bean.getDet_canNote(), bean.getTra_NO());
 		}
 		return result;
 	}
 	
-	//雅婷
+	public Boolean update_empData(EmployeeVO bean) {
+		Boolean result = false;
+		if (bean != null) {
+			result = detailDAO.UPDATE_empData(bean);
+		}
+		return result;
+	}
+	
+	public Boolean update_famData(FamilyVO bean) {
+		Boolean result = false;
+		if (bean != null) {
+			detailDAO.UPDATE_famData(bean);
+			result = true;
+		}
+		return result;
+	}
+
+	// 雅婷
 	public List<TotalAmountFormBean> select(String tra_No) {
 		detailDAO = new DetailDAO();
 		List<TotalAmountFormBean> list = detailDAO.selectBean(tra_No);
 		if (list.size() != 0) {
 			for (TotalAmountFormBean bean : list) {
 				if (bean.getFam_No() == 0) {
-					if(bean.getEmp_subTra()==null){
+					if (bean.getEmp_subTra() == null) {
 						bean.setEmp_subTra("");
 					}
-					if(bean.getEmp_subTra().equals(bean.getTra_No()) && !bean.getEmp_sub()){
+					if (bean.getEmp_subTra().equals(bean.getTra_No()) && !bean.getEmp_sub()) {
 						Integer emp_No = bean.getEmp_No();
 						EmployeeVO employeeVo = employeeService.select(emp_No.toString());
 						java.sql.Date hireDate = employeeVo.getEmp_HireDate();
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());// 現在系統時間
 						java.sql.Date today = java.sql.Date.valueOf(date);
-						if (hireDate.getTime() / (24 * 60 * 60 * 1000) + 365 < today.getTime() / (24 * 60 * 60 * 1000)) {
+						if (hireDate.getTime() / (24 * 60 * 60 * 1000) + 365 < today.getTime()
+								/ (24 * 60 * 60 * 1000)) {
 							float money = 4500;
 							bean.setYears_money(money);
 						} else {
-							long x = today.getTime() / (24 * 60 * 60 * 1000) - hireDate.getTime() / (24 * 60 * 60 * 1000);// 相差天數
+							long x = today.getTime() / (24 * 60 * 60 * 1000)
+									- hireDate.getTime() / (24 * 60 * 60 * 1000);// 相差天數
 							long hireMonths = x / 31;
 							float money = 4500 / 12 * hireMonths;
 							bean.setYears_money(money);
 						}
-					}
-					else{
+					} else {
 						bean.setYears_money(0);
 					}
 				}
@@ -273,14 +305,13 @@ public class DetailService {
 				String fam_Rel = familyDAO.selectfam_Rel(Integer.toString(bean.getEmp_No()), bean.getFam_Name());
 				if ("親友".equals(fam_Rel)) {
 					bean.setFam_sub(false);
-				}else{
+				} else {
 					bean.setFam_sub(true);
 				}
 			}
 		}
 		return list;
 	}
-
 	public boolean update_empNo(String det_note, float det_noteMoney, String tra_No, int emp_No) {
 		detailDAO = new DetailDAO();
 		boolean b = true;
@@ -294,6 +325,4 @@ public class DetailService {
 		b = detailDAO.update_famNo(det_note, det_noteMoney, tra_No, fam_No);
 		return b;
 	}
-
 }
-	

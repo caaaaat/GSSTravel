@@ -12,7 +12,7 @@
 		onclick="window.location.href=resultjs+'/Register';" />
 	<c:if test='${sessionScope.emp_Role==true}'>
 		<input type='button' value='行程維護'
-			onclick="window.location.href=resultjs+'/search.jsp';" />
+			onclick="window.location.href=resultjs+'/search2.jsp';" />
 		<input type='button' value='報名維護'
 			onclick="window.location.href=resultjs+'/search.jsp';" />
 		<input type='button' value='罰則維護'

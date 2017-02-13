@@ -1,19 +1,17 @@
 package model;
 
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 public class DetailBean {
 	
 	private int det_No;
 	private String tra_NO;
 	private Integer emp_No;
+	private Integer fam_No;
 	private String Rel;
 	private String Name;
 	private String Sex;
 	private String ID;
 	private java.util.Date Bdate;
+	private String Phone;
 	private String Eat;
 	private Boolean Car;
 	private Boolean fam_Bady;
@@ -29,7 +27,18 @@ public class DetailBean {
 	private String Note;
 	private String det_canNote;
 	
-	
+	public String getPhone() {
+		return Phone;
+	}
+	public void setPhone(String phone) {
+		Phone = phone;
+	}
+	public Integer getFam_No() {
+		return fam_No;
+	}
+	public void setFam_No(Integer fam_No) {
+		this.fam_No = fam_No;
+	}
 	public String getDet_canNote() {
 		return det_canNote;
 	}

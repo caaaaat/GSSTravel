@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>報名取消</title>
+<title>Insert title here</title>
 </head>
-<body onLoad="setTimeout(window.close, 1000)">
-已將該員工的所有名額取消成功！
+<body>
+
 </body>
 </html>

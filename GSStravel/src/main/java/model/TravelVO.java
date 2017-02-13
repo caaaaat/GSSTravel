@@ -14,6 +14,7 @@ public class TravelVO {
 	private String tra_Con;
 	private String tra_Atter;
 	private String tra_File;
+	//目前這個行程報名人數
 	private int sign_InTotal;
 	
 	public int getSign_InTotal() {

@@ -6,7 +6,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-
+<script>
+var Error="<%=session.getAttribute("nopeople")%>";
+<% session.removeAttribute("nopeople");%>
+if(Error!='null'){
+	alert(Error);
+	Error='null';
+}
+</script>
 <script>
 	window.onload = function() {
 		var id = document.getElementById('id');
@@ -107,11 +114,6 @@
 
 			}
 	}
-	
-	var errMsg = '<%= session.getAttribute("nopeople")%>';
-	if(errMsg != 'null' && errMsg){	
-		alert(errMsg);
-	}
 </script>
 
 </head>
@@ -133,7 +135,7 @@
 <!-- 			type="checkbox" name="loc" value="東" />東 <input type="checkbox" -->
 <!-- 			name="loc" value="西" />西 <input type="checkbox" name="loc" value="南" />南 -->
 <!-- 		<input type="checkbox" name="loc" value="北" />北  -->
-        <select class="multiselect" name ="loca" id='jj' multiple="multiple" data-placeholder="請選擇" style="width: 350px;">
+        <select class="multiselect" name ="loca" multiple="multiple" data-placeholder="請選擇" style="width: 350px;">
         <option>東</option>
         <option>西</option>
         <option>南</option>
@@ -160,11 +162,4 @@
 		</tbody>
 	</table>
 </body>
-<script type="text/javascript" src="/GSStravel/js/selectBar.js"></script>
-
-<script>
-if('${nopeople}'=='無人報名'){
-	alert('${nopeople}');	
-}
-</script>
 </html>

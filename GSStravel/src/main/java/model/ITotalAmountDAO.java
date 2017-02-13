@@ -8,4 +8,5 @@ public interface ITotalAmountDAO {
 	public TotalAmountVO selectTa_money(String emp_No);//目前使用者報名旅程的最大費用
 	public boolean selectAll(String emp_No);//確地是否還有使用補助金
 	public int counts(String emp_No);
+	public TotalAmountVO select(String emp_No,String tra_NO);
 }
