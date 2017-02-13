@@ -226,8 +226,6 @@ public class DetailService {
 		detailDAO = new DetailDAO();
 		if (bean != null && bean.getTra_NO() != null) {
 			result = detailDAO.select(bean.getTra_NO());
-		} else {
-			// result = detailDAO.select("");
 		}
 		return result;
 	}
@@ -275,6 +273,23 @@ public class DetailService {
 				}
 			}
 			result = detailDAO.update(emp_No, bean.getDet_canNote(), bean.getTra_NO());
+		}
+		return result;
+	}
+	
+	public Boolean update_empData(EmployeeVO bean) {
+		Boolean result = false;
+		if (bean != null) {
+			result = detailDAO.UPDATE_empData(bean);
+		}
+		return result;
+	}
+	
+	public Boolean update_famData(FamilyVO bean) {
+		Boolean result = false;
+		if (bean != null) {
+			detailDAO.UPDATE_famData(bean);
+			result = true;
 		}
 		return result;
 	}
