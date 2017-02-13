@@ -82,33 +82,49 @@ public class TravelService {
 	public Map<String,String> selectTra_No(String emp_No) throws SQLException{
 		Map<String,String> mp= new HashMap<String, String>();
 		Map<String,String> selectTra_NoTra_End = travelDAO.selectTra_NoTra_End();//(活動編號,活動登記結束時間)
+		Map<String,String> selectTra_NoTra_Beg = travelDAO.selectTra_NoTra_Beg();//(活動編號,活動登記開始時間)
 		Map<String, Integer> selectTra_Count = detailDAO.tra_count();//(活動編號,目前參加人數)
-		List<String> selectTra_No = travelDAO.selectTra_No();//活動編號		
+		List<String> selectTra_No = travelDAO.selectTra_No();//活動編號
+		String date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());//現在系統時間
+		String date2 = new SimpleDateFormat("yyyy-MM-dd").format(new Date());//現在系統時間
 		for(int i=0;i<selectTra_No.size();i++){
-			String Tra_End=selectTra_NoTra_End.get(selectTra_No.get(i));
-			String date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());//現在系統時間
+			String Tra_End=selectTra_NoTra_End.get(selectTra_No.get(i));	
 			int a=java.sql.Timestamp.valueOf(Tra_End).compareTo(java.sql.Timestamp.valueOf(date));	
-			// a 回傳-1 已過期,回傳1尚可報名
+			// a 回傳-1 登記已截止,回傳1尚可報名
 			if(a==1){
-				int b=detailDAO.detail_Enter(emp_No, selectTra_No.get(i));
-				if(b==1){
-					mp.put(selectTra_No.get(i), "3");
-				}else {
-					TravelVO travelVO = travelDAO.getAll(Long.parseLong(selectTra_No.get(i)));
-					if(selectTra_Count.get(selectTra_No.get(i))<travelVO.getTra_Total()){
-						mp.put(selectTra_No.get(i), "0");
-						
-					}else{
-						mp.put(selectTra_No.get(i), "2");
+				String Tra_Beg=selectTra_NoTra_Beg.get(selectTra_No.get(i));
+				int c=java.sql.Timestamp.valueOf(Tra_Beg).compareTo(java.sql.Timestamp.valueOf(date));
+				if(c==1){
+					mp.put(selectTra_No.get(i), "5");
+				}else if(c==-1){
+					int b=detailDAO.detail_Enter(emp_No, selectTra_No.get(i));
+					if(b==1){
+						mp.put(selectTra_No.get(i), "3");
+					}else {
+						TravelVO travelVO = travelDAO.getAll(Long.parseLong(selectTra_No.get(i)));
+						if(selectTra_Count.get(selectTra_No.get(i))<travelVO.getTra_Total()){
+							mp.put(selectTra_No.get(i), "0");
+							
+						}else{
+							mp.put(selectTra_No.get(i), "2");
+						}
 					}
 				}
 			}
 			if(a==-1){
-				mp.put(selectTra_No.get(i), "1");
+				TravelVO travelVo = travelDAO.getAll(Long.parseLong(selectTra_No.get(i)));
+				String tra_Off = travelVo.getTra_Off().toString();
+				int b = java.sql.Date.valueOf(tra_Off).compareTo(java.sql.Date.valueOf(date2));
+				if(b==1){
+					mp.put(selectTra_No.get(i), "1");
+				}else if(b==-1){
+					mp.put(selectTra_No.get(i), "4");
+				}
+				
 			}
 			
 		}		
-		return mp;//0代表可報名1代表已過期2代表已額滿3代表已經報名
+		return mp;//0代表可報名1代表登記已截止2代表已額滿3代表已經報名4代表活動結束5代表活動尚未開始登記
 	}
 	//柯
 		public List<TravelVO> select(TravelVO bean) {

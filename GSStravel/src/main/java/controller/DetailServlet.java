@@ -27,7 +27,6 @@ public class DetailServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/html; charset=UTF-8");
 		req.setCharacterEncoding("UTF-8");
-		String cancel = req.getParameter("cancel");
 		String prodaction = req.getParameter("prodaction");
 		String tra_no = req.getParameter("tra_no");
 		String can_detNo = req.getParameter("can_detNo");
@@ -55,10 +54,12 @@ public class DetailServlet extends HttpServlet {
 		// 點選取消按鈕，更新取消日期
 		if ("送出".equals(prodaction) && can_detNo != null) {
 			String det_canNote = req.getParameter("det_CanNote");
+			String det_canTraNo = req.getParameter("can_traNo");
 			if(det_canNote.trim().length()!=0){
 				int canNum = Integer.parseInt(can_detNo);
 				bean.setDet_No(canNum);
 				bean.setDet_canNote(det_canNote);
+				bean.setTra_NO(det_canTraNo);
 				List<DetailBean> result1 = detailService.update(bean);
 				req.setAttribute("select", result1);
 				req.getRequestDispatcher("/Detail_CanSuccess.jsp").forward(req, resp);
@@ -69,7 +70,12 @@ public class DetailServlet extends HttpServlet {
 				return;
 			}
 		}
-
+		
+		if ("save".equals(prodaction)) {
+//			String name = req.getParameter("name");
+//			String rel = req.getParameter("fam_Rel");
+//			System.out.println(name+rel);
+		}
 		bean.setTra_NO(tra_no);
 		List<DetailBean> result = detailService.select(bean);
 		req.setAttribute("select", result);

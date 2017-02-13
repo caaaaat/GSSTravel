@@ -64,9 +64,8 @@ public class Sign_in extends HttpServlet {
 						decide.add(travelvo2.getTra_Name());
 					}
 					String emp_SubTra = employeeService.select(emp_No).getEmp_SubTra();
-					System.out.println(emp_SubTra);
-					System.out.println(emp_SubTra==null);
-					if(emp_SubTra==null||"null".equals(emp_SubTra)){
+			
+					if(emp_SubTra==null||emp_SubTra.equals("null")){
 						employeeService.updateEmp_SubTra(tra_No, emp_No);
 					}else{
 						TravelVO travelVo = travelService.select(Long.parseLong(emp_SubTra));
@@ -79,8 +78,7 @@ public class Sign_in extends HttpServlet {
 					}					
 				}
 					totalAmountService.insertTotalAmount(tra_No, Integer.parseInt(emp_No), TA_money);							
-					employeeService.updateEmp_Sub(false,emp_No);
-				
+					employeeService.updateEmp_Sub(false,emp_No);				
 			}
 			HttpSession session = req.getSession();
 			session.setAttribute("decide", decide);
