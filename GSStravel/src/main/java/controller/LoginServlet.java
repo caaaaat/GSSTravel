@@ -53,6 +53,7 @@ public class LoginServlet extends HttpServlet {
 			msg.put("act", "登入失敗!");
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 		}else{
+			
 			HttpSession session=request.getSession();
 			session.setAttribute("emp_No", result.getEmp_No());
 			session.setAttribute("emp_Name", result.getEmp_Name());

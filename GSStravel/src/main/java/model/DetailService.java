@@ -57,7 +57,6 @@ public class DetailService {
 
 	public List<String> detailName(long tra_No) {
 		List<String> result = new ArrayList<>();
-		;
 		detailDAO = new DetailDAO();
 		employeeDAO = new EmployeeDAO();
 		List<String> detail_Emp_No = detailDAO.detail_Emp_No(tra_No);
@@ -164,33 +163,6 @@ public class DetailService {
 			subMoney = 0;
 		}
 
-		if (emp_Sub == 1) {
-			employeeDAO = new EmployeeDAO();
-			java.sql.Date hireDate = employeeDAO.select(Integer.parseInt(emp_No)).getEmp_HireDate();
-			String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());// 現在系統時間
-			java.sql.Date today = java.sql.Date.valueOf(date);
-			if (hireDate.getTime() / (24 * 60 * 60 * 1000) + 365 < today.getTime() / (24 * 60 * 60 * 1000)) {
-				subMoney = 4500;
-			} else {
-				long x = today.getTime() / (24 * 60 * 60 * 1000) - hireDate.getTime() / (24 * 60 * 60 * 1000);// 相差天數
-
-				hireMonths = x / 31;
-				subMoney = 4500 / 12 * hireMonths;
-			}
-		} else {
-			employeeDAO = new EmployeeDAO();
-			java.sql.Date hireDate = employeeDAO.select(Integer.parseInt(emp_No)).getEmp_HireDate();
-			String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());// 現在系統時間
-			java.sql.Date today = java.sql.Date.valueOf(date);
-			if (hireDate.getTime() / (24 * 60 * 60 * 1000) + 365 < today.getTime() / (24 * 60 * 60 * 1000)) {
-				subMoney = 4500;
-			} else {
-				long x = today.getTime() / (24 * 60 * 60 * 1000) - hireDate.getTime() / (24 * 60 * 60 * 1000);// 相差天數
-				hireMonths = x / 31;
-				subMoney = 4500 / 12 * hireMonths;
-			}
-			subMoney = 0;
-		}
 		if ((payMoney * (counts - friebdCounts)) <= subMoney) {
 			titleMoney = 0 + (friebdCounts * payMoney);
 		} else {
